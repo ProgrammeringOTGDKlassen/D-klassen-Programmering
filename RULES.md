@@ -9,5 +9,5 @@ Ved overtrædelse af ovenstående regler kan man blive mødt med en advarsel, og
 Ved spørgsmål omkring Github eller Visual Studio Code, kontakt Max eller Andreas GDP.
 
 Disse regler er opdateret d. 10-12-2018
-
+Der tages forbehold for trykfejl
 Skrevet af: Max (Maxx0758).
