@@ -1,0 +1,7 @@
+Gå ind i sympy-1.3 mappen
+Åben setup.py i en texteditor (f.eks. atom eller sublime)
+Kør programmet med følgende kommando i en terminal (cmd i mappen eller en terminal fra dit tekstbehandlings program)
+ - Kommando: "python setup.py --help install"
+Lad den gøre sin ting, og det skulle installerer.
+
+Ellers læs det, som er udkommenteret i setup.py filen for flere instrukser.
