@@ -1,5 +1,13 @@
 import math
 
+'''
+Opgave 6
+Tilføjer en funktion til længden af en vektorer
+Tlføjer docstrings dertil
+Begræns længden af et tal med to tal efter kommaet
+Printer docstrings for længden af en vektor
+'''
+
 
 class Point():
     '''
@@ -57,11 +65,17 @@ class Vector():
         '''
         return cls(v2.x - v1.x, v2.y - v1.y, v2.z - v1.z)
 
+    # Da det ikke er en @classmethod skal man kalde den som en normal funktion (v.length()) uden nogle parametre i parantesen, da der kun bliver refereret til self
     def length(self):
         '''
         Retunerer længden af vektoren, hvor man har en vektor som input. Altså ikke længden mellem to punkter.
         '''
-        return math.sqrt(self.x**2 + self.y**2 + self.z**2)
+        l = math.sqrt(self.x**2 + self.y**2 + self.z**2)
+
+        # Formaterer længden af tallet til kun at have 2 decimaler efter kommaet
+        l = "{:10.2f}".format(l)
+
+        return l
 
     def __str__(self):
         '''
@@ -70,24 +84,50 @@ class Vector():
         return "({}, {}, {})".format(self.x, self.y, self.z)
 
 
+# Udkommenterer opgave 2
+'''
+# Definerer et punkt, p1, vha. klassen Punkt():
 p1 = Point(1, 2, 3)
+# Definerer en stedvektor, p, vha. funktionen stedvektor() i klassen Vektor():
 p = Vector.stedvektor(p1)
-#print("Stedvektoren er {}.".format(p))
+# Printer stedvektoren
+print("Stedvektoren er {}.".format(p))
+'''
 
+# Udkommenterer opgave 3
+'''
+# Definerer den forbindende vektor, v, mellem to punkter vha. funktionen forbindende_vektor() i klassen Vector()
 v = Vector.forbindende_vektor(1, 2, 3, 4, 5, 6)
-#print("Den forbindende vektor er {}.".format(v))
+# Printer den forbindende vektor
+print("Den forbindende vektor er {}.".format(v))
+'''
 
+# Definerer to vektorer, v1 & v1, vha. klassen Vector():
 v1 = Vector(1, 2, 3)
-v2 = Vector(4, 5, 6)
+v2 = Vector(40, 50, 60)
 
+# Udkommenterer opgave 4
+'''
+# Definerer summen af de to vektorer vha funktionen sumvektor() inden i klassen Vektor():
 s = Vector.sumvektor(v1, v2)
-#print("Summen af vektorerne {} & {} er {}".format(v1, v2, s))
+# Printer summen af de to vektorer
+print("Summen af vektorerne {} & {} er {}".format(v1, v2, s))
+'''
 
+# Udkommenterer opgave 5
+'''
+# Definerer differensen af de to vektorer vha funktionen differens() inden i klassen Vektor():
 d = Vector.differens(v1, v2)
-#print("Differensen af vektorerne {} & {} er {}".format(v1, v2, d))
+# Printer differensen af de to vektorer
+print("Differensen af vektorerne {} & {} er {}".format(v1, v2, d))
+'''
 
-l = v1.length()
-print("Længden af vektoren er {}".format(l))
+# Definerer længden af vektor 1 & 2 vha. funktionen length() fra klassen Vector():
+l1 = v1.length()
+l2 = v2.length()
+# Printer længden af de to vektorer
+print("Længden af vektor 1 er {}".format(l1))
+print("Længden af vektor 2 er {}".format(l2))
 
 # Udkommenterer dette, da det er forstyrrende, når vi kører det
 '''

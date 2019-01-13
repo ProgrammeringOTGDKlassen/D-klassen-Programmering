@@ -1,5 +1,11 @@
 import math
 
+'''
+Opgave 2 
+Tilføjer en funktion til vektorklassen
+Printer docstringsne
+'''
+
 
 class Point():
     '''
@@ -18,7 +24,8 @@ class Point():
 class Vector():
     '''
     Repræsenterer en vector i rummet
-    '''    
+    '''
+
     def __init__(self, x, y, z):
         '''
         Returnerer en vector
@@ -26,6 +33,8 @@ class Vector():
         self.x = x
         self.y = y
         self.z = z
+
+    # statisk metode som gør at man kan skrive vector.metodens navn (vector, da classen hedder "vector")
     @classmethod
     def stedvektor(cls, p: Point):
         '''
@@ -39,19 +48,23 @@ class Vector():
         '''
         return "({}, {}, {})".format(self.x, self.y, self.z)
 
-'''
-Make and print
-'''
-p1 = Point(1,2,3)
+
+# Definerer et punkt, p1, vha. klassen Punkt():
+p1 = Point(1, 2, 3)
+# Definerer en stedvektor, p, vha. funktionen stedvektor() i klassen Vektor():
 p = Vector.stedvektor(p1)
+# Printer stedvektoren
 print("Stedvektoren er {}.".format(p))
 
-print(Point.__doc__)  # Printer docstringen lige efter class Point():
-print(Point.__init__.__doc__) # Printer docstringen lige efter __init__(self, x, y, z): under class Point():
+# Printer docstringen lige efter class Point():
+print(Point.__doc__)
+# Printer docstringen lige efter __init__(self, x, y, z): under class Point():
+print(Point.__init__.__doc__)
+# Printer docstringen lige efter class Vector():
 print(Vector.__doc__)
+# Printer docstringen lige efter __init__(self, x, y, z): under class Vector():
 print(Vector.__init__.__doc__)
+# Printer docstringen inden i funktionen stedvektor():
 print(Vector.stedvektor.__doc__)
+# Printer docstringen inden i formateringsfunktionen (___str___():)
 print(Vector.__str__.__doc__)
-nemt = True
-if nemt == True:
-    print("fucking nemt mand")
