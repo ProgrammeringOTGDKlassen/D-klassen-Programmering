@@ -77,17 +77,23 @@ class Vector():
 
         return l
 
-    # TO-DO
     @classmethod
     def cross_product(cls, v1, v2):
+        '''
+        Retunerer krydsproduktet af to vektorer (en vektor).
+        '''
+        c = cls(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x -
+                v1.x * v2.z, v1.x * v2.y - v1.y * v2.x)
 
-        return None
+        return c
 
-    # TO-DO
-    @classmethod
-    def dot_product(cls, v1, v2):
+    def dot_product(self, v2):
+        '''
+        Retunerer krydsproduktet af to vektorer (en vektor).
+        '''
+        dp = self.x * v2.x + self.y * v2.y + self.z * v2.z
 
-        return None
+        return dp
 
     def __str__(self):
         '''
@@ -151,7 +157,7 @@ k = Vector.cross_product(v1, v2)
 print("Krydsproduktet for vektorerne {} & {} er {}".format(v1, v2, k))
 
 # Definerer prikproduktet af to vektorer vha. funktionen dot_product() i klassen Vector():
-prik = Vector.dot_product(v1, v2)
+prik = v1.dot_product(v2)
 # Printer prikproduktet
 print("Prikproduktet for vektorerne {} & {} er {}".format(v1, v2, prik))
 
