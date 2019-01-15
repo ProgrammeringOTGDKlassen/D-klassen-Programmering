@@ -2,10 +2,7 @@ import math
 
 '''
 Opgave 8
-'''
-# TO-DO:
-# Tlføjer detaljerede docstrings
-'''
+Tlføjer detaljerede docstrings
 '''
 
 
@@ -25,12 +22,30 @@ class Point():
 
 class Vector():
     '''
-    Repræsenterer en vector i rummet
+    Vectorklassen repræsenterer en vector i rummet
+
+    Variable:
+    ___
+    x:
+    y:
+    z:
+
+    Metoder:
+    ___
+    __init()__: Returnerer en vector.
+    stedvektor: Retunerer en stedvektor til et punkt.
+    forbindende_vektor: Retunerer en forbindende vektor.
+    sumvektor: Retunerer summen af to vektorer.
+    differens: Retunerer differensen af to vektorer.
+    length: Retunerer længden af vektoren, hvor man har en vektor som input. Altså ikke længden mellem to punkter.
+    cross_product: Retunerer krydsproduktet af to vektorer (en vektor).
+    dot_product: Retunerer krydsproduktet af to vektorer (en vektor).
+    __str()__: Laver formatet vektorer udskrives på.
     '''
 
     def __init__(self, x, y, z):
         '''
-        Returnerer en vector
+        Returnerer en vector.
         '''
         self.x = x
         self.y = y
@@ -54,14 +69,14 @@ class Vector():
     @classmethod
     def sumvektor(cls, v1, v2):
         '''
-        Tager summen af to vektorer.
+        Retunerer summen af to vektorer.
         '''
         return cls(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z)
 
     @classmethod
     def differens(cls, v1, v2):
         '''
-        Tager differensen af to vektorer.
+        Retunerer differensen af to vektorer.
         '''
         return cls(v2.x - v1.x, v2.y - v1.y, v2.z - v1.z)
 
