@@ -3,7 +3,7 @@ import math
 '''
 Opgave 5
 Tilføjer en funktion til differensen af to vektorer
-Tlføjer docstrings dertil
+Tilføjer docstrings dertil
 Printer docstrings for differensfunktionen
 '''
 

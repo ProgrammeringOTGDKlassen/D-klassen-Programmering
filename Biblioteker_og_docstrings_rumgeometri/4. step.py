@@ -82,7 +82,7 @@ v = Vector.forbindende_vektor(1, 2, 3, 4, 5, 6)
 print("Den forbindende vektor er {}.".format(v))
 '''
 
-# Definerer to vektorer, v1 & v1, vha. klassen Vector():
+# Definerer to vektorer, v1 & v2, vha. klassen Vector():
 v1 = Vector(1, 2, 3)
 v2 = Vector(4, 5, 6)
 # Definerer summen af de to vektorer vha funktionen sumvektor() inden i klassen Vektor():
