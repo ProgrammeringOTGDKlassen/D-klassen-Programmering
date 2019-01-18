@@ -1,5 +1,6 @@
 import math
 
+
 class Point():
     '''
     Repræsenterer et punkt i rummet
@@ -135,24 +136,18 @@ class Vector():
         '''
         return "({}, {}, {})".format(self.x, self.y, self.z)
 
-    
-    def length(self) -> float:
-        '''
-        Returnerer længden af en vektorer
-        '''
-        return math.sqrt(self.x**2 + self.y**2 + self.z**2)
-
     @classmethod
     def prik(cls, x1, y1, z1, x2, y2, z2) -> float:
         '''
         Returnerer prikproduktet af to vektorer
         '''
         return x1*x2+y1*y2+z1*z2
-    
+
     @classmethod
     def scale(cls, v1, s):
         return cls(v1.x * s, v1.y * s, v1.z * s)
-    
+
+
 # Udkommenterer opgave 2
 '''
 # Definerer et punkt, p1, vha. klassen Punkt():
@@ -251,15 +246,17 @@ Opgave 14
      Opdater din docstring så en bruger af dit bibliotek ved, hvad der kan gives til din funktion.          
 '''
 
+
 class Line():
     '''
     Line klassen ræpresentere en linje i rummet
-    '''    
+    '''
+
     def __init__(self, p0, r):
 
         self.p0 = p0
         self.r = r
-    
+
     @classmethod
     def create(cls, p0, r):
         '''
@@ -268,25 +265,25 @@ class Line():
         p0 = Vector(p0.x, p0.y, p0.z)
         r = Vector(r.x, r.y, r.z)
         return Line(p0, r)
-    
+
     @classmethod
     def parameter_line_two_points(cls, x1, y1, z1, x2, y2, z2):
         '''
         Laver en linje ud fra to punkter                    
         '''
 
-        # Vi tager den forbindende vektor mellem de to punkter        
-        r = Vector(x2 - x1, y2 - y1, z2 - z1)       
+        # Vi tager den forbindende vektor mellem de to punkter
+        r = Vector(x2 - x1, y2 - y1, z2 - z1)
         p0 = Vector(x1, y1, z1)
         return Line(p0, r)
-    
+
     def point(self, t: (float, int) = 0) -> Vector:
         '''
         Laver en stedvektor til et punkt, så skalerer den en anden vektor med en konstant og lægger den sammen med stedvektoren.
         '''
         p = Vector.stedvektor(self.p0)
         s = Vector.scale(self.r, t)
-        return Vector.sumvektor(p,s)
+        return Vector.sumvektor(p, s)
 
     def line2_vinkel(self, l2):
         '''
@@ -296,13 +293,14 @@ class Line():
         r2 = l2.r
         v = r1.vec2_vinkel(r2)
         return v
-            
+
     def __str__(self):
         '''
         Laver parameterfremstillingn for en linje udfra p0 og en retningsvektor
         '''
         return "(x, y, z) = {} + t * {}".format(self.p0, self.r)
-    
+
+
 # Udkommentrere opgave 10
 '''
 print(Line.__doc__)
