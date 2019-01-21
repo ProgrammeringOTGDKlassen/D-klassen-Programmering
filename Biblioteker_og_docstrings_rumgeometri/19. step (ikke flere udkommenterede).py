@@ -149,101 +149,6 @@ class Vector():
         return cls(v1.x * s, v1.y * s, v1.z * s)
 
 
-# Udkommenterer opgave 2
-'''
-# Definerer et punkt, p1, vha. klassen Punkt():
-p1 = Point(1, 2, 3)
-# Definerer en stedvektor, p, vha. funktionen stedvektor() i klassen Vektor():
-p = Vector.stedvektor(p1)
-# Printer stedvektoren
-print("Stedvektoren er {}.".format(p))
-'''
-
-# Udkommenterer opgave 3
-'''
-# Definerer den forbindende vektor, v, mellem to punkter vha. funktionen forbindende_vektor() i klassen Vector()
-v = Vector.forbindende_vektor(1, 2, 3, 4, 5, 6)
-# Printer den forbindende vektor
-print("Den forbindende vektor er {}.".format(v))
-'''
-
-# Definerer to vektorer, v1 & v1, vha. klassen Vector():
-v1 = Vector(1, 2, 3)
-v2 = Vector(1, 2, 3)
-
-# Udkommenterer opgave 4
-'''
-# Definerer summen af de to vektorer vha. funktionen sumvektor() inden i klassen Vektor():
-s = Vector.sumvektor(v1, v2)
-# Printer summen af de to vektorer
-print("Summen af vektorerne {} & {} er {}".format(v1, v2, s))
-'''
-
-# Udkommenterer opgave 5
-'''
-# Definerer differensen af de to vektorer vha. funktionen differens() inden i klassen Vektor():
-d = Vector.differens(v1, v2)
-# Printer differensen af de to vektorer
-print("Differensen af vektorerne {} & {} er {}".format(v1, v2, d))
-'''
-
-# Udkommenterer opgave 6
-'''
-# Definerer længden af vektor 1 & 2 vha. funktionen length() fra klassen Vector():
-l1 = v1.length()
-l2 = v2.length()
-# Printer længden af de to vektorer
-print("Længden af vektor 1 er {}".format(l1))
-print("Længden af vektor 2 er {}".format(l2))
-'''
-
-# Udkommenterer opgave 7
-'''
-# Definerer krydsproduktet af to vektorer vha. funktionen cross_product() i klassen Vector():
-k = Vector.cross_product(v1, v2)
-# Printer krydsproduktet
-print("Krydsproduktet for vektorerne {} & {} er {}".format(v1, v2, k))
-
-# Definerer prikproduktet af to vektorer vha. funktionen dot_product() i klassen Vector():
-prik = v1.dot_product(v2)
-# Printer prikproduktet
-print("Prikproduktet for vektorerne {} & {} er {}".format(v1, v2, prik))
-'''
-
-# Udkommenterer opgave 9
-'''
-# Definerer vinklen mellem to vektorer vha. funktionen vec2_vinkel() i klassen Vector():
-vin = v1.vec2_vinkel(v2)
-# Printer vinklen
-print("Vinklen mellem {} & {} er {}".format(v1, v2, vin))
-
-# Definerer projektionen af v1 på v2 vha. fuktionen proj_vec() i klassen Vector():
-proj = Vector.proj_vek(v1, v2)
-# Printer projektionen
-print("Projektionen af {} på {} er {}".format(v1, v2, proj))
-'''
-
-# Udkommenterer dette, da det er forstyrrende, når vi kører det
-'''
-print(Point.__doc__)  # Printer docstringen lige efter class Point():
-print(Point.__init__.__doc__) # Printer docstringen lige efter __init__(self, x, y, z): under class Point():
-print(Vector.__doc__)
-print(Vector.__init__.__doc__)
-print(Vector.stedvektor.__doc__)
-print(Vector.__str__.__doc__)
-nemt = True
-if nemt == True:
-    print("fucking nemt mand")
-'''
-
-# Herfra kommer opgaverne 10-18 om linjer:
-
-'''
-Opgave 17
-      Lav en uddybende docstring til linjeklassen, du kan starte som i eksemplet.        
-'''
-
-
 class Line():
     '''
     Line klassen ræpresentere en linje i rummet
@@ -262,6 +167,7 @@ class Line():
     line2_vinkel: Beregner vinklen mellem to linjer
     len_point_to_line: Beregner længden mellem et punkt og en linje
     len_line_to_line: Beregner længden mellem en linje og en anden linje
+    proj_point_on_line: Beregner projektionen af et punkt på en linje
     __str()__: Laver parameterfremstillingn for en linje udfra p0 og en retningsvektor
     '''
 
@@ -336,6 +242,18 @@ class Line():
 
         return dist
 
+    def proj_point_on_line(self, p):
+        '''
+        Beregner projektionen af et punkt på en linje
+        '''
+        p0p = Vector.forbindende_vektor(
+            p.x, p.y, p.z, self.p0.x, self.p0.y, self.p0.z)
+        tæller = float(p0p.dot_product(self.r))
+        skalar = tæller / float(self.r.length())**2
+        proj = Vector(skalar * self.r.x, skalar * self.r.y, skalar * self.r.z)
+
+        return proj
+
     def __str__(self):
         '''
         Laver parameterfremstillingn for en linje udfra p0 og en retningsvektor
@@ -343,54 +261,7 @@ class Line():
         return "(x, y, z) = {} + t * {}".format(self.p0, self.r)
 
 
-# Udkommentrere opgave 10
 '''
-print(Line.__doc__)
-print(Line.__init__.__doc__)
-print(Line.create.__doc__)
-'''
-
-# Udkommenterer opgave 11
-'''
-p0 = Vector(69, 420, 720)
-r = Vector(7, 8, 9)
-l = Line.create(p0, r)
-print(Line.__str__.__doc__)
-print("Linjen gennem punktet {} med retningsvektor {} er {}".format(p0, r, l))
-'''
-
-# Udkommenterer opgave 12
-'''
-m = Line.parameter_line_two_points(37, 74, 93, 102, 70, 30)
-print("Printer en linjes parameterfremstilling {}".format(m))
-'''
-# Udkommenterer opgave 13
-'''
-l = Line(Point(0,0,0),Vector(1,2,3))
-print(l.point(2.3))
-'''
-
-
-# Udkommenterer opgave 14
-'''
-m1 = Line.parameter_line_two_points(37, 74, 93, 102, 70, 30)
-m2 = Line.parameter_line_two_points(1, 2, 3, 4, 5, 6)
-vinkel = m1.line2_vinkel(m2)
-print(vinkel)
-'''
-
-# Udkommenterer opgave 15
-'''
-p0 = Vector(69, 420, 720)
-l = Line(Point(0, 0, 0), Vector(1, 2, 3))
-længde = l.len_point_to_line(p0)
-print(længde)
-'''
-
-# Udkommenterer opgave 16
-'''
-l1 = Line(Point(0, 0, 0), Vector(1, 2, 3))
-l2 = Line.parameter_line_two_points(37, 74, 93, 102, 70, 30)
-længde = l1.len_line_to_line(l2)
-print(længde)
+Opgave 19
+    *Beskrivelse*
 '''
