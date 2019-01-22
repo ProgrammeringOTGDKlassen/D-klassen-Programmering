@@ -237,7 +237,7 @@ class Line():
             self.p0.x, self.p0.y, self.p0.z, l.p0.x, l.p0.y, l.p0.z)
         tæller = float(n.dot_product(p1p2))
         if tæller < 0:
-            tæller *= -tæller
+            tæller *= -1
         dist = tæller / float(n.length())
 
         return dist
