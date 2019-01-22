@@ -1,6 +1,9 @@
 import math
 
 
+class Angle():
+    pass
+
 class Point():
     '''
     Repræsenterer et punkt i rummet
@@ -13,6 +16,12 @@ class Point():
         self.x = x
         self.y = y
         self.z = z
+    
+    def __str__(self):
+        '''
+        Laver formatet punkterne udskrives på.
+        '''
+        return "({}, {}, {})".format(self.x, self.y, self.z)
 
 
 class Vector():
@@ -87,7 +96,7 @@ class Vector():
         # Formaterer længden af tallet til kun at have 2 decimaler efter kommaet
         l = "{:10.2f}".format(l)
 
-        return l
+        return float(l)
 
     @classmethod
     def cross_product(cls, v1, v2):
@@ -261,7 +270,127 @@ class Line():
         return "(x, y, z) = {} + t * {}".format(self.p0, self.r)
 
 
-'''
-Opgave 19
-    *Beskrivelse*
-'''
+class Plane():
+    '''
+    Klassen beskriver en plan i rummet. 
+
+    Planen laves ud fra et punkt og to retningsvektorer 
+    eller ud fra tre punkter. 
+
+    Attributes
+    ---------
+    p0 : Vector(x,y,z), hvor (x,y,z) er et punkt i planen. 
+    r1 : En retningsvektor for planen. 
+    r2 : En anden retningsvektor for planen. Må ikke være parallel med r1.
+    
+    Factory methods
+    ---------
+    createNew(x0, y0, z0, a1, b1, c1, a2, b2, c2)
+        Returnerer en plan gennem (x0,y0,z0) med retningsvektorerne (a1,b1,c1) og (a2,b2,c2)
+    
+    createThreePoints(x1, y1, z1, x2, y2, z2, x3, y3, z3)
+        Returnerer en plan gennem de tre punkter
+        (x1,y1,z1), (x2,y2,z2) og (x3,y3,z3) 
+    
+    __init__(p0, r1, r2)
+        Default construktor
+    
+    vinkel(r1, r2, r3, r4)
+        Returnerer vinklen mellem to planer med
+        retningsvektorerne r1, r2, r3 og r4
+
+    punktFraPlan(t, s)
+        Returnerer et punkt i planen for parametererne t og s.
+
+    projektionLinjePaaPlan(l : Line)
+    Returnerer en linje som er projektionen af linjen l på planen 
+    '''
+    def __init__(self, p0, r1, r2):
+        '''
+        Retunerer en plan.   
+        '''
+        self.p0 = p0
+        self.r1 = r1                                                    
+        self.r2 = r2
+
+    '''
+    Factory methods
+    '''
+
+    @classmethod
+    def create_plane(cls, x0, y0, z0, a1, b1, c1, a2, b2, c2):
+        '''
+        Laver en plan ud fra 9 tal.
+        '''
+        p0 = Point(x0, y0, z0)
+        r1 = Vector(a1, b1, c1)
+        r2 = Vector(a2, b2, c2)
+                
+        return cls(p0, r1, r2)
+    
+    @classmethod
+    def parameter_plane_three_points(cls, p1, p2, p3):
+        '''
+
+        Laver en plan ud fra tre punkter                    
+        '''
+
+        # Vi tager den forbindende vektor mellem de to punkter
+        r1 = Vector(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z)
+        r2 = Vector(p3.x - p1.x, p3.y - p1.y, p3.z - p1.z)
+        p0 = Vector(p1.x, p1.y, p1.z)
+
+        return Plane(p0, r1, r2)
+    
+    def normal(self) -> Vector:
+        '''
+        Retunerer en vector
+        '''
+        return Vector.cross_product(self.r1, self.r2)
+
+    @classmethod
+    def angle_planes(cls, pl1, pl2) -> Angle:
+        '''
+        Finder vinklen mellem to planer.
+        '''
+        n1 = pl1.normal()
+        n2 = pl2.normal()
+        
+        tæller = n1.dot_product(n2)
+        nævner = float(n1.length()) * float(n2.length())
+
+        cosw = tæller / nævner
+
+        w = math.degrees(math.acos(cosw))
+
+        if w >= 90:
+           w = 180 - w
+        else:
+            pass
+        
+        return w
+    
+    def point_in_plane(self, t, s):
+        v1 = Vector(self.r1.x * t, self.r1.y * t, self.r1.z * t)
+        v2 = Vector(self.r2.x * t, self.r2.y * t, self.r2.z * t)
+
+        point = Plane(self.p0, v1, v2)
+
+        return point
+    
+    def __str__(self):
+        '''
+        Laver formatet for en parameterfremstilling for en plan i rummet.       
+        '''                            
+        return "(x, y, z) = {} + t * {} + s * {}".format(self.p0, self.r1, self.r2)
+
+
+p1 = Point(1, 2, 3)
+p2 = Point(4, 5, 6)
+p3 = Point(7, 9, 13)
+
+param = Plane.parameter_plane_three_points(p1, p2, p3)
+param2 = Plane.parameter_plane_three_points(p3, p1, p2)
+
+angle = Plane.angle_planes(param, param2)
+print(angle)

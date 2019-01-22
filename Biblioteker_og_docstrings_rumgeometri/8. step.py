@@ -2,7 +2,7 @@ import math
 
 '''
 Opgave 8
-Tlføjer detaljerede docstrings
+Tilføjer detaljerede docstrings
 '''
 
 

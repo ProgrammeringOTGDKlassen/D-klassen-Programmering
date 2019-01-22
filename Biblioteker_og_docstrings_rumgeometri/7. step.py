@@ -3,9 +3,9 @@ import math
 '''
 Opgave 7
 Tilføjer en funktion til prikproduktet mellem to vektorer
-Tlføjer docstrings dertil
+Tilføjer docstrings dertil
 Tilføjer en funktion til krydsproduktet mellem to vektorer
-Tlføjer docstrings dertil
+Tilføjer docstrings dertil
 '''
 
 
@@ -89,7 +89,7 @@ class Vector():
 
     def dot_product(self, v2):
         '''
-        Retunerer krydsproduktet af to vektorer (en vektor).
+        Retunerer prikproduktet af to vektorer (en vektor).
         '''
         dp = self.x * v2.x + self.y * v2.y + self.z * v2.z
 

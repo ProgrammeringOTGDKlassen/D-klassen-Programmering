@@ -3,7 +3,7 @@ import math
 '''
 Opgave 6
 Tilføjer en funktion til længden af en vektorer
-Tlføjer docstrings dertil
+Tilføjer docstrings dertil
 Begræns længden af et tal med to tal efter kommaet
 Printer docstrings for længden af en vektor
 '''
