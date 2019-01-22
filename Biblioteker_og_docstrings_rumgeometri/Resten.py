@@ -4,6 +4,7 @@ import math
 class Angle():
     pass
 
+
 class Point():
     '''
     Repræsenterer et punkt i rummet
@@ -16,7 +17,7 @@ class Point():
         self.x = x
         self.y = y
         self.z = z
-    
+
     def __str__(self):
         '''
         Laver formatet punkterne udskrives på.
@@ -270,47 +271,67 @@ class Line():
         return "(x, y, z) = {} + t * {}".format(self.p0, self.r)
 
 
+class PlaneWithEquation():
+    def __init__(self, a, b, c, d):
+        '''
+        Retunerer en plan med planens ligning.   
+        '''
+        self.a = a
+        self.b = b
+        self.c = c
+        self.d = d
+
+    @classmethod
+    def create_plane_equation(cls, x0, y0, z0, a1, b1, c1, a2, b2, c2):
+        p0 = Point(x0, y0, z0)
+        r1 = Vector(a1, b1, c1)
+        r2 = Vector(a2, b2, c2)
+
+        plane = Plane(p0, r1, r2)
+
+        n = plane.normal()
+
+        a = n.x
+        b = n.y
+        c = n.z
+        d = (n.x*(-plane.p0.x) + n.y*(-plane.p0.y) + n.z*(-plane.p0.z))
+
+        return cls(a, b, c, d)
+
+    @classmethod
+    def plane_equation(cls, pl):
+        n = pl.normal()
+
+        a = n.x
+        b = n.y
+        c = n.z
+        d = (n.x*(-pl.p0.x) + n.y*(-pl.p0.y) + n.z*(-pl.p0.z))
+
+        return cls(a, b, c, d)
+
+    def __str__(self):
+        return "{} * x + {} * y + {} * z + {} = 0".format(self.a, self.b, self.c, self.d)
+
+
 class Plane():
     '''
     Klassen beskriver en plan i rummet. 
 
-    Planen laves ud fra et punkt og to retningsvektorer 
-    eller ud fra tre punkter. 
+    Planen laves ud fra et punkt og to retningsvektorer eller ud fra tre punkter. 
 
     Attributes
     ---------
     p0 : Vector(x,y,z), hvor (x,y,z) er et punkt i planen. 
     r1 : En retningsvektor for planen. 
     r2 : En anden retningsvektor for planen. Må ikke være parallel med r1.
-    
-    Factory methods
-    ---------
-    createNew(x0, y0, z0, a1, b1, c1, a2, b2, c2)
-        Returnerer en plan gennem (x0,y0,z0) med retningsvektorerne (a1,b1,c1) og (a2,b2,c2)
-    
-    createThreePoints(x1, y1, z1, x2, y2, z2, x3, y3, z3)
-        Returnerer en plan gennem de tre punkter
-        (x1,y1,z1), (x2,y2,z2) og (x3,y3,z3) 
-    
-    __init__(p0, r1, r2)
-        Default construktor
-    
-    vinkel(r1, r2, r3, r4)
-        Returnerer vinklen mellem to planer med
-        retningsvektorerne r1, r2, r3 og r4
-
-    punktFraPlan(t, s)
-        Returnerer et punkt i planen for parametererne t og s.
-
-    projektionLinjePaaPlan(l : Line)
-    Returnerer en linje som er projektionen af linjen l på planen 
     '''
+
     def __init__(self, p0, r1, r2):
         '''
         Retunerer en plan.   
         '''
         self.p0 = p0
-        self.r1 = r1                                                    
+        self.r1 = r1
         self.r2 = r2
 
     '''
@@ -325,9 +346,9 @@ class Plane():
         p0 = Point(x0, y0, z0)
         r1 = Vector(a1, b1, c1)
         r2 = Vector(a2, b2, c2)
-                
+
         return cls(p0, r1, r2)
-    
+
     @classmethod
     def parameter_plane_three_points(cls, p1, p2, p3):
         '''
@@ -341,7 +362,7 @@ class Plane():
         p0 = Vector(p1.x, p1.y, p1.z)
 
         return Plane(p0, r1, r2)
-    
+
     def normal(self) -> Vector:
         '''
         Retunerer en vector
@@ -355,7 +376,7 @@ class Plane():
         '''
         n1 = pl1.normal()
         n2 = pl2.normal()
-        
+
         tæller = n1.dot_product(n2)
         nævner = float(n1.length()) * float(n2.length())
 
@@ -364,33 +385,69 @@ class Plane():
         w = math.degrees(math.acos(cosw))
 
         if w >= 90:
-           w = 180 - w
+            w = 180 - w
         else:
             pass
-        
+
         return w
-    
+
     def point_in_plane(self, t, s):
+        '''
+        Retunerer et punkt i planen efter s og t værdierne suppleret
+        '''
         v1 = Vector(self.r1.x * t, self.r1.y * t, self.r1.z * t)
         v2 = Vector(self.r2.x * t, self.r2.y * t, self.r2.z * t)
 
-        point = Plane(self.p0, v1, v2)
+        point = Point(self.p0.x + v1.x + v2.x, self.p0.y +
+                      v1.y + v2.y, self.p0.z + v1.z + v2.z)
 
         return point
-    
+
+    @classmethod
+    def intersection_line_plane(cls, pl, l):
+        '''
+        Retunerer punktet for skæringen mellem en linje og en plan
+        '''
+        plEQ = pl.plane_equation()
+
+        tæller = - plEQ.a * l.p0.x - plEQ.b * l.p0.y - plEQ.c * l.p0.z - plEQ.d
+        nævner = plEQ.a * l.r.x + plEQ.b * l.r.y + plEQ.c * l.r.z
+
+        t = tæller / nævner
+
+        return Point(l.p0.x + t * l.r.x, l.p0.y + t * l.r.y, l.p0.z + t * l.r.z)
+
+    def plane_equation(self):
+        '''
+        Retunerer planensligning med funktionalitet: man kan tage a, b, c og d ud fra planen ved f.eks. at sige plan.a eller plan.b
+        '''
+        return PlaneWithEquation.plane_equation(self)
+
+    @classmethod
+    def proj_line_plane(cls, pl, l):
+        '''
+        Retunerer en projektion af en linje i en plan
+        '''
+        op = Plane.intersection_line_plane(pl, l)
+        n = pl.normal()
+        rl = l.r
+        projvv = Vector.proj_vek(n, rl)
+        projLP = Vector(rl.x - projvv.x, rl.y - projvv.y, rl.z - projvv.z)
+        final = Line(op, projLP)
+
+        return final
+
     def __str__(self):
         '''
         Laver formatet for en parameterfremstilling for en plan i rummet.       
-        '''                            
+        '''
         return "(x, y, z) = {} + t * {} + s * {}".format(self.p0, self.r1, self.r2)
 
 
-p1 = Point(1, 2, 3)
-p2 = Point(4, 5, 6)
-p3 = Point(7, 9, 13)
+'''
+pl = Plane.create_plane(1, 2, 3, 4, 5, 6, 7, 8, 9)
 
-param = Plane.parameter_plane_three_points(p1, p2, p3)
-param2 = Plane.parameter_plane_three_points(p3, p1, p2)
+l = Line(Point(1, 2, 3), Vector(5, 6, 4))
 
-angle = Plane.angle_planes(param, param2)
-print(angle)
+print(Plane.proj_line_plane(pl, l))
+'''
