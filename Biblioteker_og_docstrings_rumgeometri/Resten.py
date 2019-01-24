@@ -424,6 +424,15 @@ class Plane():
         return PlaneWithEquation.plane_equation(self)
 
     @classmethod
+    def proj_point_plane(cls, pl, p):
+        n = pl.normal()
+        line = Line(p, n)
+
+        proj = Plane.intersection_line_plane(pl, line)
+
+        return proj
+
+    @classmethod
     def proj_line_plane(cls, pl, l):
         '''
         Retunerer en projektion af en linje i en plan
@@ -447,7 +456,7 @@ class Plane():
 '''
 pl = Plane.create_plane(1, 2, 3, 4, 5, 6, 7, 8, 9)
 
-l = Line(Point(1, 2, 3), Vector(5, 6, 4))
+p = Point(1, 2, 3)
 
-print(Plane.proj_line_plane(pl, l))
+print(Plane.proj_point_plane(pl, p))
 '''
