@@ -309,6 +309,10 @@ class PlaneWithEquation():
 
         return cls(a, b, c, d)
 
+    @classmethod
+    def plane_abcd(cls, a, b, c, d):
+        return cls(a, b, c, d)
+
     def __str__(self):
         return "{} * x + {} * y + {} * z + {} = 0".format(self.a, self.b, self.c, self.d)
 
@@ -423,6 +427,17 @@ class Plane():
         '''
         return PlaneWithEquation.plane_equation(self)
 
+    # Denne funktion virker ikke endnu
+    '''
+    @classmethod
+    def intersection_plane_plane(cls, pl1, pl2):
+        # pl1 = pl1.plane_equation()
+        t = -(pl1.a * pl2.p0.x) - (pl1.b * pl2.p0.y) - (pl1.c * pl2.p0.z) - (pl1.d) / pl2.r1.x * pl1.a + pl2.r1.y * pl1.b + pl2.r1.z * pl1.c + pl2.r2.x * pl1.a + pl2.r2.y * pl1.b + pl2.r2.z * pl1.c
+        skæring = Line(pl2.p0, Vector(t * pl2.r1.x + t * pl2.r2.x, t * pl2.r1.y + t * pl2.r2.y, t * pl2.r1.z + t * pl2.r2.z))
+
+        return skæring
+    '''
+
     @classmethod
     def proj_point_plane(cls, pl, p):
         n = pl.normal()
@@ -459,4 +474,12 @@ pl = Plane.create_plane(1, 2, 3, 4, 5, 6, 7, 8, 9)
 p = Point(1, 2, 3)
 
 print(Plane.proj_point_plane(pl, p))
+'''
+
+'''
+pl1 = PlaneWithEquation.plane_abcd(2, -11, 3, 41)
+
+pl2 = Plane(Point(3, 4, -1), Vector(7, 3, -7), Vector(-5, -4, 2))
+
+print(Plane.intersection_plane_plane(pl1, pl2))
 '''
