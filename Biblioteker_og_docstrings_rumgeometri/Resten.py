@@ -426,17 +426,22 @@ class Plane():
         Retunerer planensligning med funktionalitet: man kan tage a, b, c og d ud fra planen ved f.eks. at sige plan.a eller plan.b
         '''
         return PlaneWithEquation.plane_equation(self)
-
-    # Denne funktion virker ikke endnu
+    
+    
     '''
     @classmethod
     def intersection_plane_plane(cls, pl1, pl2):
-        # pl1 = pl1.plane_equation()
-        t = -(pl1.a * pl2.p0.x) - (pl1.b * pl2.p0.y) - (pl1.c * pl2.p0.z) - (pl1.d) / pl2.r1.x * pl1.a + pl2.r1.y * pl1.b + pl2.r1.z * pl1.c + pl2.r2.x * pl1.a + pl2.r2.y * pl1.b + pl2.r2.z * pl1.c
-        skæring = Line(pl2.p0, Vector(t * pl2.r1.x + t * pl2.r2.x, t * pl2.r1.y + t * pl2.r2.y, t * pl2.r1.z + t * pl2.r2.z))
+        
+        n1 = pl1.normal()
+        n2 = pl2.normal()
+        r = Vector.cross_product(n1, n2)
 
-        return skæring
-    '''
+        p0 = pis
+
+        line = Line(p0, r)
+
+        return line
+        '''
 
     @classmethod
     def proj_point_plane(cls, pl, p):
