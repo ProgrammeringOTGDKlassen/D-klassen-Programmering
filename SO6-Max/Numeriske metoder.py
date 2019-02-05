@@ -1,4 +1,6 @@
 import math
+import matplotlib.pyplot as plt
+'''
 print('___________________________')
 print('Øvelse 1')
 print('___________________________')
@@ -67,4 +69,72 @@ def funxs(xs):
         result = 2 * x ** 2 + 2
         resultlist.append(result)
     return resultlist
-print(funxs([1, 2, 3, 4]))
+print(funxs([1, 2, 3, 4, 5]))
+
+print('___________________________')
+print('Øvelse 11')
+print('___________________________')
+def fx(lx, lp):
+    f = 0
+    resultlist = []
+    for x in lx:
+        for p in lp:
+            f += p * x ** lp.index(p)
+        resultlist.append(f)
+    return resultlist
+
+print(fx([1, 2, 3],[4, 5, 6]))
+
+print('___________________________')
+print('Øvelse 12')
+print('___________________________')
+xs = [1, 2, 3, 4, 5, 6]
+ys = [1, 4, 9, 16, 25, 36]
+
+plt.plot(xs,ys, 'b*')
+plt.xlabel("x")
+plt.ylabel("y=x^2")
+plt.title("Plot of y=x^2")
+plt.show()
+
+print('___________________________')
+print('Øvelse 13')
+print('___________________________')
+xs = [1, 2, 3, 4, 5, 6]
+ys = [1, 4, 9, 16, 25, 36]
+
+plt.plot(xs,ys, 'go-')
+plt.xlabel("x")
+plt.ylabel("y=x^2")
+plt.title("Plot of y=x^2")
+plt.show()
+'''
+print('___________________________')
+print('Øvelse 14')
+print('___________________________')
+
+'''
+print('___________________________')
+print('Ekstraopgave 1')
+print('___________________________')
+def high_low(list1):
+    high = list1[0]
+    low = list1[0]
+    highplacement = 0
+    lowplacement = 0
+    for elm in list1:
+        if elm > high:
+            high = elm
+            highplacement = list1.index(elm) + 1
+        if elm < low:
+            low = elm
+            lowplacement = list1.index(elm) + 1
+
+    print('Det højeste tal er {} og det er tal nummer {} i listen, det laveste tal er {} og det er tal nummer {} i listen'.format(high, highplacement, low, lowplacement))
+
+high_low([1,2,3])
+print('___________________________')
+print('Ekstraopgave 2')
+print('___________________________')
+'''
+
