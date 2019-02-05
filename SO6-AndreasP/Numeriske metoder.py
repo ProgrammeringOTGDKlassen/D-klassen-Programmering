@@ -213,6 +213,7 @@ def linespace(a, b, n):
     for i in range(n):
         liste.append(a + interval)
         a += interval
+        i = i
     return liste
 
 print(linespace(1, 100, 7))
