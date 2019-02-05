@@ -108,11 +108,37 @@ plt.xlabel("x")
 plt.ylabel("y=x^2")
 plt.title("Plot of y=x^2")
 plt.show()
-'''
+
 print('___________________________')
 print('Øvelse 14')
 print('___________________________')
+f14 = 0
+xListe = [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+yListe = []
 
+for x in xListe:
+    f14 += 2 * x**3 - 3 * x**2 + 5
+    yListe.append(f14)
+
+import matplotlib.pyplot as plt
+plt.plot(xListe, yListe, 'go-')
+plt.xlabel("x")
+plt.ylabel("y=2x^3 - 3x^2 + 5")
+plt.title("Plot of y=2x^3 - 3x^2 + 5")
+plt.show()
+'''
+print('___________________________')
+print('Øvelse 15')
+print('___________________________')
+
+def linspace(a, b, n):
+    liste = []
+    interval = (b - a) / (n-1)
+    for i in range(0, n):
+        liste.append(a + i * interval)
+    return liste
+
+print(linspace(1, 100, 7))
 '''
 print('___________________________')
 print('Ekstraopgave 1')
