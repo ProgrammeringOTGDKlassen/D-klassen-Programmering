@@ -1,15 +1,20 @@
 import math
 import matplotlib.pyplot as plt
+from matplotlib.patches import Polygon
 
 def linspace(a, b, n):
     xs = []
-    interval = (b - a) / (n-1)
-    for i in range(0, n):
-        xs.append(a + i * interval)
+    interval = (b - a) / n
+    for i in range(n):
+        #xs.append(a + i * interval)
+        xs.append(a + interval)
+        a += interval
+        i = i
     return xs
 
 def f(x):
-    return 3*math.sin(0.3*x)+4
+    return x**2
+    # return 3*math.sin(0.3*x)+4
 
 def f_liste(f,xs):
     ys = []
@@ -46,9 +51,32 @@ def trapez_sum(xs, ys):
         s2 = (s + s1)/2
     return s2
 
-xs = linspace(1,50,100)
+def bedre_trapez_sum(f, a, b, n):
+    s = 0
+    x = linspace(a, b, n)
+    for i in range(0, n - 1):
+        dx = x[i + 1] - x[i]
+        h = 0.5 * (f(x[i + 1]) + f(x[i]))
+        s += dx * h
+    return s
+diff = 1
+last = 0
+a = 0
+b = 3
+n = 5000000
+while diff > 0.0001:
+    s = bedre_trapez_sum(f, a, b, n)
+    diff = abs(last - s)
+    last = s
+    n *= 2
+
+print(s)
+xs = linspace(a,b,n)
 ys = f_liste(f,xs)
 #print(ys)
-#plt.plot(xs, ys)
-#plt.show()
-print(trapez_sum(xs,ys))
+plt.plot(xs, ys)
+for i in range(0, len(xs) - 1):
+    p = [[xs[i], 0], [xs[i], ys[i]], [xs[i + 1], ys[i]], [xs[i + 1], 0]]
+    plt.gca().add_patch(Polygon(p, color = '0.8'))
+plt.show()
+#print(trapez_sum(xs,ys))
