@@ -6,6 +6,7 @@ import bezier
 from geometri_bibliotek import Vector2D
 from geometri_bibliotek import Point
 
+
 def linespace(n, a, b):
     liste = []
     interval = (b - a) / n
@@ -15,39 +16,27 @@ def linespace(n, a, b):
         i = i
     return liste
 
-def y_liste(f,xs):
-    ys = []
-    for x in xs:
-        result = f(x)
-        ys.append(result)
-    return ys
-
-def f(x):
-    return x**4+x**3+x**2+x+4
 
 def trapez(n, a, b, f):
     s = 0
     x = linespace(n, a, b)
 
-    for i in range(0,n-1):
+    for i in range(0, n-1):
         dx = x[i + 1] - x[i]
         h = 0.5 * (f(x[i + 1]) + f(x[i]))
         s += dx * h
     return s
 
+
 def trapezPoint(pList):
+    '''
+    Takes a list of points and calculates the integral using the trapez-method in the space between each point.
+    '''
     last = 0
     for i in range(0, len(pList) - 1):
         new = (pList[i + 1].x - pList[i].x)/2 * (pList[i].y + pList[i + 1].y)
         last += new
     return last
-
-# def trapezPoint(pList):
-#     last = 0
-#     for i in pList:
-#         new = last + (pList.index(i + 1).x - i.x)/2 * (i.y + pList.index(i + 1).y)
-#         last += new
-#     return last
 
 # def area_solid_of_revolution(pList):
 #     last = 0
@@ -63,9 +52,10 @@ def trapezPoint(pList):
 #             last += new
 #     return last
 
+
 def pointify(x1, y1, x2, y2, x3, y3, x4, y4):
     '''
-    Tager en mængde punkter og retunerer dem i en liste af punktlister således [[p1x, p1y], [p2x, p2y]]
+    Takes an amount of points and returns them in a list of pointlists like this: [[p1x, p1y], [p2x, p2y]].
     '''
     p1 = Point(x1, y1)
     p2 = Point(x2, y2)
@@ -74,8 +64,12 @@ def pointify(x1, y1, x2, y2, x3, y3, x4, y4):
     compiled = [p1, p2, p3, p4]
     return compiled
 
+
 def bezier_control(p1, p2, p3, p4):
-    p1c1p2 = Point(p1.x + (p2.x - p1.x)/5, p1.y + (abs(p2.y - p1.y))/2)
+    '''
+    Creates controlpoints for 3 cubic bezier curves. The points are predetermined to create a specific kind of vase.
+    '''
+    p1c1p2 = Point(p1.x + (p2.x - p1.x)/5, p1.y + (p2.y - p1.y)/2)
     p1c2p2 = Point(p2.x - (p2.x - p1.x)/2, p2.y)
     p2c1p3 = Point(p2.x + (p2.x - p1.x)/2, p2.y)
     p2c2p3 = Point(p3.x - (p3.x - p2.x)/4, p3.y)
@@ -84,7 +78,11 @@ def bezier_control(p1, p2, p3, p4):
     compiled = [p1c1p2, p1c2p2, p2c1p3, p2c2p3, p3c1p4, p3c2p4]
     return compiled
 
+
 def bezier_part(p1, c1, c2, p2):
+    '''
+    Takes two points and the two controlpoints between them and makes it a set in a list.
+    '''
     compiled = []
     compiled.append(p1)
     compiled.append(c1)
@@ -92,7 +90,12 @@ def bezier_part(p1, c1, c2, p2):
     compiled.append(p2)
     return compiled
 
+
 def bezier_curve(pcList, index):
+    '''
+    Takes a list of bezier parts and a index for how many points of the curve to create and returns a pointlist and a list of x- and y-koordinates.
+    It is using the formula for the cubic bezier curve.
+    '''
     tIndex = 1/index
     t = 0
     xList = []
@@ -101,9 +104,11 @@ def bezier_curve(pcList, index):
 
     for p in pcList:
         for i in range(0, index):
-            x = (1 - t)**3 * p[0].x + 3 * (1 - t)**2 * t * p[1].x + 3*(1-t) * t**2 * p[2].x + t**3 * p[3].x
-            y = (1 - t)**3 * p[0].y + 3 * (1 - t)**2 * t * p[1].y + 3*(1-t) * t**2 * p[2].y + t**3 * p[3].y
-            
+            x = (1 - t)**3 * p[0].x + 3 * (1 - t)**2 * t * \
+                p[1].x + 3*(1-t) * t**2 * p[2].x + t**3 * p[3].x
+            y = (1 - t)**3 * p[0].y + 3 * (1 - t)**2 * t * \
+                p[1].y + 3*(1-t) * t**2 * p[2].y + t**3 * p[3].y
+
             xList.append(x)
             yList.append(y)
 
@@ -112,51 +117,8 @@ def bezier_curve(pcList, index):
 
             t += tIndex
         t = 0
-    
+
     return pList, xList, yList
-
-
-def fx(lx, lp):
-    '''
-    1 p = f(x) = p
-    2 p = f(x) = p + p*x
-    3 p = f(x) = p + p*x + p*x^2
-    4 p = f(x) = p + p*x + p*x^2 + p*x^3
-    '''
-    f = 0
-    final = []
-    for x in lx:
-        for p in lp:
-            f += p * x**lp.index(p)
-        final.append(f)
-    return final
-
-def generate_vase():
-    pass
-
-# diff = 1
-# last = 0
-# n = 100
-# a = 0
-# b = 3
-
-# while diff > 0.0001:
-#     s = trapez(n, a, b, f)
-#     diff = abs(last - s)
-#     last = s
-#     n *= 2
-# print(s)
-
-
-
-# Eksempel:
-# xs = [1, 2, 3, 4, 5, 6]
-# ys = [1, 4, 9, 16, 25, 36]
-# plt.plot(xs,ys, 'b*')
-# plt.xlabel("x")
-# plt.ylabel("y=x^2")
-# plt.title("Plot of y=x^2")
-# plt.show()
 
 
 ready = False
@@ -201,7 +163,7 @@ while True:
             diaMin /= 2
             diaMinPlace = 12
             diaMax = 16
-            diaMax /=2
+            diaMax /= 2
             diaMaxPlace = 6
 
             ready = True
@@ -212,39 +174,48 @@ while True:
 
         elif msg.startswith("q"):
             break
-        
+
         elif msg.startswith("start"):
             if ready:
                 pcList = []
-                points = pointify(0, diaBund, diaMaxPlace, diaMax, diaMinPlace, diaMin, h, diaTop)
-                # print(points[0], points[1], points[2], points[3])
-                cPoints = bezier_control(points[0], points[1], points[2], points[3])
-                # print(cPoints[0], cPoints[1], cPoints[2], cPoints[3], cPoints[4], cPoints[5])
-                pcList.append(bezier_part(points[0], cPoints[0], cPoints[1], points[1]))
-                pcList.append(bezier_part(points[1], cPoints[2], cPoints[3], points[2]))
-                pcList.append(bezier_part(points[2], cPoints[4], cPoints[5], points[3]))
-                # for i in pcList:
-                #     for j in i:
-                #         print(j)
+                # Takes the requirements from the user and converts it to points.
+                points = pointify(0, diaBund, diaMaxPlace,
+                                  diaMax, diaMinPlace, diaMin, h, diaTop)
+                # Creates the bezier controlpoints for the 4 points above
+                cPoints = bezier_control(
+                    points[0], points[1], points[2], points[3])
+                # Adds the 3 bezier parts to a list of them
+                pcList.append(bezier_part(
+                    points[0], cPoints[0], cPoints[1], points[1]))
+                pcList.append(bezier_part(
+                    points[1], cPoints[2], cPoints[3], points[2]))
+                pcList.append(bezier_part(
+                    points[2], cPoints[4], cPoints[5], points[3]))
+                # Gets the list of bezier parts and creates a list of points on the bezier curve of the vase.
                 bezier = bezier_curve(pcList, 100)
                 pList = bezier[0]
                 xs = bezier[1]
-                # print(xs)
                 ys = bezier[2]
-                # print(ys)
 
                 # Numeric integration
                 s = trapezPoint(pList)
                 print(s)
+
         elif msg.startswith("plot"):
+            # Plots the points of the bezier curve using matplotlib.pyplot
             plt.plot(xs, ys)
             for i in range(0, len(xs)-1):
-                p = [[xs[i], 0], [xs[i], ys[i]], [xs[i+1], ys[i+1]], [xs[i+1], 0]]
-                plt.gca().add_patch(Polygon(p, color = '0.8'))
+                p = [[xs[i], 0], [xs[i], ys[i]], [
+                    xs[i+1], ys[i+1]], [xs[i+1], 0]]
+                plt.gca().add_patch(Polygon(p, color='0.8'))
             plt.show()
+
         else:
             print("\nDu skrev " + str(msg))
+
     except Exception as e:
         print(e)
         break
+
+
 print("Tak for nu")
