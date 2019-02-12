@@ -1,5 +1,25 @@
 import math
 
+class Point():
+    '''
+    Repræsenterer et punkt i rummet
+    '''
+
+    def __init__(self, x, y, ):
+        '''
+        Retunerer et punkt
+        '''
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        '''
+        Laver formatet punkterne udskrives på.
+        '''
+        return "({}, {})".format(self.x, self.y)
+
+
+
 class Vector2D():
     def __init__(self, x, y):
         '''
