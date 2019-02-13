@@ -38,16 +38,18 @@ def trapezPoint(pList):
         last += new
     return last
 
-# def area_solid_of_revolution(pList):
-#     last = 0
-#     for i in range(0, pList-1):
-#         new = ???
-#         last += new
-#     return last
+
+def area_solid_of_revolution(pList):
+    last = 0
+    for i in range(0, len(pList)-1):
+        new = 2 * math.pi * pList[i].y * (pList[i + 1].x - pList[i].x)
+        last += new
+    return last
+
 
 # def volume_solid_of_revolution(pList):
 #     last = 0
-#     for i in range(0, pList-1):
+#     for i in range(0, len(pList)-1):
 #             new = ???
 #             last += new
 #     return last
@@ -123,9 +125,35 @@ def bezier_curve(pcList, index):
 
 ready = False
 
+# Dictionary
+cmd = {}
+cmd["Quits the program."] = "q"
+cmd["Gets a list of commands."] = "help"
+cmd["Takes your dimensions for a vase to prepare for calculating."] = "setup"
+cmd["Calculates the mass of the vase based on the setup."] = "start"
+cmd["Plots a graf of half of the vase."] = "plot"
+cmd["Resets the setup."] = "reset"
+
+print("\nWrite 'help' for a list of commands!")
+
 while True:
     try:
-        if not ready:
+        msg = input("\nSkriv her: ")
+
+        if not msg:
+            break
+
+        elif msg.startswith("q"):
+            break
+
+        elif msg.startswith("help"):
+            print("")
+            counter = 1
+            for name in cmd:
+                print(counter, "-", "command: " + cmd[name], " - ", name)
+                counter += 1
+
+        elif msg.startswith("setup"):
             '''
             How tall will the vase be?: 500
 
@@ -142,17 +170,26 @@ while True:
             In which height should the thickest spot be placed?: 200
             '''
 
+            unit = input(
+                "\nWhat unit will you be using for the measurements?: ")
+
             # h = int(input("\nHow tall will the vase be?: "))
-            # diaBund = int(input("\nWhat should the diameter of the vase's buttom be?: "))
+            # diaBund = int(
+            #     input("\nWhat should the diameter of the vase's buttom be?: "))
             # diaBund /= 2
-            # diaTop = int(input("\nWhat should the diameter of the vase's top be?: "))
+            # diaTop = int(
+            #     input("\nWhat should the diameter of the vase's top be?: "))
             # diaTop /= 2
-            # diaMin = int(input("\nWhat should the diameter of the vase's thinest spot be?: "))
+            # diaMin = int(
+            #     input("\nWhat should the diameter of the vase's thinest spot be?: "))
             # diaMin /= 2
-            # diaMinPlace = int(input("\nIn which height should the thinest spot be placed?: "))
-            # diaMax = int(input("\nWhat should the diameter of the vase's thickest spot be?: "))
-            # diaMax /=2
-            # diaMaxPlace = int(input("\nIn which height should the thickest spot be placed?: "))
+            # diaMinPlace = int(
+            #     input("\nIn which height should the thinest spot be placed?: "))
+            # diaMax = int(
+            #     input("\nWhat should the diameter of the vase's thickest spot be?: "))
+            # diaMax /= 2
+            # diaMaxPlace = int(
+            #     input("\nIn which height should the thickest spot be placed?: "))
 
             h = 18
             diaBund = 10
@@ -167,13 +204,6 @@ while True:
             diaMaxPlace = 6
 
             ready = True
-        msg = input("\nSkriv her: ")
-
-        if not msg:
-            break
-
-        elif msg.startswith("q"):
-            break
 
         elif msg.startswith("start"):
             if ready:
@@ -197,9 +227,18 @@ while True:
                 xs = bezier[1]
                 ys = bezier[2]
 
-                # Numeric integration
-                s = trapezPoint(pList)
-                print(s)
+                # # Numeric integration
+                # ni = trapezPoint(pList)
+                # print(ni)
+
+                # Something
+                a = area_solid_of_revolution(pList)
+                aTotal = a + math.pi * diaBund**2
+                thickness = float(input("\nHow thick should the vase be?: "))
+                aTotal *= thickness
+                print("\nThe mass of the material is {} {}^2".format(aTotal, unit))
+            else:
+                print("\nPlease setup first!")
 
         elif msg.startswith("plot"):
             # Plots the points of the bezier curve using matplotlib.pyplot
@@ -209,6 +248,10 @@ while True:
                     xs[i+1], ys[i+1]], [xs[i+1], 0]]
                 plt.gca().add_patch(Polygon(p, color='0.8'))
             plt.show()
+
+        elif msg.startswith("reset"):
+            ready = False
+            print("\nThe setup has been reset.")
 
         else:
             print("\nDu skrev " + str(msg))
