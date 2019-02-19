@@ -217,3 +217,4 @@ def linespace(a, b, n):
     return liste
 
 print(linespace(1, 100, 7))
+
