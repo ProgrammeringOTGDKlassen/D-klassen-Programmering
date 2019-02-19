@@ -1,7 +1,8 @@
 import math
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
-
+import scipy.integrate as integrate
+'''
 def linspace(a, b, n):
     xs = []
     interval = (b - a) / n
@@ -80,3 +81,7 @@ for i in range(0, len(xs) - 1):
     plt.gca().add_patch(Polygon(p, color = '0.8'))
 plt.show()
 #print(trapez_sum(xs,ys))
+'''
+x=2.0
+resultat = integrate.quad(x**2,0.0,10.0)
+print(resultat)
