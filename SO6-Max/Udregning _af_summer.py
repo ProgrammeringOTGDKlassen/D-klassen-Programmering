@@ -352,11 +352,11 @@ while True:
             print('Den bedste sum er {} som er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Bedste_sum, abs(Listeelement), Over_under2, integral_værdi, integral_fejl))
 
 
-        elif msg == ("quit"): #Hvis msg == quit så stopper programmet
+        elif msg == ("quit"):
             break
         
-        elif msg == ("hjælp"): #Printer alle kommandoer og beskrivelse af dem
-            for name in CMD: #Looper igennem CMD
+        elif msg == ("hjælp"):
+            for name in CMD:
                 print("Kommando: "+ CMD[name], "- "+ name)
         else:
             print("{} er ikke en registreret kommando, skriv 'hjælp' for en liste af kommandoer".format(msg))
