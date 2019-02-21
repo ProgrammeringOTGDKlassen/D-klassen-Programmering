@@ -7,7 +7,6 @@ def linspace(a, b, n):
     xs = []
     interval = (b - a) / n
     for i in range(n):
-        #xs.append(a + i * interval)
         xs.append(a + interval)
         a += interval
         i = i
@@ -122,8 +121,18 @@ while True:
             elif Listeelement == Trapez_sammenligning:
                 Bedste_sum = "Trapezum"
             
-            print('Venstre summen af {} i intervallet {} til {} med {} inddelinger er {}. Det er {} fra det eksakte integral som er {} med en fejl på {}'.format(Funktion, a, b, n, Venstre_result, Venstre_sammenligning, integral_værdi, integral_fejl))
-            print('Den bedste sum er {} som er {} fra det eksakte integral som er {}.'.format(Bedste_sum, Listeelement, integral_værdi))
+            if Venstre_sammenligning > 0:
+                Over_under = "over"
+            elif Venstre_sammenligning < 0:
+                Over_under = "under"
+
+            if Listeelement > 0:
+                Over_under2 = "over"
+            elif Listeelement < 0:
+                Over_under2 = "under"
+
+            print('Venstresummen af {} i intervallet {} til {} med {} inddelinger er {}. Det er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Funktion, a, b, n, Venstre_result, abs(Venstre_sammenligning), Over_under, integral_værdi, integral_fejl))
+            print('Den bedste sum er {} som er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Bedste_sum, abs(Listeelement), Over_under2, integral_værdi, integral_fejl))
         
         elif msg == "midsum":
             Funktion = input("Indtast funktionen du vil have en sum af [Der skal være * mellem et tal og x som fx 3x -> 3*x. Opløftninger skal gøres med **]: ")
@@ -176,8 +185,18 @@ while True:
             elif Listeelement == Trapez_sammenligning:
                 Bedste_sum = "Trapezum"
             
-            print('Mid summen af {} i intervallet {} til {} med {} inddelinger er {}. Det er {} fra det eksakte integral som er {} med en fejl på {}'.format(Funktion, a, b, n, Mid_result, Mid_sammenligning, integral_værdi, integral_fejl))
-            print('Den bedste sum er {} som er {} fra det eksakte integral som er {}.'.format(Bedste_sum, Listeelement, integral_værdi))
+            if Mid_sammenligning > 0:
+                Over_under = "over"
+            elif Mid_sammenligning < 0:
+                Over_under = "under"
+
+            if Listeelement > 0:
+                Over_under2 = "over"
+            elif Listeelement < 0:
+                Over_under2 = "under"
+
+            print('Midsummen af {} i intervallet {} til {} med {} inddelinger er {}. Det er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Funktion, a, b, n, Mid_result, abs(Mid_sammenligning), Over_under, integral_værdi, integral_fejl))
+            print('Den bedste sum er {} som er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Bedste_sum, abs(Listeelement), Over_under2, integral_værdi, integral_fejl))
 
         elif msg == "højresum":
             Funktion = input("Indtast funktionen du vil have en sum af [Der skal være * mellem et tal og x som fx 3x -> 3*x. Opløftninger skal gøres med **]: ")
@@ -230,8 +249,19 @@ while True:
             elif Listeelement == Trapez_sammenligning:
                 Bedste_sum = "Trapezum"
             
-            print('Højre summen af {} i intervallet {} til {} med {} inddelinger er {}. Det er {} fra det eksakte integral som er {} med en fejl på {}'.format(Funktion, a, b, n, Højre_result, Højre_sammenligning, integral_værdi, integral_fejl))
-            print('Den bedste sum er {} som er {} fra det eksakte integral som er {}.'.format(Bedste_sum, Listeelement, integral_værdi))
+            if Højre_sammenligning > 0:
+                Over_under = "over"
+            elif Højre_sammenligning < 0:
+                Over_under = "under"
+
+            if Listeelement > 0:
+                Over_under2 = "over"
+            elif Listeelement < 0:
+                Over_under2 = "under"
+
+            print('Højresummen af {} i intervallet {} til {} med {} inddelinger er {}. Det er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Funktion, a, b, n, Højre_result, abs(Højre_sammenligning), Over_under, integral_værdi, integral_fejl))
+            print('Den bedste sum er {} som er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Bedste_sum, abs(Listeelement), Over_under2, integral_værdi, integral_fejl))
+
 
         elif msg == "trapezsum":
             Funktion = input("Indtast funktionen du vil have en sum af [Der skal være * mellem et tal og x som fx 3x -> 3*x. Opløftninger skal gøres med **]: ")
@@ -284,8 +314,19 @@ while True:
             elif Listeelement == Trapez_sammenligning:
                 Bedste_sum = "Trapezum"
             
-            print('Trapez summen af {} i intervallet {} til {} med {} inddelinger er {}. Det er {} fra det eksakte integral som er {} med en fejl på {}'.format(Funktion, a, b, n, Trapez_result, Trapez_sammenligning, integral_værdi, integral_fejl))
-            print('Den bedste sum er {} som er {} fra det eksakte integral som er {}.'.format(Bedste_sum, Listeelement, integral_værdi))
+            if Trapez_sammenligning > 0:
+                Over_under = "over"
+            elif Trapez_sammenligning < 0:
+                Over_under = "under"
+
+            if Listeelement > 0:
+                Over_under2 = "over"
+            elif Listeelement < 0:
+                Over_under2 = "under"
+
+            print('Trapezsummen af {} i intervallet {} til {} med {} inddelinger er {}. Det er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Funktion, a, b, n, Trapez_result, abs(Trapez_sammenligning), Over_under, integral_værdi, integral_fejl))
+            print('Den bedste sum er {} som er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Bedste_sum, abs(Listeelement), Over_under2, integral_værdi, integral_fejl))
+
 
         elif msg == ("quit"): #Hvis msg == quit så stopper programmet
             break
