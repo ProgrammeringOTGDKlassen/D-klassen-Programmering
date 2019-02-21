@@ -1,4 +1,4 @@
-import math
+import math as m
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 from scipy.integrate import quad
@@ -71,7 +71,13 @@ while True:
         msg = input("\nHvilken sum vil du have regnet? ")
         
         if msg == "venstresum":
-            Funktion = input("Indtast funktionen du vil have en sum af [Der skal være * mellem et tal og x som fx 3x -> 3*x. Opløftninger skal gøres med **]: ")
+            print("\nNår du skal indskrive funktioner er der en følgende regler for indskrivningen:")
+            print("Der skal være * mellem et tal og x som fx 3x -> 3*x")
+            print("Operatører: Plus = + Minus = - Gange = * Dividere = /")
+            print("Opløftninger skal gøres med **")
+            print("Skal du bruge sin, cos eller tan, samt arc sin, cos eller tan så skal du skrive m.sin(funktionen), m.cos(funktionen), m.tan(funktionen). Arc: m.asin(funktion), m.acos(funktion), m.atan(funktion)")
+            print("Logaritmer bruges med m.log(funktion)")
+            Funktion = input("\nIndtast funktionen du vil have en sum af: ")
 
             if Funktion == "quit":
                 break
@@ -135,7 +141,13 @@ while True:
             print('Den bedste sum er {} som er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Bedste_sum, abs(Listeelement), Over_under2, integral_værdi, integral_fejl))
         
         elif msg == "midsum":
-            Funktion = input("Indtast funktionen du vil have en sum af [Der skal være * mellem et tal og x som fx 3x -> 3*x. Opløftninger skal gøres med **]: ")
+            print("\nNår du skal indskrive funktioner er der en følgende regler for indskrivningen:   ")
+            print("Der skal være * mellem et tal og x som fx 3x -> 3*x")
+            print("Operatører: Plus = + Minus = - Gange = * Dividere = /")
+            print("Opløftninger skal gøres med **")
+            print("Skal du bruge sin, cos eller tan, samt arc sin, cos eller tan så skal du skrive m.sin(funktionen), m.cos(funktionen), m.tan(funktionen). Arc: m.asin(funktion), m.acos(funktion), m.atan(funktion)")
+            print("Logaritmer bruges med m.log(funktion)")
+            Funktion = input("Indtast funktionen du vil have en sum af: ")
 
             if Funktion == "quit":
                 break
@@ -199,7 +211,13 @@ while True:
             print('Den bedste sum er {} som er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Bedste_sum, abs(Listeelement), Over_under2, integral_værdi, integral_fejl))
 
         elif msg == "højresum":
-            Funktion = input("Indtast funktionen du vil have en sum af [Der skal være * mellem et tal og x som fx 3x -> 3*x. Opløftninger skal gøres med **]: ")
+            print("\nNår du skal indskrive funktioner er der en følgende regler for indskrivningen:   ")
+            print("Der skal være * mellem et tal og x som fx 3x -> 3*x")
+            print("Operatører: Plus = + Minus = - Gange = * Dividere = /")
+            print("Opløftninger skal gøres med **")
+            print("Skal du bruge sin, cos eller tan, samt arc sin, cos eller tan så skal du skrive m.sin(funktionen), m.cos(funktionen), m.tan(funktionen). Arc: m.asin(funktion), m.acos(funktion), m.atan(funktion)")
+            print("Logaritmer bruges med m.log(funktion)")
+            Funktion = input("Indtast funktionen du vil have en sum af: ")
 
             if Funktion == "quit":
                 break
@@ -264,7 +282,13 @@ while True:
 
 
         elif msg == "trapezsum":
-            Funktion = input("Indtast funktionen du vil have en sum af [Der skal være * mellem et tal og x som fx 3x -> 3*x. Opløftninger skal gøres med **]: ")
+            print("\nNår du skal indskrive funktioner er der en følgende regler for indskrivningen:   ")
+            print("Der skal være * mellem et tal og x som fx 3x -> 3*x")
+            print("Operatører: Plus = + Minus = - Gange = * Dividere = /")
+            print("Opløftninger skal gøres med **")
+            print("Skal du bruge sin, cos eller tan, samt arc sin, cos eller tan så skal du skrive m.sin(funktionen), m.cos(funktionen), m.tan(funktionen). Arc: m.asin(funktion), m.acos(funktion), m.atan(funktion)")
+            print("Logaritmer bruges med m.log(funktion)")
+            Funktion = input("Indtast funktionen du vil have en sum af: ")
 
             if Funktion == "quit":
                 break
