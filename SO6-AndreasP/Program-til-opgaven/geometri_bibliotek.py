@@ -1,5 +1,6 @@
 import math
 
+
 class Point():
     '''
     Repræsenterer et punkt i rummet
@@ -19,7 +20,6 @@ class Point():
         return "({}, {})".format(self.x, self.y)
 
 
-
 class Vector2D():
     def __init__(self, x, y):
         '''
@@ -27,18 +27,29 @@ class Vector2D():
         '''
         self.x = x
         self.y = y
-    
+
     @classmethod
-    def connecting_vector(cls, x1, y1, x2, y2):
+    def stedvektor(cls, p: Point):
+        '''
+        Retunerer en stedvektor til et punkt.
+        '''
+        return cls(p.x, p.y)
+
+    @classmethod
+    def forbindende_vektor(cls, x1, y1, x2, y2):
+        '''
+        Retunerer en forbindende vektor.                                                                
+        '''
         return cls(x2 - x1, y2 - y1)
-    
-    @classmethod
-    def sumvektor(cls, v1, v2):
+
+    def length(self):
         '''
-        Retunerer summen af to vektorer.
+        Retunerer længden af vektoren, hvor man har en vektor som input. Altså ikke længden mellem to punkter.
         '''
-        return cls(v1.x + v2.x, v1.y + v2.y)
-    
+        l = math.sqrt(self.x**2 + self.y**2)
+
+        return l
+
     def __str__(self):
         '''
         Laver formatet vektorer udskrives på.

@@ -1,10 +1,10 @@
 import math
-import tkinter as tk
+# import tkinter as tk
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import Polygon
-import bezier
-from geometri_bibliotek import Vector2D
+# import bezier
 from geometri_bibliotek import Point
+from geometri_bibliotek import Vector2D
 
 
 def linespace(n, a, b):
@@ -40,12 +40,53 @@ def trapezPoint(pList):
 
 
 def area_solid_of_revolution(pList):
+    '''
+    Left cylinder
+    Takes a list of points and calculates the area solid of revolution in the space between each point.
+    '''
     last = 0
     for i in range(0, len(pList)-1):
         new = 2 * math.pi * pList[i].y * (pList[i + 1].x - pList[i].x)
         last += new
     return last
 
+
+def area_solid_of_revolution_right(pList):
+    '''
+    Right cylinder
+    Takes a list of points and calculates the area solid of revolution in the space between each point.
+    '''
+    last = 0
+    for i in range(0, len(pList)-1):
+        new = 2 * math.pi * pList[i+1].y * (pList[i + 1].x - pList[i].x)
+        last += new
+    return last
+
+# def area_solid_of_revolution_trapez(pList):
+#     '''
+#     Trapez
+#     Takes a list of points and calculates the area solid of revolution in the space between each point.
+#     '''
+#     last = 0
+#     for i in range(0, len(pList)-1):
+#         fv = Vector2D.forbindende_vektor(pList[i].x, pList[i].y, pList[i+1].x, pList[i+1].y)
+#         lenFV = Vector2D.length(fv)
+#         new = math.pi * (pList[i].y + pList[i+1].y) * lenFV
+#         last += new
+#     return last
+
+
+def area_solid_of_revolution_trapez(pList):
+    '''
+    Trapez
+    Takes a list of points and calculates the area solid of revolution in the space between each point.
+    '''
+    last = 0
+    for i in range(0, len(pList)-1):
+        new = math.pi * (pList[i].y + pList[i+1].y) * (
+            math.sqrt((pList[i + 1].x - pList[i].x)**2 + (pList[i+1].y - pList[i].y)**2))
+        last += new
+    return last
 
 # def volume_solid_of_revolution(pList):
 #     last = 0
@@ -65,6 +106,10 @@ def pointify(x1, y1, x2, y2, x3, y3, x4, y4):
     p4 = Point(x4, y4)
     compiled = [p1, p2, p3, p4]
     return compiled
+
+
+def vectify(p):
+    return Vector2D.stedvektor(p)
 
 
 def bezier_control(p1, p2, p3, p4):
@@ -170,8 +215,8 @@ while True:
             In which height should the thickest spot be placed?: 200
             '''
 
-            unit = input(
-                "\nWhat unit will you be using for the measurements?: ")
+            # unit = input(
+            # "\nWhat unit will you be using for the measurements?: ")
 
             # h = int(input("\nHow tall will the vase be?: "))
             # diaBund = int(
@@ -222,7 +267,7 @@ while True:
                 pcList.append(bezier_part(
                     points[2], cPoints[4], cPoints[5], points[3]))
                 # Gets the list of bezier parts and creates a list of points on the bezier curve of the vase.
-                bezier = bezier_curve(pcList, 100)
+                bezier = bezier_curve(pcList, 1000)
                 pList = bezier[0]
                 xs = bezier[1]
                 ys = bezier[2]
@@ -233,10 +278,29 @@ while True:
 
                 # Something
                 a = area_solid_of_revolution(pList)
-                aTotal = a + math.pi * diaBund**2
-                thickness = float(input("\nHow thick should the vase be?: "))
-                aTotal *= thickness
-                print("\nThe mass of the material is {} {}^2".format(aTotal, unit))
+                a1 = area_solid_of_revolution_right(pList)
+                forskelVH = abs(a1-a)
+                a2 = area_solid_of_revolution_trapez(pList)
+                forskelVT = abs(a-a2)
+                forskelHT = abs(a1-a2)
+                gennemsnitForskel = (forskelHT + forskelVT)/2
+                # aTotal = a + math.pi * diaBund**2
+                # a1Total = a1 + math.pi * diaBund**2
+                # a2Total = a2 + math.pi * diaBund**2
+                # thickness = float(input("\nHow thick should the vase be?: "))
+                # aTotal *= thickness
+                # a1Total *= thickness
+                # a2Total *= thickness
+                # print("\nThe volume of the material is {} {}^2".format(aTotal, unit))
+                # print("\nThe volume of the material is {} {}^2".format(a1Total, unit))
+                # print("\nThe volume of the material is {} {}^2".format(a2Total, unit))
+
+                print("\nThe volume of the material with left is {}".format(a))
+                print("\nThe volume of the material with right is {}".format(a1))
+                print("\nThe volume of the material with trapez is {}".format(a2))
+                print("\nForskel på venstre og højre {}".format(forskelVH))
+                print("Forskel på gennemsnit højre og venstre og trapez {}".format(
+                    gennemsnitForskel))
             else:
                 print("\nPlease setup first!")
 
