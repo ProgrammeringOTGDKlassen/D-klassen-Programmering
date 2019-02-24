@@ -40,31 +40,33 @@ def area_solid_of_revolution_right(pList):
     return last
 
 
-# def area_solid_of_revolution_trapez(pList):
-#     '''
-#     Trapez
-#     Takes a list of points and calculates the area solid of revolution in the space between each point.
-#     '''
-#     last = 0
-#     for i in range(0, len(pList)-1):
-#         fv = Vector2D.forbindende_vektor(pList[i].x, pList[i].y, pList[i+1].x, pList[i+1].y)
-#         lenFV = Vector2D.length(fv)
-#         new = math.pi * (pList[i].y + pList[i+1].y) * lenFV
-#         last += new
-#     return last
-
-
-def area_solid_of_revolution_trapez(pList):
+def area_solid_of_revolution_truncated_cone(pList):
     '''
-    Trapez
+    Truncated cone
     Takes a list of points and calculates the area solid of revolution in the space between each point.
     '''
     last = 0
     for i in range(0, len(pList)-1):
-        new = math.pi * (pList[i].y + pList[i+1].y) * (
-            math.sqrt((pList[i + 1].x - pList[i].x)**2 + (pList[i+1].y - pList[i].y)**2))
+        fv = Vector2D.forbindende_vektor(
+            pList[i].x, pList[i].y, pList[i+1].x, pList[i+1].y)
+        lenFV = Vector2D.length(fv)
+        new = math.pi * (pList[i].y + pList[i+1].y) * lenFV
         last += new
     return last
+
+
+# # Diffrent formula for calculating the area form solid of revolution, but gives the same result
+# def area_solid_of_revolution_truncated_cone(pList):
+#     '''
+#     Truncated cone
+#     Takes a list of points and calculates the area solid of revolution in the space between each point.
+#     '''
+#     last = 0
+#     for i in range(0, len(pList)-1):
+#         new = math.pi * (pList[i].y + pList[i+1].y) * (
+#             math.sqrt((pList[i + 1].x - pList[i].x)**2 + (pList[i+1].y - pList[i].y)**2))
+#         last += new
+#     return last
 
 
 def pointify(x1, y1, x2, y2, x3, y3, x4, y4):
@@ -77,13 +79,6 @@ def pointify(x1, y1, x2, y2, x3, y3, x4, y4):
     p4 = Point(x4, y4)
     compiled = [p1, p2, p3, p4]
     return compiled
-
-
-def vectify(p):
-    '''
-    Takes a point and turns it into a vector.
-    '''
-    return Vector2D.stedvektor(p)
 
 
 def bezier_control(p1, p2, p3, p4):
@@ -148,7 +143,7 @@ cmd = {}
 cmd["Quits the program."] = "q"
 cmd["Gets a list of commands."] = "help"
 cmd["Takes your dimensions for a vase to prepare for calculating."] = "setup"
-cmd["Calculates the mass of the vase based on the setup."] = "start"
+cmd["Calculates the volume of the vase based on the setup."] = "start"
 cmd["Plots a graf of half of the vase."] = "plot"
 cmd["Resets the setup."] = "reset"
 
@@ -156,7 +151,7 @@ print("\nWrite 'help' for a list of commands!")
 
 while True:
     try:
-        msg = input("\nSkriv her: ")
+        msg = input("\nWrite here: ")
 
         if not msg:
             break
@@ -272,13 +267,14 @@ while True:
                 # print("\nThe volume of the material with right is {}".format(a1))
                 # print("\nThe volume of the material with trapez is {}".format(a2))
                 # print("\nDiffrence in right and left {}".format(forskelVH))
-                # print("Forskel på gennemsnit højre og venstre og trapez {}".format(
+                # print("DIffrence between the average of the right and left in comparason to truncated cone {}".format(
                 #     gennemsnitForskel))
 
-                a = area_solid_of_revolution_trapez(pList)
+                a = area_solid_of_revolution_truncated_cone(pList)
                 aTotal = a + math.pi * diaBund**2
                 thickness = float(input("\nHow thick should the vase be?: "))
                 aTotal *= thickness
+                aTotal = "{:10.2f}".format(aTotal)
                 print("\nThe volume of the material is {} {}^2".format(aTotal, unit))
 
             else:
