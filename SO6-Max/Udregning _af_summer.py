@@ -1,6 +1,4 @@
-import math as m
-import matplotlib.pyplot as plt
-from matplotlib.patches import Polygon
+import math as m 
 from scipy.integrate import quad
 
 def linspace(a, b, n):
@@ -75,7 +73,7 @@ while True:
             print("Der skal være * mellem et tal og x som fx 3x -> 3*x")
             print("Operatører: Plus = + Minus = - Gange = * Dividere = /")
             print("Opløftninger skal gøres med **")
-            print("Skal du bruge sin, cos eller tan, samt arc sin, cos eller tan så skal du skrive m.sin(funktionen), m.cos(funktionen), m.tan(funktionen). Arc: m.asin(funktion), m.acos(funktion), m.atan(funktion)")
+            print("Skal du bruge sin, cos eller tan, samt arc sin, cos eller tan? Så skal du skrive m.sin(funktionen), m.cos(funktionen), m.tan(funktionen). Arc: m.asin(funktion), m.acos(funktion), m.atan(funktion)")
             print("Logaritmer bruges med m.log(funktion)")
             Funktion = input("\nIndtast funktionen du vil have en sum af: ")
 
@@ -137,15 +135,15 @@ while True:
             elif Listeelement < 0:
                 Over_under2 = "under"
 
-            print('Venstresummen af {} i intervallet {} til {} med {} inddelinger er {}. Det er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Funktion, a, b, n, Venstre_result, abs(Venstre_sammenligning), Over_under, integral_værdi, integral_fejl))
-            print('Den bedste sum er {} som er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Bedste_sum, abs(Listeelement), Over_under2, integral_værdi, integral_fejl))
+            print('Venstresummen af {} i intervallet {} til {} med {} inddelinger er {}. Det er {} {} det eksakte integral, som er {}, som er udregnet med Scipy, med en usikkerhed på {}.'.format(Funktion, a, b, n, Venstre_result, abs(Venstre_sammenligning), Over_under, integral_værdi, integral_fejl))
+            print('Den bedste sum er {}, som er {} {} det eksakte integral, som er {}, som er udregnet med Scipy med en usikkerhed på {}.'.format(Bedste_sum, abs(Listeelement), Over_under2, integral_værdi, integral_fejl))
         
         elif msg == "midsum":
             print("\nNår du skal indskrive funktioner er der en følgende regler for indskrivningen:   ")
             print("Der skal være * mellem et tal og x som fx 3x -> 3*x")
             print("Operatører: Plus = + Minus = - Gange = * Dividere = /")
             print("Opløftninger skal gøres med **")
-            print("Skal du bruge sin, cos eller tan, samt arc sin, cos eller tan så skal du skrive m.sin(funktionen), m.cos(funktionen), m.tan(funktionen). Arc: m.asin(funktion), m.acos(funktion), m.atan(funktion)")
+            print("Skal du bruge sin, cos eller tan, samt arc sin, cos eller tan? Så skal du skrive m.sin(funktionen), m.cos(funktionen), m.tan(funktionen). Arc: m.asin(funktion), m.acos(funktion), m.atan(funktion)")
             print("Logaritmer bruges med m.log(funktion)")
             Funktion = input("Indtast funktionen du vil have en sum af: ")
 
@@ -207,15 +205,15 @@ while True:
             elif Listeelement < 0:
                 Over_under2 = "under"
 
-            print('Midsummen af {} i intervallet {} til {} med {} inddelinger er {}. Det er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Funktion, a, b, n, Mid_result, abs(Mid_sammenligning), Over_under, integral_værdi, integral_fejl))
-            print('Den bedste sum er {} som er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Bedste_sum, abs(Listeelement), Over_under2, integral_værdi, integral_fejl))
+            print('Midsummen af {} i intervallet {} til {} med {} inddelinger er {}. Det er {} {} det eksakte integral, som er {}, som er udregnet med Scipy med en usikkerhed på {}.'.format(Funktion, a, b, n, Mid_result, abs(Mid_sammenligning), Over_under, integral_værdi, integral_fejl))
+            print('Den bedste sum er {}, som er {} {} det eksakte integral, som er {}, som er udregnet med Scipy med en usikkerhed på {}.'.format(Bedste_sum, abs(Listeelement), Over_under2, integral_værdi, integral_fejl))
 
         elif msg == "højresum":
             print("\nNår du skal indskrive funktioner er der en følgende regler for indskrivningen:   ")
             print("Der skal være * mellem et tal og x som fx 3x -> 3*x")
             print("Operatører: Plus = + Minus = - Gange = * Dividere = /")
             print("Opløftninger skal gøres med **")
-            print("Skal du bruge sin, cos eller tan, samt arc sin, cos eller tan så skal du skrive m.sin(funktionen), m.cos(funktionen), m.tan(funktionen). Arc: m.asin(funktion), m.acos(funktion), m.atan(funktion)")
+            print("Skal du bruge sin, cos eller tan, samt arc sin, cos eller tan? Så skal du skrive m.sin(funktionen), m.cos(funktionen), m.tan(funktionen). Arc: m.asin(funktion), m.acos(funktion), m.atan(funktion)")
             print("Logaritmer bruges med m.log(funktion)")
             Funktion = input("Indtast funktionen du vil have en sum af: ")
 
@@ -277,8 +275,8 @@ while True:
             elif Listeelement < 0:
                 Over_under2 = "under"
 
-            print('Højresummen af {} i intervallet {} til {} med {} inddelinger er {}. Det er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Funktion, a, b, n, Højre_result, abs(Højre_sammenligning), Over_under, integral_værdi, integral_fejl))
-            print('Den bedste sum er {} som er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Bedste_sum, abs(Listeelement), Over_under2, integral_værdi, integral_fejl))
+            print('Højresummen af {} i intervallet {} til {} med {} inddelinger er {}. Det er {} {} det eksakte integral, som er {}, som er udregnet med Scipy med en usikkerhed på {}.'.format(Funktion, a, b, n, Højre_result, abs(Højre_sammenligning), Over_under, integral_værdi, integral_fejl))
+            print('Den bedste sum er {}, som er {} {} det eksakte integral, som er {}, som er udregnet med Scipy med en usikkerhed på {}.'.format(Bedste_sum, abs(Listeelement), Over_under2, integral_værdi, integral_fejl))
 
 
         elif msg == "trapezsum":
@@ -286,7 +284,7 @@ while True:
             print("Der skal være * mellem et tal og x som fx 3x -> 3*x")
             print("Operatører: Plus = + Minus = - Gange = * Dividere = /")
             print("Opløftninger skal gøres med **")
-            print("Skal du bruge sin, cos eller tan, samt arc sin, cos eller tan så skal du skrive m.sin(funktionen), m.cos(funktionen), m.tan(funktionen). Arc: m.asin(funktion), m.acos(funktion), m.atan(funktion)")
+            print("Skal du bruge sin, cos eller tan, samt arc sin, cos eller tan? Så skal du skrive m.sin(funktionen), m.cos(funktionen), m.tan(funktionen). Arc: m.asin(funktion), m.acos(funktion), m.atan(funktion)")
             print("Logaritmer bruges med m.log(funktion)")
             Funktion = input("Indtast funktionen du vil have en sum af: ")
 
@@ -348,8 +346,8 @@ while True:
             elif Listeelement < 0:
                 Over_under2 = "under"
 
-            print('Trapezsummen af {} i intervallet {} til {} med {} inddelinger er {}. Det er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Funktion, a, b, n, Trapez_result, abs(Trapez_sammenligning), Over_under, integral_værdi, integral_fejl))
-            print('Den bedste sum er {} som er {} {} det eksakte integral som er {} som er udregnet med Scipy med en usikkerhed på {}.'.format(Bedste_sum, abs(Listeelement), Over_under2, integral_værdi, integral_fejl))
+            print('Trapezsummen af {} i intervallet {} til {} med {} inddelinger er {}. Det er {} {} det eksakte integral, som er {}, som er udregnet med Scipy med en usikkerhed på {}.'.format(Funktion, a, b, n, Trapez_result, abs(Trapez_sammenligning), Over_under, integral_værdi, integral_fejl))
+            print('Den bedste sum er {}, som er {} {} det eksakte integral, som er {}, som er udregnet med Scipy med en usikkerhed på {}.'.format(Bedste_sum, abs(Listeelement), Over_under2, integral_værdi, integral_fejl))
 
 
         elif msg == ("quit"):
@@ -363,6 +361,6 @@ while True:
 
     except Exception as e:
         print(e)
-        print("[ERROR] Except was runned! Check your code!!!")
+        print("[ERROR] Der er en fejl i koden. Tjek koden!!!")
 
 print("Tak for nu")

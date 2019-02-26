@@ -1,31 +1,8 @@
 import math
-# import tkinter as tk
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import Polygon
-# import bezier
 from geometri_bibliotek import Point
 from geometri_bibliotek import Vector2D
-
-
-def linespace(n, a, b):
-    liste = []
-    interval = (b - a) / n
-    for i in range(n):
-        liste.append(a + interval)
-        a += interval
-        i = i
-    return liste
-
-
-def trapez(n, a, b, f):
-    s = 0
-    x = linespace(n, a, b)
-
-    for i in range(0, n-1):
-        dx = x[i + 1] - x[i]
-        h = 0.5 * (f(x[i + 1]) + f(x[i]))
-        s += dx * h
-    return s
 
 
 def trapezPoint(pList):
@@ -62,37 +39,33 @@ def area_solid_of_revolution_right(pList):
         last += new
     return last
 
-# def area_solid_of_revolution_trapez(pList):
-#     '''
-#     Trapez
-#     Takes a list of points and calculates the area solid of revolution in the space between each point.
-#     '''
-#     last = 0
-#     for i in range(0, len(pList)-1):
-#         fv = Vector2D.forbindende_vektor(pList[i].x, pList[i].y, pList[i+1].x, pList[i+1].y)
-#         lenFV = Vector2D.length(fv)
-#         new = math.pi * (pList[i].y + pList[i+1].y) * lenFV
-#         last += new
-#     return last
 
-
-def area_solid_of_revolution_trapez(pList):
+def area_solid_of_revolution_truncated_cone(pList):
     '''
-    Trapez
+    Truncated cone
     Takes a list of points and calculates the area solid of revolution in the space between each point.
     '''
     last = 0
     for i in range(0, len(pList)-1):
-        new = math.pi * (pList[i].y + pList[i+1].y) * (
-            math.sqrt((pList[i + 1].x - pList[i].x)**2 + (pList[i+1].y - pList[i].y)**2))
+        fv = Vector2D.forbindende_vektor(
+            pList[i].x, pList[i].y, pList[i+1].x, pList[i+1].y)
+        lenFV = Vector2D.length(fv)
+        new = math.pi * (pList[i].y + pList[i+1].y) * lenFV
         last += new
     return last
 
-# def volume_solid_of_revolution(pList):
+
+# # Diffrent formula for calculating the area form solid of revolution, but gives the same result
+# def area_solid_of_revolution_truncated_cone(pList):
+#     '''
+#     Truncated cone
+#     Takes a list of points and calculates the area solid of revolution in the space between each point.
+#     '''
 #     last = 0
 #     for i in range(0, len(pList)-1):
-#             new = ???
-#             last += new
+#         new = math.pi * (pList[i].y + pList[i+1].y) * (
+#             math.sqrt((pList[i + 1].x - pList[i].x)**2 + (pList[i+1].y - pList[i].y)**2))
+#         last += new
 #     return last
 
 
@@ -106,10 +79,6 @@ def pointify(x1, y1, x2, y2, x3, y3, x4, y4):
     p4 = Point(x4, y4)
     compiled = [p1, p2, p3, p4]
     return compiled
-
-
-def vectify(p):
-    return Vector2D.stedvektor(p)
 
 
 def bezier_control(p1, p2, p3, p4):
@@ -150,7 +119,7 @@ def bezier_curve(pcList, index):
     pList = []
 
     for p in pcList:
-        for i in range(0, index):
+        for _ in range(0, index):
             x = (1 - t)**3 * p[0].x + 3 * (1 - t)**2 * t * \
                 p[1].x + 3*(1-t) * t**2 * p[2].x + t**3 * p[3].x
             y = (1 - t)**3 * p[0].y + 3 * (1 - t)**2 * t * \
@@ -164,7 +133,6 @@ def bezier_curve(pcList, index):
 
             t += tIndex
         t = 0
-
     return pList, xList, yList
 
 
@@ -175,7 +143,7 @@ cmd = {}
 cmd["Quits the program."] = "q"
 cmd["Gets a list of commands."] = "help"
 cmd["Takes your dimensions for a vase to prepare for calculating."] = "setup"
-cmd["Calculates the mass of the vase based on the setup."] = "start"
+cmd["Calculates the volume of the vase based on the setup."] = "start"
 cmd["Plots a graf of half of the vase."] = "plot"
 cmd["Resets the setup."] = "reset"
 
@@ -183,7 +151,7 @@ print("\nWrite 'help' for a list of commands!")
 
 while True:
     try:
-        msg = input("\nSkriv her: ")
+        msg = input("\nWrite here: ")
 
         if not msg:
             break
@@ -215,38 +183,38 @@ while True:
             In which height should the thickest spot be placed?: 200
             '''
 
-            # unit = input(
-            # "\nWhat unit will you be using for the measurements?: ")
+            unit = input(
+                "\nWhat unit will you be using for the measurements?: ")
 
-            # h = int(input("\nHow tall will the vase be?: "))
-            # diaBund = int(
-            #     input("\nWhat should the diameter of the vase's buttom be?: "))
-            # diaBund /= 2
-            # diaTop = int(
-            #     input("\nWhat should the diameter of the vase's top be?: "))
-            # diaTop /= 2
-            # diaMin = int(
-            #     input("\nWhat should the diameter of the vase's thinest spot be?: "))
-            # diaMin /= 2
-            # diaMinPlace = int(
-            #     input("\nIn which height should the thinest spot be placed?: "))
-            # diaMax = int(
-            #     input("\nWhat should the diameter of the vase's thickest spot be?: "))
-            # diaMax /= 2
-            # diaMaxPlace = int(
-            #     input("\nIn which height should the thickest spot be placed?: "))
-
-            h = 18
-            diaBund = 10
+            h = int(input("\nHow tall will the vase be?: "))
+            diaBund = int(
+                input("\nWhat should the diameter of the vase's buttom be?: "))
             diaBund /= 2
-            diaTop = 20
+            diaTop = int(
+                input("\nWhat should the diameter of the vase's top be?: "))
             diaTop /= 2
-            diaMin = 12
+            diaMin = int(
+                input("\nWhat should the diameter of the vase's thinest spot be?: "))
             diaMin /= 2
-            diaMinPlace = 12
-            diaMax = 16
+            diaMinPlace = int(
+                input("\nIn which height should the thinest spot be placed?: "))
+            diaMax = int(
+                input("\nWhat should the diameter of the vase's thickest spot be?: "))
             diaMax /= 2
-            diaMaxPlace = 6
+            diaMaxPlace = int(
+                input("\nIn which height should the thickest spot be placed?: "))
+
+            # h = 18
+            # diaBund = 10
+            # diaBund /= 2
+            # diaTop = 20
+            # diaTop /= 2
+            # diaMin = 12
+            # diaMin /= 2
+            # diaMinPlace = 12
+            # diaMax = 16
+            # diaMax /= 2
+            # diaMaxPlace = 6
 
             ready = True
 
@@ -276,31 +244,39 @@ while True:
                 # ni = trapezPoint(pList)
                 # print(ni)
 
-                # Something
-                a = area_solid_of_revolution(pList)
-                a1 = area_solid_of_revolution_right(pList)
-                forskelVH = abs(a1-a)
-                a2 = area_solid_of_revolution_trapez(pList)
-                forskelVT = abs(a-a2)
-                forskelHT = abs(a1-a2)
-                gennemsnitForskel = (forskelHT + forskelVT)/2
-                # aTotal = a + math.pi * diaBund**2
-                # a1Total = a1 + math.pi * diaBund**2
-                # a2Total = a2 + math.pi * diaBund**2
-                # thickness = float(input("\nHow thick should the vase be?: "))
-                # aTotal *= thickness
-                # a1Total *= thickness
-                # a2Total *= thickness
-                # print("\nThe volume of the material is {} {}^2".format(aTotal, unit))
-                # print("\nThe volume of the material is {} {}^2".format(a1Total, unit))
-                # print("\nThe volume of the material is {} {}^2".format(a2Total, unit))
+                # # Something used for testing
+                # a = area_solid_of_revolution(pList)
+                # a1 = area_solid_of_revolution_right(pList)
+                # forskelVH = abs(a1-a)
+                # a2 = area_solid_of_revolution_trapez(pList)
+                # forskelVT = abs(a-a2)
+                # forskelHT = abs(a1-a2)
+                # gennemsnitForskel = (forskelHT + forskelVT)/2
+                # # aTotal = a + math.pi * diaBund**2
+                # # a1Total = a1 + math.pi * diaBund**2
+                # # a2Total = a2 + math.pi * diaBund**2
+                # # thickness = float(input("\nHow thick should the vase be?: "))
+                # # aTotal *= thickness
+                # # a1Total *= thickness
+                # # a2Total *= thickness
+                # # print("\nThe volume of the material is {} {}^2".format(aTotal, unit))
+                # # print("\nThe volume of the material is {} {}^2".format(a1Total, unit))
+                # # print("\nThe volume of the material is {} {}^2".format(a2Total, unit))
 
-                print("\nThe volume of the material with left is {}".format(a))
-                print("\nThe volume of the material with right is {}".format(a1))
-                print("\nThe volume of the material with trapez is {}".format(a2))
-                print("\nForskel på venstre og højre {}".format(forskelVH))
-                print("Forskel på gennemsnit højre og venstre og trapez {}".format(
-                    gennemsnitForskel))
+                # print("\nThe volume of the material with left is {}".format(a))
+                # print("\nThe volume of the material with right is {}".format(a1))
+                # print("\nThe volume of the material with trapez is {}".format(a2))
+                # print("\nDiffrence in right and left {}".format(forskelVH))
+                # print("DIffrence between the average of the right and left in comparason to truncated cone {}".format(
+                #     gennemsnitForskel))
+
+                a = area_solid_of_revolution_truncated_cone(pList)
+                aTotal = a + math.pi * diaBund**2
+                thickness = float(input("\nHow thick should the vase be?: "))
+                aTotal *= thickness
+                aTotal = "{:10.2f}".format(aTotal)
+                print("\nThe volume of the material is {} {}^2".format(aTotal, unit))
+
             else:
                 print("\nPlease setup first!")
 
