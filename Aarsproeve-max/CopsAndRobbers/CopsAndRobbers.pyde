@@ -1,5 +1,6 @@
 from CopLib import *
 from RobberLib import *
+from random import randint
 
 def setup():
     size(500,500)
@@ -11,10 +12,11 @@ def setup():
 def initialize():
     #I denne funktion skal hele spillet
     #startes forfra.
-    global cops,robber
+    global cops,robber,running
     
+    running = True
     #Bagrunden cleares
-    background(0)
+    background(randint(0,255),randint(0,255),randint(0,255))
     
     #Ny position til røveren
     robber = Robber(width/2, height/2)
@@ -27,32 +29,43 @@ def initialize():
         x = random(10, width - 10)
         y = random(10, height - 10)
         cops.append(Cop(x,y))
-    
+        
 def draw():
-    global cops, robber
-    
-    moveRobber()
-    moveCops()
+    global cops, robber, running
+    if running == True:
+        moveRobber()
+        moveCops()
     
     if robberWin():
-        #Her kan du vælge hvad der skal ske
-        #hvis røveren vinder
-        pass
+        running = False
+        #background(0,255,0)
         
-    if copsWin():
-        #Her kan du vælge hvad der skal ske
-        #hvis politiet vinder
-        pass
+    if copsWin(cops, robber):
+        running = False
+        #background(255,0,0)
     
     drawCopsAndRobbers()
     
+def keyPressed():
+    if key == "r":
+        initialize()
     
 def robberWin():
-    #Denne funktion skal returnere True,
-    #hvis røveren er nået udenfor skærmen
+    if robber.pos.x < 0:
+        return True
+    if robber.pos.x > 500:
+        return True 
+    if robber.pos.y < 0:
+        return True 
+    if robber.pos.y > 500:
+        return True 
     return False
 
-def copsWin():
+def copsWin(cops,robber):
+    for cop in cops:
+        if dist(cop.pos.x, cop.pos.y, robber.pos.x, robber.pos.y)<1:
+            running = False
+            return True
     #Denne funktion skal returnere True,
     #hvis politiet har fanget røveren
     return False    
