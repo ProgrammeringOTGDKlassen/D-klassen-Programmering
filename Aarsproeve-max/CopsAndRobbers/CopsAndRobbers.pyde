@@ -1,22 +1,30 @@
 from CopLib import *
 from RobberLib import *
+import time
 from random import randint
 
 def setup():
     size(500,500)
-    global cops
-    
+    frameRate(999999999999999999999999999999999999999999999999999999999999999)
+    global cops, tyvVundet, copsVundet, tyvProcent, copsProcent, runde
+    tyvVundet = 0
+    copsVundet = 0
+    tyvProcent = 0
+    tyvProcent = "{:10.2f}".format(tyvProcent)
+    copsProcent = 0
+    copsProcent = "{:10.2f}".format(copsProcent)
+    runde = 0
     cops = list()
     initialize()
     
 def initialize():
     #I denne funktion skal hele spillet
     #startes forfra.
-    global cops,robber,running
+    global cops, robber, running
     
-    running = True
+    #running = True
     #Bagrunden cleares
-    background(randint(0,255),randint(0,255),randint(0,255))
+    background(0)
     
     #Ny position til røveren
     robber = Robber(width/2, height/2)
@@ -25,29 +33,60 @@ def initialize():
     #Tøm listen
     cops[:] = []
     #og tilføj nye politimænd
-    for i in range(0,15):
+    for i in range(0, 50):
         x = random(10, width - 10)
         y = random(10, height - 10)
         cops.append(Cop(x,y))
         
 def draw():
-    global cops, robber, running
-    if running == True:
-        moveRobber()
-        moveCops()
-    
+    global cops, robber, running, tyvVundet, copsVundet, tyvProcent, copsProcent, runde
+    #if running == True:
+    moveRobber()
+    moveCops()
+    fill(255,0,0)
+    textSize(15)
+    if runde > 0:
+        copsProcent = (float(copsVundet)/float(runde))*100
+        copsProcent = "{:10.2f}".format(copsProcent)
+        tyvProcent = (float(tyvVundet)/float(runde))*100
+        tyvProcent = "{:10.2f}".format(tyvProcent)
+    text("Tyv har vundet " + str(tyvVundet) + " gange", 5, 15)
+    text("" + str(tyvProcent) + " %", -20, 30)
+    fill(0,0,255)
+    textSize(15)
+    text("Politiet har vundet " + str(copsVundet) + " gange", 300, 15)
+    text(""+str(copsProcent) + " %", 277, 30)
+    fill(255)
+    text("Runde: " + str(runde + 1), 210, 15)
     if robberWin():
-        running = False
-        #background(0,255,0)
+        #running = False
+        tyvVundet = tyvVundet + 1
+        runde = runde + 1
+        print("Robber wins")
+        time.sleep(1)
+        initialize()
         
     if copsWin(cops, robber):
-        running = False
-        #background(255,0,0)
-    
+        #running = False
+        copsVundet = copsVundet + 1
+        runde = runde + 1
+        print("Cops wins")
+        time.sleep(1)
+        initialize()
+        
     drawCopsAndRobbers()
     
 def keyPressed():
+    global tyvVundet,copsVundet, tyvProcent, copsProcent, runde
     if key == "r":
+        tyvVundet = 0
+        copsVundet = 0
+        tyvProcent = 0
+        tyvProcent = "{:10.2f}".format(tyvProcent)
+        copsProcent = 0
+        copsProcent = "{:10.2f}".format(copsProcent)
+        runde = 0
+        time.sleep(1)
         initialize()
     
 def robberWin():
@@ -64,7 +103,7 @@ def robberWin():
 def copsWin(cops,robber):
     for cop in cops:
         if dist(cop.pos.x, cop.pos.y, robber.pos.x, robber.pos.y)<1:
-            running = False
+            #running = False
             return True
     #Denne funktion skal returnere True,
     #hvis politiet har fanget røveren
@@ -90,11 +129,11 @@ def moveRobber():
   
     totalWeight = 0
     for cop in cops:
-        w = 1
+        w = (1/dist(cop.pos.x, cop.pos.y, robber.pos.x, robber.pos.y))**2.2
         totalWeight += w
         COM.x += cop.pos.x * w
         COM.y += cop.pos.y * w
-      
+              
     COM.x /= totalWeight
     COM.y /= totalWeight
 
