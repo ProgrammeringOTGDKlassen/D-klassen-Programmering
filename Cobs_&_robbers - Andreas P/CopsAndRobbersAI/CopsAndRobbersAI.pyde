@@ -3,14 +3,10 @@ from RobberLib import *
 
 def setup():
     size(500,500)
-    global cops, cWin, rWin, cCounter, rCounter
+    global cops
     
     cops = list()
     initialize()
-    cWin = False
-    rWin = False
-    cCounter = 0
-    rCounter = 0
     
 def initialize():
     #I denne funktion skal hele spillet
@@ -29,15 +25,13 @@ def initialize():
     #Tøm listen
     cops[:] = []
     #og tilføj nye politimænd
-    for i in range(0,15):
+    for i in range(0,20):
         x = random(10, width - 10)
         y = random(10, height - 10)
         cops.append(Cop(x,y))
     
 def draw():
-    global cops, robber, running, cWin, rWin, cCounter, rCounter
-    rWin = False
-    cWin = False
+    global cops, robber, running
     if running:
         moveRobber()
         moveCops()
@@ -48,10 +42,6 @@ def draw():
         if running:
             print("The robber wins")
         # running = False
-        rWin = True
-        percent = winPercentage(cWin, rWin)
-        if percent[0]:
-            print(percent[1])
         initialize()
         
         
@@ -61,34 +51,10 @@ def draw():
         if running:
             print("The Cops wins")
         # running = False
-        cWin = True
-        percent = winPercentage(cWin, rWin)
-        if percent[0]:
-            print(percent[1])
         initialize()
     
     drawCopsAndRobbers()
-
-def winPercentage(cWin, rWin):
-    global cCounter, rCounter
-    ready = False
-    cPercent = 0
-    rPercent = 0
-    string = ""
-    if cWin:
-        cCounter += 1
-    if rWin:
-        rCounter += 1
-    total = cCounter + rCounter
-    if total != 0:
-        ready = True
-        cPercent = (float(cCounter) / float(total)) * 100
-        rPercent = (float(rCounter) / float(total)) * 100
-    if ready:
-        string = "\nPolice win: {}% \nRobber wins {}%".format(cPercent, rPercent)
-    return ready, string
     
-
 def robberWin(robber):
     #Denne funktion skal returnere True,
     #hvis røveren er nået udenfor skærmen
@@ -119,29 +85,15 @@ def moveCops():
         
         cop.pos.add(afstand)
 
-def weight(cPos, rPos):
-    w = 1
-    distance = dist(cPos.x, cPos.y, rPos.x, rPos.y)
-    w = inverseValue(distance)
-    w = pow(2, w)
-    return w
-
-def inverseValue(x):
-    return -x + (width + height)/60
-
 def moveRobber():
-    global COM, robber
+    global COM
     #Udregn massemidtpunkt for politiet.
     #COM = Center of Mass
     COM = PVector()
   
     totalWeight = 0
     for cop in cops:
-        distance = dist(cop.pos.x, cop.pos.y, robber.pos.x, robber.pos.y)
-        if distance < 10:
-            w = weight(cop.pos, robber.pos)
-        else:
-            w= 1
+        w = 1
         totalWeight += w
         COM.x += cop.pos.x * w
         COM.y += cop.pos.y * w
