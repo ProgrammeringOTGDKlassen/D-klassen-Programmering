@@ -5,8 +5,8 @@ from random import randint
 
 def setup():
     size(500,500)
-    frameRate(999999999999999999999999999999999999999999999999999999999999999)
-    global cops, tyvVundet, copsVundet, tyvProcent, copsProcent, runde
+    frameRate(100)
+    global cops, tyvVundet, copsVundet, tyvProcent, copsProcent, runde, rudy, morten
     tyvVundet = 0
     copsVundet = 0
     tyvProcent = 0
@@ -14,6 +14,10 @@ def setup():
     copsProcent = 0
     copsProcent = "{:10.2f}".format(copsProcent)
     runde = 0
+    
+    rudy = loadImage("Rudy.png")
+    morten = loadImage("Morten.png")
+    
     cops = list()
     initialize()
     
@@ -33,7 +37,7 @@ def initialize():
     #Tøm listen
     cops[:] = []
     #og tilføj nye politimænd
-    for i in range(0, 50):
+    for i in range(0, 13):
         x = random(10, width - 10)
         y = random(10, height - 10)
         cops.append(Cop(x,y))
@@ -43,6 +47,33 @@ def draw():
     #if running == True:
     moveRobber()
     moveCops()
+    
+    if robberWin():
+        #running = False
+        tyvVundet = tyvVundet + 1
+        runde = runde + 1
+        x = random(10, width - 10)
+        y = random(10, height - 10)
+        cops.append(Cop(x,y))
+        print("Robber wins")
+        time.sleep(1)
+        initialize()
+        
+    if copsWin(cops, robber):
+        #running = False
+        copsVundet = copsVundet + 1
+        runde = runde + 1
+        cops.pop()
+        print("Cops wins")
+        time.sleep(1)
+        initialize()
+    
+    background(0)
+    drawCopsAndRobbers()
+    drawText()
+    
+def drawText():
+    global cops, robber, running, tyvVundet, copsVundet, tyvProcent, copsProcent, runde
     fill(255,0,0)
     textSize(15)
     if runde > 0:
@@ -58,24 +89,7 @@ def draw():
     text(""+str(copsProcent) + " %", 277, 30)
     fill(255)
     text("Runde: " + str(runde + 1), 210, 15)
-    if robberWin():
-        #running = False
-        tyvVundet = tyvVundet + 1
-        runde = runde + 1
-        print("Robber wins")
-        time.sleep(1)
-        initialize()
-        
-    if copsWin(cops, robber):
-        #running = False
-        copsVundet = copsVundet + 1
-        runde = runde + 1
-        print("Cops wins")
-        time.sleep(1)
-        initialize()
-        
-    drawCopsAndRobbers()
-    
+    text("" + str(len(cops)), 210, 50)
 def keyPressed():
     global tyvVundet,copsVundet, tyvProcent, copsProcent, runde
     if key == "r":
@@ -151,8 +165,12 @@ def moveRobber():
 
     
 def drawCopsAndRobbers():
-    global COM, cops, robber
+    global COM, cops, robber, rudy, morten
     
+    for cop in cops:
+        image(morten, cop.pos.x - 50, cop.pos.y - 15, 130,130)
+    
+    image(rudy, robber.pos.x - 150, robber.pos.y - 50, 230,160)
     fill(255)
     ellipse(COM.x, COM.y, 1, 1)
     
