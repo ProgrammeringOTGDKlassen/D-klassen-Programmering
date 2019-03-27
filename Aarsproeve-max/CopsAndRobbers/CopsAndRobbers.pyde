@@ -1,3 +1,4 @@
+add_library('minim')
 from CopLib import *
 from RobberLib import *
 import time
@@ -6,7 +7,8 @@ from random import randint
 def setup():
     size(500,500)
     frameRate(100)
-    global cops, tyvVundet, copsVundet, tyvProcent, copsProcent, runde, rudy, morten
+    global cops, tyvVundet, copsVundet, tyvProcent, copsProcent, runde, rudy, morten, minim, Rudy_lyd, Morten_lyd
+    minim=Minim(this)
     tyvVundet = 0
     copsVundet = 0
     tyvProcent = 0
@@ -17,14 +19,15 @@ def setup():
     
     rudy = loadImage("Rudy.png")
     morten = loadImage("Morten.png")
-    
+    Rudy_lyd = ["SmartKomplotDuDygtig.mp3", "Retssag.mp3", "Nej.mp3", "JamenDetErJoIkkeSandt.mp3", "DuBeskylderMigForEtEllerAndet.mp3", "DetLyderVeldigSmartDenHistorie.mp3", "DetLyderSomEnFantastiskHistorieDetDer.mp3", "DetErJoIkkeSandt.mp3", "DetErFaktiskEnMusikvideo.mp3", "BeskyldningerSomJegIkkeVedHvadJegSkalGoreVed.mp3"]
+    Morten_lyd = []
     cops = list()
     initialize()
     
 def initialize():
     #I denne funktion skal hele spillet
     #startes forfra.
-    global cops, robber, running
+    global cops, robber, running, minim, Rudy_lyd
     
     #running = True
     #Bagrunden cleares
@@ -43,7 +46,7 @@ def initialize():
         cops.append(Cop(x,y))
         
 def draw():
-    global cops, robber, running, tyvVundet, copsVundet, tyvProcent, copsProcent, runde
+    global cops, robber, running, tyvVundet, copsVundet, tyvProcent, copsProcent, runde, minim, Rudy_lyd, Morten_lyd
     #if running == True:
     moveRobber()
     moveCops()
@@ -64,8 +67,12 @@ def draw():
         copsVundet = copsVundet + 1
         runde = runde + 1
         cops.pop()
+        i = randint(0,len(Rudy_lyd)-1)
+        sf=minim.loadFile(str(Rudy_lyd[i]))
+        sf.play()
+        langde = float(sf.length()/1000)
         print("Cops wins")
-        time.sleep(1)
+        time.sleep(langde)
         initialize()
     
     background(0)
@@ -73,7 +80,7 @@ def draw():
     drawText()
     
 def drawText():
-    global cops, robber, running, tyvVundet, copsVundet, tyvProcent, copsProcent, runde
+    global cops, robber, running, tyvVundet, copsVundet, tyvProcent, copsProcent, runde, minim, Rudy_lyd, Morten_lyd
     fill(255,0,0)
     textSize(15)
     if runde > 0:
@@ -129,6 +136,7 @@ def moveCops():
     for cop in cops:
         afstand = robber.pos.copy()
         afstand.sub(cop.pos)
+        afstand += robber.last * dist(cop.pos.x, cop.pos.y, robber.pos.x, robber.pos.y)
         #Sørg for at politiet kun bevæger sig 1 pixel
         afstand.normalize()
         afstand.mult(cop.speed)
@@ -162,13 +170,14 @@ def moveRobber():
     
     #Flyt røveren
     robber.pos.add(afstand)
+    robber.last = afstand
 
     
 def drawCopsAndRobbers():
-    global COM, cops, robber, rudy, morten
+    global COM, cops, robber, rudy, morten, minim
     
     for cop in cops:
-        image(morten, cop.pos.x - 50, cop.pos.y - 15, 130,130)
+        image(morten, cop.pos.x - 57, cop.pos.y - 57, 130,130)
     
     image(rudy, robber.pos.x - 150, robber.pos.y - 50, 230,160)
     fill(255)

@@ -1,0 +1,25 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="Retssag_data" version="1.3.0" audacityversion="2.2.2" sel0="0.0000000000" sel1="5.2753061224" vpos="0" h="0.0000000000" zoom="86.1328125000" rate="44100.0" snapto="off" selectionformat="tt:mm:ss + millisekunder" frequencyformat="Hz" bandwidthformat="oktaver">
+	<tags/>
+	<wavetrack name="Rudy Fredriksen Greatest" channel="0" linked="1" mute="0" solo="0" height="150" minimized="0" isSelected="1" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="232641">
+				<waveblock start="0">
+					<simpleblockfile filename="e0808b93.au" len="232641" min="-0.467216" max="0.503662" rms="0.098132"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="Rudy Fredriksen Greatest" channel="1" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="1" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="232641">
+				<waveblock start="0">
+					<simpleblockfile filename="e08084d7.au" len="232641" min="-0.501744" max="0.479483" rms="0.098304"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>
