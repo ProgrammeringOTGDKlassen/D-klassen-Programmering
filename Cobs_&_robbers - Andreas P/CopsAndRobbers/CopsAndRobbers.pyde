@@ -2,10 +2,12 @@ add_library('minim')
 
 from CopLib import *
 from RobberLib import *
+import time
+from random import randint
 
 def setup():
     size(1000, 1000)
-    global cops, cWin, rWin, cCounter, rCounter, counter, copNumber, afstandList, RoboIMG, PopoIMG, popoH, popoW, roboW, roboH, IMGsize, winNumber, soundFile
+    global cops, cWin, rWin, cCounter, rCounter, counter, copNumber, afstandList, RoboIMG, PopoIMG, popoH, popoW, roboW, roboH, IMGsize, winNumber, soundFile, minim, robberSound, robberWinSound
     fps = 1000
     copNumber = 10
     cops = list()
@@ -29,6 +31,9 @@ def setup():
     minim=Minim(this)
     sf=minim.loadFile("rollin.mp3")
     sf.play()
+    sf.shiftGain(sf.getGain(),-15, 2500)
+    robberSound = ["oof.mp3", "mc_oof.mp3"]
+    robberWinSound = ["crap_rave.mp3"]
 
 def initialize(rPos = False):
     #I denne funktion skal hele spillet
@@ -73,6 +78,11 @@ def draw():
         percent = winPercentage(cWin, rWin)
         if percent[0]:
             print(percent[1])
+        theFile = robberWinSound[0]
+        sf=minim.loadFile(theFile)
+        sf.play()
+        langde = float(sf.length()/1000)
+        time.sleep(langde)
         initialize()
         winNumber = 1
         info(winNumber)
@@ -88,6 +98,11 @@ def draw():
         percent = winPercentage(cWin, rWin)
         if percent[0]:
             print(percent[1])
+        theFile = robberSound[randint(0,1)]
+        sf=minim.loadFile(theFile)
+        sf.play()
+        langde = float(sf.length()/1000)
+        time.sleep(langde)
         initialize()
         winNumber = 2
         info(winNumber)
