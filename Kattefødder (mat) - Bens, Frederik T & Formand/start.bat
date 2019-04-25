@@ -1,0 +1,2 @@
+python kattefod.py
+pause
