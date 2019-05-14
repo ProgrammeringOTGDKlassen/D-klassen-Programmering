@@ -21,13 +21,15 @@ def setup():
     morten = loadImage("Morten.png")
     Rudy_lyd = ["SmartKomplotDuDygtig.mp3", "Retssag.mp3", "Nej.mp3", "JamenDetErJoIkkeSandt.mp3", "DuBeskylderMigForEtEllerAndet.mp3", "DetLyderVeldigSmartDenHistorie.mp3", "DetLyderSomEnFantastiskHistorieDetDer.mp3", "DetErJoIkkeSandt.mp3", "DetErFaktiskEnMusikvideo.mp3", "BeskyldningerSomJegIkkeVedHvadJegSkalGoreVed.mp3"]
     Morten_lyd = "HvadPokkerErDetDuHarGangI.mp3"
+    
     cops = list()
+    
     initialize()
     
 def initialize():
     #I denne funktion skal hele spillet
     #startes forfra.
-    global cops, robber, running, minim, Rudy_lyd
+    global cops, robber
     
     #running = True
     #Bagrunden cleares
@@ -40,13 +42,13 @@ def initialize():
     #Tøm listen
     cops[:] = []
     #og tilføj nye politimænd
-    for i in range(0, 13):
+    for i in range(0, 10):
         x = random(10, width - 10)
         y = random(10, height - 10)
         cops.append(Cop(x,y))
         
 def draw():
-    global cops, robber, running, tyvVundet, copsVundet, tyvProcent, copsProcent, runde, minim, Rudy_lyd, Morten_lyd
+    global cops, robber, running, tyvVundet, copsVundet, runde
     #if running == True:
     moveRobber()
     moveCops()
@@ -57,7 +59,6 @@ def draw():
         runde = runde + 1
         x = random(10, width - 10)
         y = random(10, height - 10)
-        cops.append(Cop(x,y))
         print("Robber wins")
         time.sleep(1)
         initialize()
@@ -66,7 +67,6 @@ def draw():
         #running = False
         copsVundet = copsVundet + 1
         runde = runde + 1
-        cops.pop()
         fs=minim.loadFile("HvadPokkerErDetDuHarGangI.mp3")
         fs.play()
         lende = float(fs.length()/1000)
@@ -84,7 +84,7 @@ def draw():
     drawText()
     
 def drawText():
-    global cops, robber, running, tyvVundet, copsVundet, tyvProcent, copsProcent, runde, minim, Rudy_lyd, Morten_lyd
+    global tyvVundet, copsVundet, tyvProcent, copsProcent, runde
     fill(255,0,0)
     textSize(15)
     if runde > 0:
@@ -100,9 +100,9 @@ def drawText():
     text(""+str(copsProcent) + " %", 277, 30)
     fill(255)
     text("Runde: " + str(runde + 1), 210, 15)
-    text("" + str(len(cops)), 210, 50)
+    
 def keyPressed():
-    global tyvVundet,copsVundet, tyvProcent, copsProcent, runde
+    global tyvVundet, copsVundet, tyvProcent, copsProcent, runde
     if key == "r":
         tyvVundet = 0
         copsVundet = 0
