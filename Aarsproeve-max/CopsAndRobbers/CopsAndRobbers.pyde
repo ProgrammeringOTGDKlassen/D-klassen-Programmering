@@ -20,7 +20,7 @@ def setup():
     rudy = loadImage("Rudy.png")
     morten = loadImage("Morten.png")
     Rudy_lyd = ["SmartKomplotDuDygtig.mp3", "Retssag.mp3", "Nej.mp3", "JamenDetErJoIkkeSandt.mp3", "DuBeskylderMigForEtEllerAndet.mp3", "DetLyderVeldigSmartDenHistorie.mp3", "DetLyderSomEnFantastiskHistorieDetDer.mp3", "DetErJoIkkeSandt.mp3", "DetErFaktiskEnMusikvideo.mp3", "BeskyldningerSomJegIkkeVedHvadJegSkalGoreVed.mp3"]
-    Morten_lyd = []
+    Morten_lyd = "HvadPokkerErDetDuHarGangI.mp3"
     cops = list()
     initialize()
     
@@ -67,6 +67,10 @@ def draw():
         copsVundet = copsVundet + 1
         runde = runde + 1
         cops.pop()
+        fs=minim.loadFile("HvadPokkerErDetDuHarGangI.mp3")
+        fs.play()
+        lende = float(fs.length()/1000)
+        time.sleep(lende)
         i = randint(0,len(Rudy_lyd)-1)
         sf=minim.loadFile(str(Rudy_lyd[i]))
         sf.play()
