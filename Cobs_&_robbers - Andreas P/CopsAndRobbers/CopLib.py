@@ -1,8 +1,4 @@
-class Cop:
-    pos = None
-    speed = 0
-    col = None
-    
+class Cop: 
     def __init__(self, x, y):
         self.pos = PVector(x,y)
         self.speed = 1

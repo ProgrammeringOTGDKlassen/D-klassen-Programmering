@@ -4,7 +4,7 @@ from math import pi
 import cv2
 
 
-img = cv2.imread('red and white/3.png')
+img = cv2.imread('new pictures/Vinkler/Vinkler cropped/DSC_0067.JPG')
 
 hvideKoordinater = []
 centrumLinje = []
@@ -26,10 +26,18 @@ for y, line in enumerate(img):
             img[y, x] = (0, 0, 0)
 
 
-def afstand(pixels):
+def afstand1(pixels):
     return 631.72*(1/(pixels)**0.46956)
 
+# Den funktion vi går med!
+def afstand(pixels):
+    return 536.22*(1/(pixels)**0.47936)
 
+
+def afstand3(pixels):
+    return 476.63*(1/(pixels)**0.46544)
+
+# Den metode vi går med!
 def areal_af_cirkel(hvideKoordinater):
     førsteHvideKoordinat = hvideKoordinater[0]
     sidsteHvideKoordinat = hvideKoordinater[-1]
@@ -56,14 +64,13 @@ def forhold_fra_koordinater(hvideKoordinater):
     return forhold
 
 
-def vinkel_fra_forhold(forhold):
-    pass
-
-
 afstandTilVinkel = afstand(areal_af_cirkel(hvideKoordinater))
 
 
-print(afstandTilVinkel)
+print('Afstand med højde: {}'.format(afstandTilVinkel))
+print('Antal pixels beregnet: {}'.format(areal_af_cirkel(hvideKoordinater)))
+print('Standard afstand: {}'.format(afstand(count)))
+print('Antal pixels: {}'.format(count))
 cv2.imshow('image', img)
 cv2.waitKey(4000)
 cv2.destroyAllWindows()
