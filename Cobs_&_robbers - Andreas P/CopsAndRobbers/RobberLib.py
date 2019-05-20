@@ -1,10 +1,4 @@
 class Robber:
-    pos = None
-    speed = 0
-    col = None
-    
-    last = None
-    
     def __init__(self, x, y):
         self.pos = PVector(x,y)
         self.speed = 1
