@@ -1,6 +1,7 @@
 import math
 global fra, til, funktion
 
+# Der testes igen
 
 def f(n=None, yn=None):
     funktion_fixed = funktion.replace("yn", str(yn)).replace("n", str(n))
