@@ -3,7 +3,7 @@ from math import sqrt
 from math import pi
 import cv2
 
-img = cv2.imread('new pictures/Vinkler/Vinkler cropped/DSC_0067.JPG')
+img = cv2.imread("3_small.JPG", 1)
 
 hvideKoordinater = []
 centrumLinje = []
