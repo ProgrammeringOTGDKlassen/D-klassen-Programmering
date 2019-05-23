@@ -1,11 +1,29 @@
 import math
-global fra, til, funktion
+from math import e
+global fra, til, funktion, nFunk, nDifFunk, nTil
 
 # Der testes igen
+
 
 def f(n=None, yn=None):
     funktion_fixed = funktion.replace("yn", str(yn)).replace("n", str(n))
     return eval(funktion_fixed)
+
+
+def newton(talrække):
+    x = float(
+        input('Hvad gætter du på, at nulpunktet er for f(x)={}?: '.format(nFunk)))
+    nFunk_fixed = nFunk.replace('x', str(x))
+    nDifFunk_fixed = nDifFunk.replace('x', str(x))
+
+    for n in range(0, nTil):
+        x = x - ((eval(nFunk_fixed))/(eval(nDifFunk_fixed)))
+        nFunk_fixed = nFunk.replace('x', str(x))
+        nDifFunk_fixed = nDifFunk.replace('x', str(x))
+        talrække.append(x)
+
+    for i in range(len(talrække)):
+        print("{}. gæt-beregning er {}".format(i, talrække[i]))
 
 
 def yn(yn, talrække):  # Tager startværdien med i talrækken
@@ -38,6 +56,7 @@ while True:
         elif msg.startswith('q'):
             break
 
+        # Brug af Rekursionsligninger----------------------------------------------------------------------------------------------------------------------
         elif msg.startswith('r'):
             # Startværdi
             y0 = input('\nHvad skal startværdien være (y0)?: ')
@@ -69,8 +88,21 @@ while True:
                 yn(y0, talrækkeyn)
             else:
                 n(y0, talrækken)
+
+        # Newtons funktion----------------------------------------------------------------------------------------------------------------------------------
         elif msg.startswith('n'):
-            pass
+            nFunk = input(
+                'Hvilken funktion, f(x), skal der bruges (fx "x**2")?: ')
+            nDifFunk = input(
+                "Hvilken diffrentieret funktion, f'(x), skal der bruges (fx '2*x')?: ")
+
+            nTil = int(
+                input('Hvor mange gange skal der løbes igennem newton funktionen?: '))
+
+            nTalrække = []
+
+            newton(nTalrække)
+
         else:
             print("\nDu skrev " + str(msg))
     except Exception as e:
