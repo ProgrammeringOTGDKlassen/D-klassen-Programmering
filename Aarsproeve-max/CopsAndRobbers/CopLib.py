@@ -1,4 +1,3 @@
-from random import randint
 class Cop:
     pos = None
     speed = 0
@@ -8,4 +7,3 @@ class Cop:
         self.pos = PVector(x,y)
         self.speed = 1
         self.col = color(33,198,255)
-        #33,198,255

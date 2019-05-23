@@ -9,4 +9,3 @@ class Robber:
         self.speed = 1
         self.col = color(255,33,33)
         self.last = PVector(0,0)
-        #255,33,33
