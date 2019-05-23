@@ -70,7 +70,7 @@ while True:
             else:
                 n(y0, talrækken)
         elif msg.startswith('n'):
-
+            pass
         else:
             print("\nDu skrev " + str(msg))
     except Exception as e:
