@@ -1,0 +1,3 @@
+white_pixels = np.array(np.where(image == 255))
+first_white_pixel = white_pixels[:,0]
+last_white_pixel = white_pixels[:,-1]

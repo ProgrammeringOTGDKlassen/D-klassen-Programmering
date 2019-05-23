@@ -1,8 +1,29 @@
 import cv2
 from math import atan2
 from math import sqrt
+import math
+import numpy as np
 
-img = cv2.imread('17.JPG')
+
+img = cv2.imread('Trae_1_1 - Kopi.JPG')
+
+def højde():
+    white_pixels = np.array(np.where(img == (255,255,255)))
+    first_white_pixel = white_pixels[:,0]
+    last_white_pixel = white_pixels[:,-1]
+    difference = float(last_white_pixel[0]-first_white_pixel[0])
+    #print(difference)
+    area(difference)
+    return first_white_pixel, last_white_pixel
+
+def area(difference):
+    radius = difference/2
+    areaOfCircle = float(math.pi*radius**2)
+    print("Arealet af cirklen er "+str(areaOfCircle)+ ' pixels')
+
+def afstandTilTræ():
+    funktionforskrift = float(632.00*(1/count**0.49180))
+    print('Afstanden til træet er: '+str(funktionforskrift)+ ' m')
 
 count = 0
 for y,line in enumerate(img):
@@ -12,17 +33,20 @@ for y,line in enumerate(img):
         b = int(pixel[2])
         hue = atan2(sqrt(3)*(g-b), 2*r-g-b)
         brightness = (r+g+b)/3
-        if (hue < 0.07 or hue > 6.28 - 0.07) and brightness < 200:
+        if (hue < 0.00000000000001 or hue > 6.28 - 0.00000000000001) and brightness < 145:
             img[y,x] = (255,255,255)
             count += 1
         else:
             img[y,x] = (0,0,0)
 
-print(count)
+
+print("Antal pixels i cirklen " + str(count)+ ' pixels')
+højde()
+afstandTilTræ()
+
 cv2.imshow('image', img)
 cv2.waitKey(7000)
 cv2.destroyAllWindows()
-
 
 '''
 import cv2
@@ -57,4 +81,3 @@ cv2.waitKey(7000)
 cv2.destroyAllWindows()
 
         '''
-            
