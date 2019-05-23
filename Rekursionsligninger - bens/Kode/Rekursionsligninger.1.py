@@ -1,9 +1,7 @@
 import math
+import sympy  # TODO find ud af, hvordan man bruger sympy til at differentierer og brug det til at differentiere funktionen
 from math import e
 global fra, til, funktion, nFunk, nDifFunk, nTil
-
-# Der testes igen
-
 
 def f(n=None, yn=None):
     funktion_fixed = funktion.replace("yn", str(yn)).replace("n", str(n))
