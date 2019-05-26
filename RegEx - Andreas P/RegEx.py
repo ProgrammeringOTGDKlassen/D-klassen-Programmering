@@ -63,8 +63,8 @@ class Person():
         self.by = by
         self.mobil = mobil
         self.email = email
-def __str__(self):
-    return "Fulde navn: {} \nAdresse: {} \nPostnummer: {} \nBy: {} \nMobil: {} \nE-mail: {}".format(self.fuldeNavn, self.adresse, self.postnummer, self.by, self.mobil, self.email)
+    def __str__(self):
+        return "Fulde navn: {} \nAdresse: {} \nPostnummer: {} \nBy: {} \nMobil: {} \nE-mail: {}".format(self.fuldeNavn, self.adresse, self.postnummer, self.by, self.mobil, self.email)
 
 
 Jens = Person('Jens Jensen', 'Gl. Konge Vej', '6969', 'Odense', '69696969', 'din_mor@gmail.com')
