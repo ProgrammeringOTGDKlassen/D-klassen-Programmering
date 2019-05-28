@@ -3,7 +3,7 @@ from math import sqrt
 from math import pi
 import cv2
 
-img = cv2.imread("3_small.JPG", 1)
+img = cv2.imread("New pictures/Vinkler/Vinkler cropped/DSC_0063.JPG", 1)
 
 hvideKoordinater = []
 centrumLinje = []
@@ -67,9 +67,6 @@ afstandTilVinkel = afstand(areal_af_cirkel(hvideKoordinater))
 
 
 print('Afstand med højde: {}'.format(afstandTilVinkel))
-print('Antal pixels beregnet: {}'.format(areal_af_cirkel(hvideKoordinater)))
-print('Standard afstand: {}'.format(afstand(count)))
-print('Antal pixels: {}'.format(count))
 cv2.imshow('image', img)
 cv2.waitKey(4000)
 cv2.destroyAllWindows()
