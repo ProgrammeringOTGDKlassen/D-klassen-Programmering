@@ -41,7 +41,7 @@ def initialize(rPos=False):
     # startes forfra.
     global cops, robber, running, copNumber
     # Bagrunden cleares
-    background(84, 84, 84)
+    background(26, 36, 46)
 
     running = True
 
@@ -226,7 +226,7 @@ def moveRobber():
 
 
 def drawCopsAndRobbers():
-    background(84, 84, 84)
+    background(26, 36, 46)
     info(winNumber)
 
     # fill(robber.col)

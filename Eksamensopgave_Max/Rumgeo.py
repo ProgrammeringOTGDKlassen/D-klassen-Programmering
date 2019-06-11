@@ -150,8 +150,7 @@ class Vector():
         '''
         return "({}, {}, {})".format(self.x, self.y, self.z)
 
-    @classmethod
-    def prik(cls, x1, y1, z1, x2, y2, z2) -> float:
+    def prik(self, x1, y1, z1, x2, y2, z2) -> float:
         '''
         Returnerer prikproduktet af to vektorer
         '''
