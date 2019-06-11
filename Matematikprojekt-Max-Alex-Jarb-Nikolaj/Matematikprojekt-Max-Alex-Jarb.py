@@ -4,8 +4,7 @@ from math import sqrt
 import math
 import numpy as np
 
-
-img = cv2.imread('Trae_1_1 - Kopi.JPG')
+img = cv2.imread('Trae_4_1.JPG')
 
 def højde():
     white_pixels = np.array(np.where(img == (255,255,255)))
@@ -20,7 +19,8 @@ def area(difference):
     radius = difference/2
     areaOfCircle = float(math.pi*radius**2)
     print("Arealet af cirklen er "+str(areaOfCircle)+ ' pixels')
-
+    funktionforskrift1 = float(632.00*(1/areaOfCircle**0.49180))
+    print("Afstanden til træet ud fra areal er: "+str(funktionforskrift1)+ " m")
 def afstandTilTræ():
     funktionforskrift = float(632.00*(1/count**0.49180))
     print('Afstanden til træet er: '+str(funktionforskrift)+ ' m')
@@ -33,7 +33,7 @@ for y,line in enumerate(img):
         b = int(pixel[2])
         hue = atan2(sqrt(3)*(g-b), 2*r-g-b)
         brightness = (r+g+b)/3
-        if (hue < 0.00000000000001 or hue > 6.28 - 0.00000000000001) and brightness < 145:
+        if (hue < 0.01 or hue > 6.28 - 0.01) and brightness < 94:
             img[y,x] = (255,255,255)
             count += 1
         else:
