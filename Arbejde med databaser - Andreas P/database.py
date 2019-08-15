@@ -7,15 +7,26 @@ conn = sqlite3.connect("guitars.db")
 
 # trying to create table "guitars" with id, name, manufacturer and price
 try:
-  conn.execute("""CREATE TABLE guitars (id INTEGER PRIMARY KEY, name TEXT, manufacturer INTEGER, price INTEGER);""")
-except:
-  print('Fejl ved oprettelse af tabel')
+  conn.execute("""CREATE TABLE IF NOT EXISTS guitars (id INTEGER PRIMARY KEY, name TEXT, manufacturer INTEGER, price INTEGER);""")
+except Exception as err:
+  print(err)
 
 # trying to create table "manufacturers" with id and manufacturer
 try:
-  conn.execute("""CREATE TABLE manufacturers (id INTEGER PRIMARY KEY, manufacturer TEXT);""")
-except:
-  print('Fejl ved oprettelse af tabel')
+  conn.execute("""CREATE TABLE IF NOT EXISTS manufacturers (id INTEGER PRIMARY KEY, manufacturer TEXT);""")
+except Exception as err:
+  print(err)
+
+try:
+  conn.execute("""CREATE TABLE IF NOT EXISTS guitarists (id INTEGER PRIMARY KEY, name TEXT, band TEXT);""")
+except Exception as err:
+  print(err)
+
+try:
+  # conn.execute("DROP TABLE guitaristsModels;")
+  conn.execute("""CREATE TABLE IF NOT EXISTS guitaristsModels (id INTEGER PRIMARY KEY, guitarist_id INTEGER, model_id INTEGER);""")
+except Exception as err:
+  print(err)
 
 # creating cursor
 c = conn.cursor()
@@ -41,6 +52,16 @@ def delete_guitar(identifier = None):
   conn.commit()
 
 
+def add_guitarist_model(g_id = None, m_id = None):
+  c.execute("""INSERT INTO guitaristsModels (guitarist_id, model_id) VALUES (?, ?);""", (g_id, m_id))
+  conn.commit()
+
+
+def add_guitarist(name = None, band = None):
+  c.execute("""INSERT INTO guitarists (name, band) VALUES (?, ?);""", (name, band))
+  conn.commit()
+
+
 # commandsystem
 while True:
   try:
@@ -53,7 +74,7 @@ while True:
       price = int(input("What should the price be?: "))
       add_guitar(name, manufacturer, price)
     
-    if cmd == 'add mfr':
+    elif cmd == 'add mfr':
       manufacturer = str(input("What should the manufacturer be?: "))
       add_manufacturer(manufacturer)
 
@@ -70,6 +91,16 @@ while True:
         print(gui)
       identifier = int(input("\nWhat guitar-ID should be deleted: "))
       delete_guitar(identifier)
+    
+    elif cmd == 'add guitarist':
+      name = str(input("What should the name be?: "))
+      band = str(input("What should the band be?: "))
+      add_guitarist(name, band)
+
+    elif cmd == 'add guitarist model':
+      g_id = int(input("What should the guitar id be?: "))
+      m_id = int(input("What should the model id be?: "))
+      add_guitarist_model(g_id, m_id)
 
     elif cmd == 'show':
       c.execute("SELECT * FROM guitars;")
@@ -81,8 +112,18 @@ while True:
       for gui in c:
         print(gui)
     
+    elif cmd == 'show bobs':
+        print("""(oYo)""")
+      
+    elif cmd == 'test':
+      c.execute("SELECT * FROM guitaristsModels;")
+      for gui in c:
+        print(gui)
+
     elif cmd == 'q' or cmd == 'quit':
       break
+    
+    else:
+      print('It is not a recognized command')
   except Exception as err:
     print(err)
-
