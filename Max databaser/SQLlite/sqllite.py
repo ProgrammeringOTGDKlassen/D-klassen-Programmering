@@ -43,7 +43,7 @@ def add_guitarist(navn = None, band = None):
 
 
 def add_guitaristmodel(guitarist_ident = None, guitar_model = None):
-    c.execute("""INSERT INTO guitaristmodel (guitarist_id, model_id), VALUES (?, ?);""", (guitarist_ident, guitar_model))
+    c.execute("""INSERT INTO guitaristmodel (guitarist_id, model_id) VALUES (?, ?);""", (guitarist_ident, guitar_model))
     conn.commit()
 
 
@@ -68,7 +68,7 @@ def update_guitaristmodel(guitarist_identifier = None, guitar_identifier = None,
 
 
 def delete_guitar(identifier = None):
-    c.execute("""DELETE FROM guiterer WHERE id = ?;""", (identifier))
+    c.execute("""DELETE FROM guitarer WHERE id = ?;""", (identifier))
     conn.commit()
 
 
@@ -172,7 +172,6 @@ while(run):
             guit_ident = int(guit_ident)
 
             delete_guitar(guit_ident)
-
             print("Guitaren er blevet slettet!")
         
         elif inp == "Slet producent":
@@ -180,15 +179,37 @@ while(run):
             prod_ident = int(prod_ident)
 
             delete_producenter(prod_ident)
-
             print("Producenten er blevet slettet!")
 
-        elif inp == "Vis":
-            c.execute("SELECT g.navn, p.navn, g.pris, p.lokation FROM guitarer g JOIN producenter p ON g.producent = p.id;")
+        elif inp == "Slet guitarist":
+            guitarist_id = input("Guitaristens id > ")
+            guitarist_id = int(guitarist_id)
+
+            delete_guitarist(guitarist_id)
+            print("Guitaristen er blevet slettet!")
+        
+        elif inp == "Slet guitarist model":
+            guitarist_model_id = input("Guitarist model id > ")
+            guitarist_model_id = int(guitarist_model_id)
+
+            delete_guitaristmodel(guitarist_model_id)
+            print("Guitaristens guitarmodel er blevet slettet!")
+
+        elif inp == "Vis guitarer":
+            c.execute("""SELECT g.navn, p.navn, g.pris, p.lokation FROM guitarer g INNER JOIN producenter p ON g.producent = p.id;""")
             
             for gui in c:
                 print(gui)
 
+        elif inp == "Vis alt":
+            c.execute("""SELECT g.navn, p.navn, g.pris, p.lokation, gr.navn, gr.band FROM guitarer g, guitarister gr 
+                INNER JOIN producenter p ON g.producent = p.id
+                INNER JOIN guitaristmodel gm ON gm.model_id = g.id
+            ;""")
+
+            for gui in c:
+                print(gui)
+        
         elif inp == "Luk":
             break
         else:
