@@ -10,7 +10,7 @@ except Exception as e:
     print(f'FEJL: Fejl ved oprettelse af tabel. {e}')
 
 try:
-    conn.execute("""CREATE TABLE IF NOT EXISTS producenter (id INTEGER PRIMARY KEY, navn TEXT, lokation TEKST);""")
+    conn.execute("""CREATE TABLE IF NOT EXISTS producenter (id INTEGER PRIMARY KEY, navn TEXT, lokation TEXT);""")
 except Exception as e:
     print(f'FEJL: Fejl ved oprettelse af tabel. {e}')
 
