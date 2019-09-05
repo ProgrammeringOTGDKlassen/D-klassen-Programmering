@@ -87,4 +87,8 @@ class Energy_drink_data():
         
         self.db.execute("""INSERT INTO drinks (name, producer, price, year) VALUES (?, ?, ?, ?);""", ('Monster Energy', 1, 20, '2002'))
         
-        self.db.execute("""INSERT INTO producers (name, location) VALUES (?, ?);""", ('Monster Energy')) 
+        self.db.execute("""INSERT INTO producers (name, location) VALUES (?, ?);""", ('Monster Energy', 'USA')) 
+
+        self.db.execute("""INSERT INTO drink_types (types) VALUES (?);""", ("Standard"))
+
+        self.db.commit()
