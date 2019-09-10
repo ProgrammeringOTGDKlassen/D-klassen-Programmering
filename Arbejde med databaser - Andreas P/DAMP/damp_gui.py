@@ -17,6 +17,7 @@ class Damp_Gui(ttk.Frame):
         pass
 
 root = tk.Tk()
+root.iconbitmap(r'C:\Users\andre\OneDrive - Syddansk Erhvervsskole\GitHub\D-klassen-Programmering\Arbejde med databaser - Andreas P\DAMP\Icons\DAMP_ICON.ico')
 # defines the default windows size
 root.geometry("1280x720")
 # starts windows in maximized size
