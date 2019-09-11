@@ -36,25 +36,25 @@ class Energy_drink_data():
 
     def delete_drink(self, id):
         c = self.db.cursor()
-        c.execute('DELETE FROM drinks WHERE id = ?;', (id))
+        c.execute('DELETE FROM drinks WHERE id = ?;', (id,))
         self.db.commit()
 
     def get_producer_id(self, p):
         c = self.db.cursor()
-        c.execute('SELECT id FROM producers WHERE name = ?;', (p.split(' ')[0]))
+        c.execute('SELECT id FROM producers WHERE name = ?;', (p.split(' ')[0],))
         p = c.fetchone()
         return p[0]
-    
+
     def add_new_drink(self, d):
         p = self.get_producer_id(d.brand)
-        c =self.db.cursor()
-        c.execute('INSERT INTO drinks (name, price, producer) VALUES (?, ?, ?);', (d.name, d.price, p))
+        c = self.db.cursor()
+        c.execute('INSERT INTO drinks (name, price, producer, type) VALUES (?, ?, ?, ?);', (d.name, d.price, p, d.type))
         self.db.commit()
 
     def edit_drink(self, d):
         c = self.db.cursor()
         d_id = d.id
-        name, price, producer, year = c.execute('SELECT FROM drinks (name, price, producer) WHERE id = ?;', (d.id))
+        name, price, producer, e_type = c.execute('SELECT FROM drinks (name, price, producer, type) WHERE id = ?;', (d.id,))
         if name != d.name:
             pass
         if price != d.price:
