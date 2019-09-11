@@ -18,6 +18,19 @@ class DampLoginGui(ttk.Frame):
     def build_GUI(self):
         pass
 
+
+class DampAddUserGui(ttk.Frame):
+    def __init__(self, master=None):
+        ttk.Frame.__init__(self, master)
+        self.data = DAMPData()
+
+        self.build_GUI()
+
+
+    def build_GUI(self):
+        pass
+
+
 class DampGui(ttk.Frame):
 
     def __init__(self, master=None):
