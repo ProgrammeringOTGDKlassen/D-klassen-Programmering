@@ -20,6 +20,7 @@ class My_guitar_gui(ttk.Frame):
 
     def on_guitar_selected(self, event):
         curItem = self.db_view.item(self.db_view.focus())['values']
+        
         if len(curItem) > 0:
             self.lblCurrentName.config(text = 'Navn: {}'.format(curItem[0]))
             self.lblCurrentMaerke.config(text = 'Mærke: {}'.format(curItem[1]))
