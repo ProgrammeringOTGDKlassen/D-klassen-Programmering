@@ -1,5 +1,5 @@
 from damp_datalayer import DAMPData
-from loading import loading_screen
+from loading import *
 import tkinter as tk
 import tkinter.ttk as ttk
 
