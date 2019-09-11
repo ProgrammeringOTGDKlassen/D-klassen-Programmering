@@ -57,7 +57,7 @@ class User():
 class DAMPData():
 
     def __init__(self):
-        self.db = sqlite3.connect('DAMPData.db')
+        self.db = sqlite3.connect('./DATA/DAMPData.db')
 
     
     def add_user(self, user: User):

@@ -32,7 +32,7 @@ def loading_screen():
 
     # Create a VideoCapture object and read from input file
     # If the input is the camera, pass 0 instead of the video file name
-    cap = cv2.VideoCapture('../../Loading screen/Loading screen.mp4')
+    cap = cv2.VideoCapture('../Loading screen/Loading screen.mp4')
 
     # Check if camera opened successfully
     if (cap.isOpened()== False): 
@@ -72,7 +72,7 @@ def load_login_app():
 
     root = tk.Tk()
     # sets the icon top left to e predefined icon
-    root.iconbitmap('../../Icons/DAMP_ICON.ico')
+    root.iconbitmap('../Icons/DAMP_ICON.ico')
     # defines the default windows size
     root.geometry("1280x720")
     # starts windows in maximized size
@@ -92,7 +92,7 @@ def load_add_user_app():
 
     root = tk.Tk()
     # sets the icon top left to e predefined icon
-    root.iconbitmap('../../Icons/DAMP_ICON.ico')
+    root.iconbitmap('../Icons/DAMP_ICON.ico')
     # defines the default windows size
     root.geometry("1280x720")
     # starts windows in maximized size
@@ -112,7 +112,7 @@ def load_main_app():
 
     root = tk.Tk()
     # sets the icon top left to e predefined icon
-    root.iconbitmap('../../Icons/DAMP_ICON.ico')
+    root.iconbitmap('../Icons/DAMP_ICON.ico')
     # defines the default windows size
     root.geometry("1280x720")
     # starts windows in maximized size

@@ -12,19 +12,19 @@ def nav_to_folder_w_file(folder_path: str):
 
 
 # DATA--------------------------------------------------------
-nav_to_folder_w_file('DATA')
+nav_to_folder_w_file('PROGRAM/DATA')
 from damp_datalayer import DAMPData
 # ------------------------------------------------------------
 
 
 # APP---------------------------------------------------------
-nav_to_folder_w_file('APP')
+nav_to_folder_w_file('PROGRAM/DATA')
 from loading import *
 # ------------------------------------------------------------
 
 
 # LOCAL_FOLDER (this folder)----------------------------------
-nav_to_folder_w_file('GUI')
+nav_to_folder_w_file('PROGRAM/DATA')
 from GUIs import *
 
 
