@@ -1,9 +1,7 @@
 from damp_datalayer import DAMPData
 import tkinter as tk
 import tkinter.ttk as ttk
-
 import cv2
-import numpy as np
 
 # Create a VideoCapture object and read from input file
 # If the input is the camera, pass 0 instead of the video file name
