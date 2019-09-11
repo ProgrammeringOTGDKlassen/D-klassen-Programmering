@@ -35,9 +35,13 @@ class DAMPData():
         self.db = sqlite3.connect('DAMPData.db')
 
     
-    def add_user(self, name: str, username: str, country: str, password: str):
+    def add_user(self, user: User):
         pass
 
 
-    def check_correct_password(self, username: str, password: str):
+    def check_correct_password(self, user: User):
+        pass
+
+    
+    def create_tables(self):
         pass
