@@ -28,7 +28,7 @@ nav_to_folder_w_file('DATA')
 
 class User():
 
-    def __init__(self, name, username, country, userstats, gamestats, password):
+    def __init__(self, name: str, username: str, country: str, userstats: int, gamestats: int, password: str):
         self.name = name
         self.username = username
         self.country = country
@@ -37,7 +37,7 @@ class User():
         self.password = password
 
 
-    def set_id(self, id):
+    def set_id(self, id: int):
         self.id = id
 
 
@@ -50,7 +50,7 @@ class User():
         self.gamestats = gamestats
 
 
-    def set_id(self, id):
+    def set_id(self, id: str):
         self.id = id
 
 
@@ -69,4 +69,74 @@ class DAMPData():
 
     
     def create_tables(self):
-        pass
+        try:
+            self.db.execute("""DROP TABLE IF EXISTS users;""")
+            self.db.execute("""DROP TABLE IF EXISTS games;""")
+            self.db.execute("""DROP TABLE IF EXISTS usersStats;""")
+            self.db.execute("""DROP TABLE IF EXISTS userLibrary;""")
+            self.db.execute("""DROP TABLE IF EXISTS usersGamestats;""")
+
+
+            print('Table dropped')
+        except Exception as e:
+            print(f'Error with deletion of tables: {e}')
+
+        try:
+            self.db.execute("""CREATE TABLE users (
+                id INTEGER PRIMARY KEY,
+                name TEXT,
+                username TEXT,
+                password TEXT,
+                country TEXT,
+                gamesLibrary INTEGER,
+                userstats INTEGER,
+                gamestats INTEGER);""")
+
+            self.db.execute("""CREATE TABLE games (
+                id INTEGER PRIMARY KEY,
+                name TEXT,
+                description TEXT,
+                icon TEXT,
+                initGamestats INTEGER,);""")
+
+            self.db.execute("""CREATE TABLE usersStats (
+                id INTEGER PRIMARY KEY,
+                gamesOwned INTEGER,
+                activeYears INTEGER);""")
+            
+            self.db.execute("""CREATE TABLE userLibrary (
+                id INTEGER PRIMARY KEY,
+                games LIST);""")
+
+            self.db.execute("""CREATE TABLE usersGamestats (
+                id INTEGER PRIMARY KEY,
+                userID INTEGER,
+                gameID INTEGER,
+                playtime INTEGER);""")
+
+
+
+            print('Tables created')
+        except Exception as e:
+            print(f'Table already exists: {e}')
+
+        self.db.execute("""INSERT INTO users (name, username, password, country, gamesLibrary, userstats, gamestats) VALUES ('Andreas', 'TheLegend27', '1234', 'Denmark', 1, 1, 1);""")
+        self.db.execute("""INSERT INTO users (name, username, password, country, gamesLibrary, userstats, gamestats) VALUES ('Svend', 'Din mor', '4321', 'Denmark', 2, 2, 2);""")
+
+        self.db.execute("""INSERT INTO userLibrary (navn) VALUES ('Wes Montgomery');""")
+
+        self.db.execute("""INSERT INTO guitarister (navn) VALUES ('Wes Montgomery');""")
+        self.db.execute("""INSERT INTO guitarister (navn) VALUES ('Willie Nelson');""")
+        self.db.execute("""INSERT INTO guitarister (navn) VALUES ('Tom Morello');""")
+
+        self.db.execute("""INSERT INTO guitaristmodeller (guitarist_id, model_id) VALUES (1,2);""")
+        self.db.execute("""INSERT INTO guitaristmodeller (guitarist_id, model_id) VALUES (2,3);""")
+        self.db.execute("""INSERT INTO guitaristmodeller (guitarist_id, model_id) VALUES (3,2);""")
+        self.db.execute("""INSERT INTO guitaristmodeller (guitarist_id, model_id) VALUES (3,4);""")
+
+        self.db.execute("""INSERT INTO producenter (navn, lokation) VALUES ('Fender','USA');""")
+        self.db.execute("""INSERT INTO producenter (navn, lokation) VALUES ('Martin','USA');""")
+        self.db.execute("""INSERT INTO producenter (navn, lokation) VALUES ('Gibson','USA');""")
+
+
+        self.db.commit()

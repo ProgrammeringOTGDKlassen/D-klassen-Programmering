@@ -19,7 +19,7 @@ from damp_datalayer import DAMPData
 
 # APP---------------------------------------------------------
 nav_to_folder_w_file('PROGRAM/DATA')
-from loading import *
+import loading
 # ------------------------------------------------------------
 
 
@@ -28,4 +28,4 @@ nav_to_folder_w_file('PROGRAM/DATA')
 from GUIs import *
 
 
-load_main_app()
+loading.start()

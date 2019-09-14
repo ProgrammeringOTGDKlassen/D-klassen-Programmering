@@ -66,20 +66,30 @@ def loading_screen():
     cv2.destroyAllWindows()
 
 
-def load_login_app():
+def start():
+    load_login_app()
 
-    loading_screen()
+
+def load_login_app():
 
     root = tk.Tk()
     # sets the icon top left to e predefined icon
     root.iconbitmap('../Icons/DAMP_ICON.ico')
     # defines the default windows size
-    root.geometry("1280x720")
-    # starts windows in maximized size
-    root.state('zoomed')
+
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+
+    width_of_window = screen_width/6
+    height_of_window = screen_height/9
+
+    x_coordinate = (screen_width/2) - (width_of_window/2)
+    y_coordinate = (screen_height/2) - (height_of_window/2)
+    
+    root.geometry("%dx%d+%d+%d" % (width_of_window, height_of_window, x_coordinate, y_coordinate))
 
     # defines the app inheriting root as base
-    app = DampGui(root)
+    app = DampLoginGui(root)
     # sets the title of the app
     app.master.title('DAMP')
     # starts the app
@@ -88,18 +98,24 @@ def load_login_app():
 
 def load_add_user_app():
 
-    loading_screen()
-
     root = tk.Tk()
     # sets the icon top left to e predefined icon
     root.iconbitmap('../Icons/DAMP_ICON.ico')
     # defines the default windows size
-    root.geometry("1280x720")
-    # starts windows in maximized size
-    root.state('zoomed')
+
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+
+    width_of_window = screen_width/6
+    height_of_window = screen_height/5
+
+    x_coordinate = (screen_width/2) - (width_of_window/2)
+    y_coordinate = (screen_height/2) - (height_of_window/2)
+    
+    root.geometry("%dx%d+%d+%d" % (width_of_window, height_of_window, x_coordinate, y_coordinate))
 
     # defines the app inheriting root as base
-    app = DampGui(root)
+    app = DampAddUserGui(root)
     # sets the title of the app
     app.master.title('DAMP')
     # starts the app
