@@ -52,6 +52,7 @@ class Energy_drink_gui(ttk.Frame):
         self.entry_price = ttk.Entry(self.button_panel)
         self.entry_price.grid(row = 1, column = 2)
         producers = self.data.get_producer_list()
+        print(producers)
         label_producers = ttk.Label(self.button_panel, text = 'Producenter')
         label_producers.grid(row = 2, column = 1)
         self.cb_producers = ttk.Combobox(self.button_panel, values = producers)
@@ -89,7 +90,6 @@ class Energy_drink_gui(ttk.Frame):
         self.data_panel.pack(side = tk.TOP)
         self.button_panel.pack(side = tk.LEFT)
         self.pack()
-        print(producers)
 
 root = tk.Tk()
 root.iconbitmap('./Icon/icon_AQK_icon.ico')

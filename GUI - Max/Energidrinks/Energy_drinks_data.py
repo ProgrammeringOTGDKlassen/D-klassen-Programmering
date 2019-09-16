@@ -22,6 +22,7 @@ class Energy_drink_data():
         p_list = []
         for p in c:
             p_list.append((p[0], p[1]))
+            print((p[0],p[1]))
         return p_list
 
     def get_energy_drink_list(self):
@@ -41,6 +42,7 @@ class Energy_drink_data():
 
     def get_producer_id(self, p):
         c = self.db.cursor()
+        print(p)
         c.execute('SELECT id FROM producers WHERE name = ?;', (p.split(' ')[0],))
         p = c.fetchone()
         return p[0]
@@ -48,13 +50,13 @@ class Energy_drink_data():
     def add_new_drink(self, d):
         p = self.get_producer_id(d.brand)
         c = self.db.cursor()
-        c.execute('INSERT INTO drinks (name, price, producer, type) VALUES (?, ?, ?, ?);', (d.name, d.price, p, d.type))
+        c.execute('INSERT INTO drinks (name, price, producers, type) VALUES (?, ?, ?, ?);', (d.name, d.price, p, d.e_type))
         self.db.commit()
 
     def edit_drink(self, d):
         c = self.db.cursor()
         d_id = d.id
-        name, price, producer, e_type = c.execute('SELECT FROM drinks (name, price, producer, type) WHERE id = ?;', (d.id,))
+        name, price, producer, e_type = c.execute('SELECT FROM drinks (name, price, producers, type) WHERE id = ?;', (d.id,))
         if name != d.name:
             pass
         if price != d.price:
@@ -85,7 +87,7 @@ class Energy_drink_data():
         
         self.db.execute("""INSERT INTO drinks (name, producers, price, type) VALUES (?, ?, ?, ?);""", ('Monster Energy', 1, 20, 1))
         
-        self.db.execute("""INSERT INTO producers (name, location) VALUES (?, ?);""", ('Monster Energy', 'USA')) 
+        self.db.execute("""INSERT INTO producers (name, location) VALUES (?, ?);""", ('Monster_Energy', 'USA'))
 
         self.db.execute("""INSERT INTO drink_types (types) VALUES (?);""", ("Standard",))
 
