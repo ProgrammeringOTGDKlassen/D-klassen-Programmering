@@ -1,0 +1,2 @@
+python Energy_drinks_gui.py
+exit
