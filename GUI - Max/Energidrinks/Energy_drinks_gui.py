@@ -92,7 +92,9 @@ class Energy_drink_gui(ttk.Frame):
         print(producers)
 
 root = tk.Tk()
+root.iconbitmap('./Icon/icon_AQK_icon.ico')
 root.geometry('600x400')
+root.state('zoomed')
 
 app = Energy_drink_gui(root)
 app.master.title('Energidrikke')
