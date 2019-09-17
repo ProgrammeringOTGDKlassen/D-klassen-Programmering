@@ -25,7 +25,7 @@ class Energy_drink_gui(ttk.Frame):
             self.label_current_type.config(text = 'Type: {}'.format(cur_item[3]))
 
     def add_new(self):
-        e = Energy_drink(self.entry_name.get(), int(self.entry_price.get()), self.cb_producers.get(), self.entry_type.get())
+        e = Energy_drink(self.entry_name.get(), int(self.entry_price.get()), self.cb_producers.get(), self.cb_type.get())
         self.data.add_new_drink(e)
         self.update_label()
 
@@ -52,14 +52,16 @@ class Energy_drink_gui(ttk.Frame):
         self.entry_price = ttk.Entry(self.button_panel)
         self.entry_price.grid(row = 1, column = 2)
         producers = self.data.get_producer_list()
+        print(producers)
         label_producers = ttk.Label(self.button_panel, text = 'Producenter')
         label_producers.grid(row = 2, column = 1)
-        self.cb_producers = ttk.Combobox(self.button_panel, values = producers)
+        self.cb_producers = ttk.Combobox(self.button_panel, values = producers, state = 'readonly')
         self.cb_producers.grid(row = 2, column = 2)
-        self.label_type = ttk.Label(self.button_panel, text = 'Type')
-        self.label_type.grid(row = 3, column = 1)
-        self.entry_type = ttk.Entry(self.button_panel) 
-        self.entry_type.grid(row = 3, column = 2)
+        types = self.data.get_type_list()
+        label_type = ttk.Label(self.button_panel, text = 'Type')
+        label_type.grid(row = 3, column = 1)
+        self.cb_type = ttk.Combobox(self.button_panel, values = types, state = 'readonly') 
+        self.cb_type.grid(row = 3, column = 2)
         self.button_add = ttk.Button(self.button_panel, text = 'Tilføj energidrik', command = self.add_new)
         self.button_add.grid(row = 4, column = 1, columnspan = 2)
         
@@ -74,7 +76,7 @@ class Energy_drink_gui(ttk.Frame):
         self.button_delete = ttk.Button(self.button_panel, text = 'Fjern energidrik', command = self.delete_current_drink)
         self.button_delete.grid(row = 4, column = 3)
 
-        self.db_view = ttk.Treeview(self.data_panel, column = ('column1', 'column2', 'column3', 'column4', 'column5'), show = 'headings')
+        self.db_view = ttk.Treeview(self.data_panel, column = ('column1', 'column2', 'column3', 'column4', 'column5'), show = 'headings', height = 49)
         self.db_view.bind("<ButtonRelease-1>", self.on_drink_selected)
         self.db_view.heading('#1', text = 'Navn')
         self.db_view.heading('#2', text = 'Producent')
@@ -84,15 +86,18 @@ class Energy_drink_gui(ttk.Frame):
         self.db_view['displaycolumns'] = ('column1', 'column2', 'column3', 'column4')
         scroll_bar_y = ttk.Scrollbar(self.data_panel, command = self.db_view.yview, orient = tk.VERTICAL)
         self.db_view.configure(yscrollcommand = scroll_bar_y.set)
-        self.db_view.pack(side = tk.TOP)
+        self.db_view.pack(side = tk.RIGHT)
 
-        self.data_panel.pack(side = tk.TOP)
-        self.button_panel.pack(side = tk.LEFT)
+        self.data_panel.pack(side = tk.RIGHT)
+        self.button_panel.pack(side = tk.TOP)
         self.pack()
-        print(producers)
 
 root = tk.Tk()
+root.iconbitmap('./Icon/icon_AQK_icon.ico')
 root.geometry('600x400')
+root.state('zoomed')
+root.configure()
+
 
 app = Energy_drink_gui(root)
 app.master.title('Energidrikke')
