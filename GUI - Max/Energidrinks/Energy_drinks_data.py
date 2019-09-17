@@ -25,6 +25,15 @@ class Energy_drink_data():
             print((p[0],p[1]))
         return p_list
 
+    def get_type_list(self):
+        c = self.db.cursor()
+        c.execute('SELECT types FROM drink_types;')
+        t_list = []
+        for t in c:
+            t_list.append(t[0])
+            print(t[0])
+        return t_list
+
     def get_energy_drink_list(self):
         c = self.db.cursor()
         c.execute('SELECT d.name, p.name, d.price, dd.types, d.id FROM drinks d INNER JOIN producers p ON d.producers = p.id INNER JOIN drink_types dd ON d.type = dd.id;')
@@ -47,10 +56,20 @@ class Energy_drink_data():
         p = c.fetchone()
         return p[0]
 
+    def get_type_id(self, t):
+        c = self.db.cursor()
+        print(t)
+        c.execute('SELECT id FROM drink_types WHERE types = ?;', (t,))
+        e = c.fetchone()
+        print(e)
+        return e[0]
+
     def add_new_drink(self, d):
         p = self.get_producer_id(d.brand)
+        t = self.get_type_id(d.e_type)
+        print(t)
         c = self.db.cursor()
-        c.execute('INSERT INTO drinks (name, price, producers, type) VALUES (?, ?, ?, ?);', (d.name, d.price, p, d.e_type))
+        c.execute('INSERT INTO drinks (name, price, producers, type) VALUES (?, ?, ?, ?);', (d.name, d.price, p, t))
         self.db.commit()
 
     def edit_drink(self, d):
@@ -90,5 +109,6 @@ class Energy_drink_data():
         self.db.execute("""INSERT INTO producers (name, location) VALUES (?, ?);""", ('Monster_Energy', 'USA'))
 
         self.db.execute("""INSERT INTO drink_types (types) VALUES (?);""", ("Standard",))
+        self.db.execute("""INSERT INTO drink_types (types) VALUES (?);""", ("Sukkerfri",))
 
         self.db.commit()

@@ -25,7 +25,7 @@ class Energy_drink_gui(ttk.Frame):
             self.label_current_type.config(text = 'Type: {}'.format(cur_item[3]))
 
     def add_new(self):
-        e = Energy_drink(self.entry_name.get(), int(self.entry_price.get()), self.cb_producers.get(), self.entry_type.get())
+        e = Energy_drink(self.entry_name.get(), int(self.entry_price.get()), self.cb_producers.get(), self.cb_type.get())
         self.data.add_new_drink(e)
         self.update_label()
 
@@ -57,10 +57,11 @@ class Energy_drink_gui(ttk.Frame):
         label_producers.grid(row = 2, column = 1)
         self.cb_producers = ttk.Combobox(self.button_panel, values = producers, state = 'readonly')
         self.cb_producers.grid(row = 2, column = 2)
-        self.label_type = ttk.Label(self.button_panel, text = 'Type')
-        self.label_type.grid(row = 3, column = 1)
-        self.entry_type = ttk.Entry(self.button_panel) 
-        self.entry_type.grid(row = 3, column = 2)
+        types = self.data.get_type_list()
+        label_type = ttk.Label(self.button_panel, text = 'Type')
+        label_type.grid(row = 3, column = 1)
+        self.cb_type = ttk.Combobox(self.button_panel, values = types, state = 'readonly') 
+        self.cb_type.grid(row = 3, column = 2)
         self.button_add = ttk.Button(self.button_panel, text = 'Tilføj energidrik', command = self.add_new)
         self.button_add.grid(row = 4, column = 1, columnspan = 2)
         
