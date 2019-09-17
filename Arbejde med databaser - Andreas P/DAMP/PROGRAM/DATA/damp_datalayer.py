@@ -99,7 +99,7 @@ class DAMPData():
                 name TEXT,
                 description TEXT,
                 icon TEXT,
-                gamestats INTEGER,);""")
+                init_gamestats TEXT,);""")
 
             print('Tables created')
         except Exception as e:
@@ -109,19 +109,10 @@ class DAMPData():
         self.db.execute("""INSERT INTO users (name, username, password, country, active_years) VALUES ('Svend', 'Din mor', '4321', 'Denmark', 0);""")
 
         self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'gamesID_1_userID_1.json');""")
+        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'gamesID_2_userID_1.json');""")
+        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'gamesID_1_userID_2.json');""")
+        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'gamesID_2_userID_2.json');""")
 
-        self.db.execute("""INSERT INTO guitarister (navn) VALUES ('Wes Montgomery');""")
-        self.db.execute("""INSERT INTO guitarister (navn) VALUES ('Willie Nelson');""")
-        self.db.execute("""INSERT INTO guitarister (navn) VALUES ('Tom Morello');""")
-
-        self.db.execute("""INSERT INTO guitaristmodeller (guitarist_id, model_id) VALUES (1,2);""")
-        self.db.execute("""INSERT INTO guitaristmodeller (guitarist_id, model_id) VALUES (2,3);""")
-        self.db.execute("""INSERT INTO guitaristmodeller (guitarist_id, model_id) VALUES (3,2);""")
-        self.db.execute("""INSERT INTO guitaristmodeller (guitarist_id, model_id) VALUES (3,4);""")
-
-        self.db.execute("""INSERT INTO producenter (navn, lokation) VALUES ('Fender','USA');""")
-        self.db.execute("""INSERT INTO producenter (navn, lokation) VALUES ('Martin','USA');""")
-        self.db.execute("""INSERT INTO producenter (navn, lokation) VALUES ('Gibson','USA');""")
-
+        self.db.execute("""INSERT INTO games (name, description, icon, init_gamestats) VALUES ('Rocket League','A game with flying rocket cars','rocket_league.ico', 'rocket_league_init_gamestats.json');""")
 
         self.db.commit()
