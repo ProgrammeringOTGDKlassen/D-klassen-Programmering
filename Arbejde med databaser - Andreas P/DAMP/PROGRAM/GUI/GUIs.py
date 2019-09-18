@@ -41,12 +41,12 @@ class DampLoginGui(ttk.Frame):
 
 
     def launch_DAMP(self):
-        self.destroy()
+        self.master.destroy()
         loading.load_main_app()
 
 
     def launch_add_user(self):
-        self.destroy()
+        self.master.destroy()
         loading.load_add_user_app()
 
 
@@ -85,12 +85,13 @@ class DampAddUserGui(ttk.Frame):
 
 
     def launch_DAMP(self):
-        self.destroy()
+        self.master.destroy()
         loading.load_main_app()
 
 
     def launch_signin(self):
         self.destroy()
+        self.master.destroy()
         loading.load_login_app()
 
 
