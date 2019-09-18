@@ -71,6 +71,11 @@ class Energy_drink_data():
         c = self.db.cursor()
         c.execute('INSERT INTO drinks (name, price, producers, type) VALUES (?, ?, ?, ?);', (d.name, d.price, p, t))
         self.db.commit()
+    
+    def add_new_producer(self, n, l):
+        c = self.db.cursor()
+        c.execute('INSERT INTO producers (name, location) VALUES (?, ?);', (n, l))
+        self.db.commit()
 
     def edit_drink(self, d):
         c = self.db.cursor()
