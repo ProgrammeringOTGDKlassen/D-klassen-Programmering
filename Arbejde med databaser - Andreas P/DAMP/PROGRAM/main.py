@@ -18,13 +18,13 @@ from damp_datalayer import DAMPData
 
 
 # APP---------------------------------------------------------
-nav_to_folder_w_file('PROGRAM/DATA')
+nav_to_folder_w_file('PROGRAM/APP')
 import loading
 # ------------------------------------------------------------
 
 
 # LOCAL_FOLDER (this folder)----------------------------------
-nav_to_folder_w_file('PROGRAM/DATA')
+nav_to_folder_w_file('PROGRAM/GUI')
 from GUIs import *
 
 

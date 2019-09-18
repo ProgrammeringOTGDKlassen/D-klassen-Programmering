@@ -20,6 +20,7 @@ from damp_datalayer import DAMPData
 # APP---------------------------------------------------------
 nav_to_folder_w_file('APP')
 import loading
+from events import eventhandler
 # ------------------------------------------------------------
 
 
@@ -36,6 +37,7 @@ class DampLoginGui(ttk.Frame):
     def __init__(self, master=None):
         ttk.Frame.__init__(self, master)
         self.data = DAMPData()
+        self.app = eventhandler()
 
         self.build_GUI()
 
@@ -43,6 +45,15 @@ class DampLoginGui(ttk.Frame):
     def launch_DAMP(self):
         self.master.destroy()
         loading.load_main_app()
+
+
+    def sign_in(self):
+        username = self.name_entry.get()
+        password = self.pass_entry.get()
+        valid = self.app.check_correct_password(username = username, password = password)
+        if valid:
+            print('Lortet virker!')
+            self.launch_DAMP()
 
 
     def launch_add_user(self):
@@ -57,7 +68,7 @@ class DampLoginGui(ttk.Frame):
         self.password_label = tk.Label(self, text = 'Password')
         self.name_entry = tk.Entry(self)
         self.pass_entry = tk.Entry(self)
-        self.but_sign_in = ttk.Button(self, text = 'Sign In', command = self.launch_DAMP)
+        self.but_sign_in = ttk.Button(self, text = 'Sign In', command = self.sign_in)
         self.create_user_label = tk.Label(self, text = "Don't have an account?")
         self.but_create_user = ttk.Button(self, text = 'Create User', command = self.launch_add_user)
 

@@ -63,19 +63,23 @@ class DAMPData():
         pass
 
 
-    def check_correct_password(self, user: User):
-        pass
+    def check_correct_password(self, username: str, password: str):
+        c = self.db.cursor()
+        c.execute('SELECT password FROM users WHERE navn = ?', (username,))
+        if c == password:
+            return True
+        else:
+            return False
 
     
     def create_tables(self):
         try:
             self.db.execute("""DROP TABLE IF EXISTS users;""")
-            self.db.execute("""DROP TABLE IF EXISTS games;""")
-            self.db.execute("""DROP TABLE IF EXISTS usersStats;""")
             self.db.execute("""DROP TABLE IF EXISTS userLibrary;""")
+            self.db.execute("""DROP TABLE IF EXISTS games;""")
 
 
-            print('Table dropped')
+            print('Tables dropped')
         except Exception as e:
             print(f'Error with deletion of tables: {e}')
 
@@ -99,7 +103,7 @@ class DAMPData():
                 name TEXT,
                 description TEXT,
                 icon TEXT,
-                init_gamestats TEXT,);""")
+                init_gamestats TEXT);""")
 
             print('Tables created')
         except Exception as e:
@@ -108,11 +112,11 @@ class DAMPData():
         self.db.execute("""INSERT INTO users (name, username, password, country, active_years) VALUES ('Andreas', 'TheLegend27', '1234', 'Denmark', 0);""")
         self.db.execute("""INSERT INTO users (name, username, password, country, active_years) VALUES ('Svend', 'Din mor', '4321', 'Denmark', 0);""")
 
-        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'gamesID_1_userID_1.json');""")
-        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'gamesID_2_userID_1.json');""")
-        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'gamesID_1_userID_2.json');""")
-        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'gamesID_2_userID_2.json');""")
+        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'./DATA/user_gamestats/userID-1_gamesID-1.json');""")
+        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'./DATA/user_gamestats/userID-1_gamesID-2.json');""")
+        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'./DATA/user_gamestats/userID-2_gamesID-1.json');""")
+        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'./DATA/user_gamestats/userID-2_gamesID-2.json');""")
 
-        self.db.execute("""INSERT INTO games (name, description, icon, init_gamestats) VALUES ('Rocket League','A game with flying rocket cars','rocket_league.ico', 'rocket_league_init_gamestats.json');""")
+        self.db.execute("""INSERT INTO games (name, description, icon, init_gamestats) VALUES ('Rocket League','A game with flying rocket cars','rocket_league.ico', './DATA/init_ganestats/rocket_league_init_gamestats.json');""")
 
         self.db.commit()
