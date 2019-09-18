@@ -30,6 +30,10 @@ class Energy_drink_gui(ttk.Frame):
         self.cb_producers.set('')
         self.cb_type.set('')
 
+    def clear_producer_entry(self):
+        self.entry_producer_name.delete(0, tk.END)
+        self.entry_producer_location.delete(0, tk.END)
+
     def add_new_drink(self):
         e = Energy_drink(self.entry_name.get(), int(self.entry_price.get()), self.cb_producers.get(), self.cb_type.get())
         self.data.add_new_drink(e)
@@ -38,6 +42,10 @@ class Energy_drink_gui(ttk.Frame):
 
     def add_new_producer(self):
         self.data.add_new_producer(self.entry_producer_name.get(), self.entry_producer_location.get())
+        producers = self.data.get_producer_list()
+        self.cb_producers = ttk.Combobox(self.button_panel, values = producers, state = 'readonly')
+        self.cb_producers.grid(row = 2, column = 2, pady = (0,5))
+        self.clear_producer_entry()
 
     def delete_current_drink(self):
         cur_item = self.db_view.focus()
@@ -48,6 +56,7 @@ class Energy_drink_gui(ttk.Frame):
     def build_GUI(self):
         self.data_panel = ttk.Frame(self)
         self.button_panel = ttk.Frame(self)
+        self.button_panel.grid_columnconfigure(3, minsize = 200)
         self.drinks_label = ttk.Label(self.button_panel, text = 'Der er {} registrede energidrikke i databasen'.format(None))
         self.drinks_label.grid(row = 0, column = 0)
         self.button_update = ttk.Button(self.button_panel, text = 'Opdater', command = self.update_label)
@@ -55,11 +64,11 @@ class Energy_drink_gui(ttk.Frame):
 
         self.label_name = ttk.Label(self.button_panel, text = 'Navn')
         self.label_name.grid(row = 0, column = 1)
-        self.entry_name = ttk.Entry(self.button_panel)
+        self.entry_name = ttk.Entry(self.button_panel, width = 23)
         self.entry_name.grid(row = 0, column = 2, pady = (0,5))
         self.label_price = ttk.Label(self.button_panel, text = 'Pris')
         self.label_price.grid(row = 1, column = 1)
-        self.entry_price = ttk.Entry(self.button_panel)
+        self.entry_price = ttk.Entry(self.button_panel, width = 23)
         self.entry_price.grid(row = 1, column = 2, pady = (0,5))
         producers = self.data.get_producer_list()
         print(producers)
@@ -77,11 +86,11 @@ class Energy_drink_gui(ttk.Frame):
 
         self.label_producer_name = ttk.Label(self.button_panel, text = 'Producentens navn')
         self.label_producer_name.grid(row = 6, column = 1)
-        self.entry_producer_name = ttk.Entry(self.button_panel)
+        self.entry_producer_name = ttk.Entry(self.button_panel, width = 23)
         self.entry_producer_name.grid(row = 6, column = 2, pady = (0,5))
         self.label_producer_location = ttk.Label(self.button_panel, text = 'Producentens lokation')
-        self.label_producer_location.grid(row = 7, column = 1)
-        self.entry_producer_location = ttk.Entry(self.button_panel)
+        self.label_producer_location.grid(row = 7, column = 1, padx = (0,17))
+        self.entry_producer_location = ttk.Entry(self.button_panel, width = 23)
         self.entry_producer_location.grid(row = 7, column = 2, pady = (0,5))
         self.button_add_producer = ttk.Button(self.button_panel, text = 'Tilføj producent', command = self.add_new_producer)
         self.button_add_producer.grid(row = 8, column = 2, pady = (0,20))
