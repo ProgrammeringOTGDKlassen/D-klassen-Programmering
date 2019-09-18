@@ -44,11 +44,6 @@ class Energy_drink_data():
             d_list.append(drink)
         return d_list
 
-    def delete_drink(self, id):
-        c = self.db.cursor()
-        c.execute('DELETE FROM drinks WHERE id = ?;', (id,))
-        self.db.commit()
-
     def get_producer_id(self, p):
         c = self.db.cursor()
         print(p)
@@ -88,6 +83,19 @@ class Energy_drink_data():
         if producer != d.producer:
             pass
     
+    def delete_drink(self, id):
+        c = self.db.cursor()
+        c.execute('DELETE FROM drinks WHERE id = ?;', (id,))
+        self.db.commit()
+
+    def delete_producer(self, p):
+        d = self.get_producer_id(p)
+        c = self.db.cursor()
+        c.execute('DELETE FROM drinks WHERE producers = ?;', (d,))
+        c.execute('DELETE FROM producers WHERE id = ?;', (d,))
+        self.db.commit()
+
+
     def create_tables(self):
         try:
             self.db.execute("""DROP TABLE IF EXISTS drinks;""")

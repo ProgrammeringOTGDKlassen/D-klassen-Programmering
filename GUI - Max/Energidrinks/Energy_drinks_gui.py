@@ -45,6 +45,8 @@ class Energy_drink_gui(ttk.Frame):
         producers = self.data.get_producer_list()
         self.cb_producers = ttk.Combobox(self.button_panel, values = producers, state = 'readonly')
         self.cb_producers.grid(row = 2, column = 2, pady = (0,5))
+        self.cb_delete_producers = ttk.Combobox(self.button_panel, values = producers, state = 'readonly')
+        self.cb_delete_producers.grid(row = 9, column = 2)
         self.clear_producer_entry()
 
     def delete_current_drink(self):
@@ -52,10 +54,21 @@ class Energy_drink_gui(ttk.Frame):
         if len(self.db_view.item(cur_item)['values']) >=4:
             self.data.delete_drink(self.db_view.item(cur_item)['values'][4])
         self.update_label()
+
+    def delete_producer(self):
+        self.data.delete_producer(self.cb_delete_producers.get())
+        self.update_label()
+        producers = self.data.get_producer_list()
+        self.cb_producers = ttk.Combobox(self.button_panel, values = producers, state = 'readonly')
+        self.cb_producers.grid(row = 2, column = 2, pady = (0,5))
+        self.cb_delete_producers = ttk.Combobox(self.button_panel, values = producers, state = 'readonly')
+        self.cb_delete_producers.grid(row = 9, column = 2)
+        self.cb_delete_producers.set('')
     
     def build_GUI(self):
         self.data_panel = ttk.Frame(self)
         self.button_panel = ttk.Frame(self)
+
         self.button_panel.grid_columnconfigure(3, minsize = 200)
         self.drinks_label = ttk.Label(self.button_panel, text = 'Der er {} registrede energidrikke i databasen'.format(None))
         self.drinks_label.grid(row = 0, column = 0)
@@ -106,6 +119,13 @@ class Energy_drink_gui(ttk.Frame):
         self.button_delete = ttk.Button(self.button_panel, text = 'Fjern energidrik', command = self.delete_current_drink)
         self.button_delete.grid(row = 4, column = 3)
 
+        self.label_producer = ttk.Label(self.button_panel, text = 'Producent')
+        self.label_producer.grid(row = 9, column = 1)
+        self.cb_delete_producers = ttk.Combobox(self.button_panel, values = producers, state = 'readonly')
+        self.cb_delete_producers.grid(row = 9, column = 2)
+        self.button_delete_producer = ttk.Button(self.button_panel, text = 'Fjern producent', command = self.delete_producer)
+        self.button_delete_producer.grid(row = 10, column = 2)
+
         self.db_view = ttk.Treeview(self.data_panel, column = ('column1', 'column2', 'column3', 'column4', 'column5'), show = 'headings', height = 49)
         self.db_view.bind("<ButtonRelease-1>", self.on_drink_selected)
         self.db_view.heading('#1', text = 'Navn')
@@ -117,7 +137,6 @@ class Energy_drink_gui(ttk.Frame):
         scroll_bar_y = ttk.Scrollbar(self.data_panel, command = self.db_view.yview, orient = tk.VERTICAL)
         self.db_view.configure(yscrollcommand = scroll_bar_y.set)
         self.db_view.pack(side = tk.RIGHT)
-
         self.data_panel.pack(side = tk.RIGHT)
         self.button_panel.pack(side = tk.TOP)
         self.pack()
@@ -127,7 +146,6 @@ root.iconbitmap('./Icon/icon_AQK_icon.ico')
 root.geometry('1920x1080')
 root.state('zoomed')
 root.configure()
-
 
 app = Energy_drink_gui(root)
 app.master.title('Energidrikke')
