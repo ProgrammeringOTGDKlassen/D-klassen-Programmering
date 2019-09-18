@@ -34,16 +34,15 @@ class eventhandler():
     c = self.db.cursor()
     if not username or not password:
       return False
-    c.execute('SELECT password FROM users WHERE username = ?', (username,))
+    c.execute('SELECT password, id FROM users WHERE username = ?', (username,))
     p = c.fetchone()
     if p[0] == password:
-        return True
+        return True, p[1]
     else:
-        return False
+        return False, None
 
 
   def check_paramators_add_user(self, user):
-    print(user)
     if not user.name or not user.email or not user.country or not user.username or not user.password:
       return False
     else:

@@ -122,7 +122,7 @@ def load_add_user_app():
     app.mainloop()
 
 
-def load_main_app():
+def load_main_app(userID):
 
     loading_screen()
 
@@ -135,7 +135,7 @@ def load_main_app():
     root.state('zoomed')
 
     # defines the app inheriting root as base
-    app = DampGui(root)
+    app = DampGui(root, userID)
     # sets the title of the app
     app.master.title('DAMP')
     # starts the app

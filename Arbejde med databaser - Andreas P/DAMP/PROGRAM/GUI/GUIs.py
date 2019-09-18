@@ -42,9 +42,9 @@ class DampLoginGui(ttk.Frame):
         self.build_GUI()
 
 
-    def launch_DAMP(self):
+    def launch_DAMP(self, userID):
         self.master.destroy()
-        loading.load_main_app()
+        loading.load_main_app(userID)
 
 
     def returning(self, event):
@@ -54,9 +54,9 @@ class DampLoginGui(ttk.Frame):
     def sign_in(self):
         username = self.name_entry.get()
         password = self.pass_entry.get()
-        valid = self.app_evnethandler.check_correct_password(username = username, password = password)
-        if valid:
-            self.launch_DAMP()
+        valid, userID = self.app_evnethandler.check_correct_password(username = username, password = password)
+        if valid and userID != None:
+            self.launch_DAMP(userID)
         else:
             print('Forkert!')
 
@@ -113,16 +113,17 @@ class DampAddUserGui(ttk.Frame):
             u = User(self.name_entry.get(), self.mail_entry.get(), self.country_entry.get(), self.username_entry.get(), self.password_entry.get(), 0)
             correct_parameters = self.app_evnethandler.check_paramators_add_user(u)
             if correct_parameters:
-                self.data.add_user(u)
+                userID = self.data.add_user(u)
+                self.launch_DAMP(userID)
             else:
                 print('Not all paramaters has been met')
         else:
             print('Not the same password')
 
 
-    def launch_DAMP(self):
+    def launch_DAMP(self, userID):
         self.master.destroy()
-        loading.load_main_app()
+        loading.load_main_app(userID)
 
 
     def launch_signin(self):
@@ -147,7 +148,7 @@ class DampAddUserGui(ttk.Frame):
         self.password_entry = tk.Entry(self)
         self.re_password_entry = tk.Entry(self)
 
-        self.but_sign_in = ttk.Button(self, text = 'Sign Up', command = self.launch_DAMP)
+        self.but_sign_in = ttk.Button(self, text = 'Sign Up', command = self.add_user)
         self.create_user_label = tk.Label(self, text = "Already have an account?")
         self.but_create_user = ttk.Button(self, text = 'Sign In', command = self.launch_signin)
 
@@ -179,13 +180,14 @@ class DampAddUserGui(ttk.Frame):
 # main GUI
 class DampGui(ttk.Frame):
 
-    def __init__(self, master=None):
+    def __init__(self, master=None, userID=None):
         ttk.Frame.__init__(self, master)
         self.data = DAMPData()
+        self.userID = userID
 
         self.build_GUI()
 
 
     def build_GUI(self):
-        pass
+        print(self.userID)
 

@@ -71,7 +71,10 @@ class DAMPData():
     def add_user(self, user: User):
         c = self.db.cursor()
         c.execute("""INSERT INTO users (name, email, country, username, password, active_years) VALUES (?, ?, ?, ?, ?, ?);""", (user.name, user.email, user.country, user.username, user.password, user.active_years))
+        userID = c.lastrowid
         self.db.commit()
+
+        return userID
 
 
     def create_tables(self):
