@@ -5,7 +5,6 @@ class Energy_drink_gui(ttk.Frame):
     def __init__(self, master = None):
         ttk.Frame.__init__(self, master)
         self.data = Energy_drink_data()
-        self.data.create_tables()
         self.build_GUI()
         self.update_label()
 
@@ -33,6 +32,16 @@ class Energy_drink_gui(ttk.Frame):
     def clear_producer_entry(self):
         self.entry_producer_name.delete(0, tk.END)
         self.entry_producer_location.delete(0, tk.END)
+    
+    def clear_current_drink_label(self):
+        self.label_current_name = ttk.Label(self.button_panel, text = 'Navn: ')
+        self.label_current_name.grid(row = 0, column = 3)
+        self.label_current_producer = ttk.Label(self.button_panel, text = 'Producent: ')
+        self.label_current_producer.grid(row = 1, column = 3)
+        self.label_current_price = ttk.Label(self.button_panel, text = 'Pris: ')
+        self.label_current_price.grid(row = 2, column = 3)
+        self.label_current_type = ttk.Label(self.button_panel, text = 'Type: ')
+        self.label_current_type.grid(row = 3, column = 3)
 
     def add_new_drink(self):
         e = Energy_drink(self.entry_name.get(), int(self.entry_price.get()), self.cb_producers.get(), self.cb_type.get())
@@ -54,6 +63,7 @@ class Energy_drink_gui(ttk.Frame):
         if len(self.db_view.item(cur_item)['values']) >=4:
             self.data.delete_drink(self.db_view.item(cur_item)['values'][4])
         self.update_label()
+        self.clear_current_drink_label()
 
     def delete_producer(self):
         self.data.delete_producer(self.cb_delete_producers.get())
@@ -84,7 +94,6 @@ class Energy_drink_gui(ttk.Frame):
         self.entry_price = ttk.Entry(self.button_panel, width = 23)
         self.entry_price.grid(row = 1, column = 2, pady = (0,5))
         producers = self.data.get_producer_list()
-        print(producers)
         label_producers = ttk.Label(self.button_panel, text = 'Producenter')
         label_producers.grid(row = 2, column = 1)
         self.cb_producers = ttk.Combobox(self.button_panel, values = producers, state = 'readonly')
@@ -143,9 +152,8 @@ class Energy_drink_gui(ttk.Frame):
 
 root = tk.Tk()
 root.iconbitmap('./Icon/icon_AQK_icon.ico')
-root.geometry('1920x1080')
+root.geometry('1280x720')
 root.state('zoomed')
-root.configure()
 
 app = Energy_drink_gui(root)
 app.master.title('Energidrikke')
