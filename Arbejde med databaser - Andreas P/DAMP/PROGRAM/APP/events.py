@@ -24,12 +24,34 @@ from damp_datalayer import DAMPData
 nav_to_folder_w_file('APP')
 
 
-class eventhandler(DAMPData):
+class eventhandler():
   
+  def __init__(self, data):
+    self.data = data
+    self.db = data.db
+
   def check_correct_password(self, username: str, password: str):
-        c = self.db.cursor()
-        c.execute('SELECT password FROM users WHERE navn = ?', (username,))
-        if c == password:
-            return True
-        else:
-            return False
+    c = self.db.cursor()
+    if not username or not password:
+      return False
+    c.execute('SELECT password FROM users WHERE username = ?', (username,))
+    p = c.fetchone()
+    if p[0] == password:
+        return True
+    else:
+        return False
+
+
+  def check_paramators_add_user(self, user):
+    print(user)
+    if not user.name or not user.email or not user.country or not user.username or not user.password:
+      return False
+    else:
+      return True
+  
+
+  def check_same_password(self, password, re_password):
+    if password == re_password:
+      return True
+    else:
+      return False

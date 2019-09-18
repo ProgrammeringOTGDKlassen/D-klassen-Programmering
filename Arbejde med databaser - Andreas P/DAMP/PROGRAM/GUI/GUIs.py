@@ -13,7 +13,7 @@ def nav_to_folder_w_file(folder_path: str):
 
 # DATA--------------------------------------------------------
 nav_to_folder_w_file('DATA')
-from damp_datalayer import DAMPData
+from damp_datalayer import DAMPData, User, Game
 # ------------------------------------------------------------
 
 
@@ -37,7 +37,7 @@ class DampLoginGui(ttk.Frame):
     def __init__(self, master=None):
         ttk.Frame.__init__(self, master)
         self.data = DAMPData()
-        self.app = eventhandler()
+        self.app_evnethandler = eventhandler(self.data)
 
         self.build_GUI()
 
@@ -47,13 +47,18 @@ class DampLoginGui(ttk.Frame):
         loading.load_main_app()
 
 
+    def returning(self, event):
+        self.sign_in()
+
+
     def sign_in(self):
         username = self.name_entry.get()
         password = self.pass_entry.get()
-        valid = self.app.check_correct_password(username = username, password = password)
+        valid = self.app_evnethandler.check_correct_password(username = username, password = password)
         if valid:
-            print('Lortet virker!')
             self.launch_DAMP()
+        else:
+            print('Forkert!')
 
 
     def launch_add_user(self):
@@ -83,6 +88,8 @@ class DampLoginGui(ttk.Frame):
         self.create_user_label.grid(row = 4, sticky = tk.E, pady=(20, 10))
         self.but_create_user.grid(row = 4, column = 1, pady=(20, 10))
 
+        self.master.bind('<Return>', self.returning)
+
         self.pack()
 
 
@@ -91,8 +98,26 @@ class DampAddUserGui(ttk.Frame):
     def __init__(self, master=None):
         ttk.Frame.__init__(self, master)
         self.data = DAMPData()
+        self.app_evnethandler = eventhandler(self.data)
 
         self.build_GUI()
+
+
+    def returning(self, event):
+        self.add_user()
+
+
+    def add_user(self):
+        same_password = self.app_evnethandler.check_same_password(self.password_entry.get(), self.re_password_entry.get())
+        if same_password:
+            u = User(self.name_entry.get(), self.mail_entry.get(), self.country_entry.get(), self.username_entry.get(), self.password_entry.get(), 0)
+            correct_parameters = self.app_evnethandler.check_paramators_add_user(u)
+            if correct_parameters:
+                self.data.add_user(u)
+            else:
+                print('Not all paramaters has been met')
+        else:
+            print('Not the same password')
 
 
     def launch_DAMP(self):
@@ -145,6 +170,8 @@ class DampAddUserGui(ttk.Frame):
 
         self.create_user_label.grid(row = 7, sticky = tk.E, pady=(20, 10))
         self.but_create_user.grid(row = 7, column = 1, pady=(20, 10))
+
+        self.master.bind('<Return>', self.returning)
 
         self.pack()
 
