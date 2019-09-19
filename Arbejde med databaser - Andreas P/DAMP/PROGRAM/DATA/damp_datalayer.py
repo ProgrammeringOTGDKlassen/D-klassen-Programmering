@@ -1,6 +1,8 @@
 import sqlite3
+from cryptography.fernet import Fernet
 
 import sys, os
+
 
 def nav_to_folder_w_file(folder_path: str):
     abs_file_path = os.path.abspath(__file__)                # Absolute Path of the module
@@ -24,7 +26,7 @@ nav_to_folder_w_file('APP')
 
 # LOCAL_FOLDER (this folder)----------------------------------
 nav_to_folder_w_file('DATA')
-
+import password_manager
 
 class User():
 
@@ -66,8 +68,9 @@ class DAMPData():
 
     def __init__(self):
         self.db = sqlite3.connect('./DATA/DAMPData.db')
+        self.pass_key = password_manager.read_key()
 
-    
+
     def add_user(self, user: User):
         c = self.db.cursor()
         c.execute("""INSERT INTO users (name, email, country, username, password, active_years) VALUES (?, ?, ?, ?, ?, ?);""", (user.name, user.email, user.country, user.username, user.password, user.active_years))
@@ -75,6 +78,33 @@ class DAMPData():
         self.db.commit()
 
         return userID
+
+
+    def get_user_from_id(self, id: int):
+        c = self.db.cursor()
+        c.execute("""SELECT name, email, country, username, password, active_years FROM users WHERE id = ?""", (id,))
+        u = c.fetchone()
+        user = User(name = u[0], email = u[1], country = u[2], username = u[3], password = u[4], active_years = u[5])
+        return user
+
+
+    def encrypt_password(self, password: str):
+        # encode password
+        encoded = password.encode()
+
+        # encrypt password
+        f = Fernet(self.pass_key)
+        encrypted = f.encrypt(encoded)
+
+        return encrypted
+
+
+    def decrypt_password(self, encrypted_password):
+        f = Fernet(self.pass_key)
+        decrypted = f.decrypt(encrypted_password)
+        decoded = decrypted.decode()
+        return decoded
+
 
 
     def create_tables(self):
@@ -115,8 +145,14 @@ class DAMPData():
         except Exception as e:
             print(f'Table already exists: {e}')
 
-        self.db.execute("""INSERT INTO users (name, email, country, username, password, active_years) VALUES ('Andreas', 'andreasgdp@gmail.com', 'Denmark', 'TheLegend27', '1234', 0);""")
-        self.db.execute("""INSERT INTO users (name, email, country, username, password, active_years) VALUES ('Svend', 'din_mor@gmail.com', 'Denmark', 'Din mor', '4321', 0);""")
+        first_password = '1234'
+        second_password = '4321'
+
+        first_password = self.encrypt_password(first_password)
+        second_password = self.encrypt_password(second_password)
+
+        self.db.execute("""INSERT INTO users (name, email, country, username, password, active_years) VALUES ('Andreas', 'andreasgdp@gmail.com', 'Denmark', 'TheLegend27', ?, 0);""", (first_password,))
+        self.db.execute("""INSERT INTO users (name, email, country, username, password, active_years) VALUES ('Svend', 'din_mor@gmail.com', 'Denmark', 'Din mor', ?, 0);""", (second_password,))
 
         self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'./DATA/user_gamestats/userID-1_gamesID-1.json');""")
         self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'./DATA/user_gamestats/userID-1_gamesID-2.json');""")

@@ -1,5 +1,6 @@
 import sys, os
 
+
 def nav_to_folder_w_file(folder_path: str):
     abs_file_path = os.path.abspath(__file__)                # Absolute Path of the module
     file_dir = os.path.dirname(os.path.abspath(__file__))   # Directory of the Module
@@ -30,13 +31,15 @@ class eventhandler():
     self.data = data
     self.db = data.db
 
+
   def check_correct_password(self, username: str, password: str):
     c = self.db.cursor()
     if not username or not password:
       return False
     c.execute('SELECT password, id FROM users WHERE username = ?', (username,))
     p = c.fetchone()
-    if p[0] == password:
+    data_password = self.data.decrypt_password(p[0])
+    if data_password == password:
         return True, p[1]
     else:
         return False, None
@@ -47,7 +50,7 @@ class eventhandler():
       return False
     else:
       return True
-  
+
 
   def check_same_password(self, password, re_password):
     if password == re_password:

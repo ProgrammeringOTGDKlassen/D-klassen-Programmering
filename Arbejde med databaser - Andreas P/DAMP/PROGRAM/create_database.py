@@ -2,6 +2,7 @@ import sqlite3
 
 import sys, os
 
+
 def nav_to_folder_w_file(folder_path: str):
     abs_file_path = os.path.abspath(__file__)                # Absolute Path of the module
     file_dir = os.path.dirname(os.path.abspath(__file__))   # Directory of the Module

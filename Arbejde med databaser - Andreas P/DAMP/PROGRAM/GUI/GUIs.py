@@ -3,6 +3,7 @@ import tkinter.ttk as ttk
 
 import sys, os
 
+
 def nav_to_folder_w_file(folder_path: str):
     abs_file_path = os.path.abspath(__file__)                # Absolute Path of the module
     file_dir = os.path.dirname(os.path.abspath(__file__))   # Directory of the Module
@@ -95,6 +96,7 @@ class DampLoginGui(ttk.Frame):
 
 # separate GUI as the "add-user"-screen
 class DampAddUserGui(ttk.Frame):
+
     def __init__(self, master=None):
         ttk.Frame.__init__(self, master)
         self.data = DAMPData()
@@ -110,7 +112,8 @@ class DampAddUserGui(ttk.Frame):
     def add_user(self):
         same_password = self.app_evnethandler.check_same_password(self.password_entry.get(), self.re_password_entry.get())
         if same_password:
-            u = User(self.name_entry.get(), self.mail_entry.get(), self.country_entry.get(), self.username_entry.get(), self.password_entry.get(), 0)
+            encrypt_password = self.data.encrypt_password(self.password_entry.get())
+            u = User(self.name_entry.get(), self.mail_entry.get(), self.country_entry.get(), self.username_entry.get(), encrypt_password, 0)
             correct_parameters = self.app_evnethandler.check_paramators_add_user(u)
             if correct_parameters:
                 userID = self.data.add_user(u)
@@ -185,9 +188,30 @@ class DampGui(ttk.Frame):
         self.data = DAMPData()
         self.userID = userID
 
+        self.get_user()
         self.build_GUI()
 
 
+    def get_user(self):
+        # defining the active user
+        self.a_user = self.data.get_user_from_id(self.userID)
+
+
     def build_GUI(self):
-        print(self.userID)
+        self.name_label = tk.Label(self, text = f'{self.a_user.name}')
+        self.mail_label = tk.Label(self, text = f'{self.a_user.email}')
+        self.country_label = tk.Label(self, text = f'{self.a_user.country}')
+        self.username_label = tk.Label(self, text = f'{self.a_user.username}')
+        self.password_label = tk.Label(self, text = f'{self.a_user.password}')
+        self.re_password_label = tk.Label(self, text = f'{self.a_user.active_years}')
+
+
+        self.name_label.grid(row = 0, sticky = tk.E)
+        self.mail_label.grid(row = 1, sticky = tk.E)
+        self.country_label.grid(row = 2, sticky = tk.E)
+        self.username_label.grid(row = 3, sticky = tk.E)
+        self.password_label.grid(row = 4, sticky = tk.E)
+        self.re_password_label.grid(row = 5, sticky = tk.E)
+
+        self.pack()
 
