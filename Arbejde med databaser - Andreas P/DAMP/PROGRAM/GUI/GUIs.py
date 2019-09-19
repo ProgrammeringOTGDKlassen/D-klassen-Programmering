@@ -3,6 +3,7 @@ import tkinter.ttk as ttk
 
 import sys, os
 
+
 def nav_to_folder_w_file(folder_path: str):
     abs_file_path = os.path.abspath(__file__)                # Absolute Path of the module
     file_dir = os.path.dirname(os.path.abspath(__file__))   # Directory of the Module
@@ -95,6 +96,7 @@ class DampLoginGui(ttk.Frame):
 
 # separate GUI as the "add-user"-screen
 class DampAddUserGui(ttk.Frame):
+
     def __init__(self, master=None):
         ttk.Frame.__init__(self, master)
         self.data = DAMPData()
@@ -192,6 +194,7 @@ class DampGui(ttk.Frame):
     def get_user(self):
         # defining the active user
         self.a_user = self.data.get_user_from_id(self.userID)
+
 
     def build_GUI(self):
         self.name_label = tk.Label(self, text = f'{self.a_user.name}')
