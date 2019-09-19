@@ -1,9 +1,9 @@
 from Energy_drinks_data import Energy_drink, Energy_drink_data
 import tkinter as tk
 import tkinter.ttk as ttk
-class Energy_drink_gui(ttk.Frame):
+class Energy_drink_gui(tk.Frame):
     def __init__(self, master = None):
-        ttk.Frame.__init__(self, master)
+        tk.Frame.__init__(self, master)
         self.data = Energy_drink_data()
         self.build_GUI()
         self.update_label()
@@ -76,8 +76,8 @@ class Energy_drink_gui(ttk.Frame):
         self.cb_delete_producers.set('')
     
     def build_GUI(self):
-        self.data_panel = ttk.Frame(self)
-        self.button_panel = ttk.Frame(self)
+        self.data_panel = tk.Frame(self, bg = "black")
+        self.button_panel = tk.Frame(self, bg = "red")
 
         self.button_panel.grid_columnconfigure(3, minsize = 200)
         self.drinks_label = ttk.Label(self.button_panel, text = 'Der er {} registrede energidrikke i databasen'.format(None))
