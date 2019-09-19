@@ -76,6 +76,12 @@ class DAMPData():
 
         return userID
 
+    def get_user_from_id(self, id):
+        c = self.db.cursor()
+        c.execute("""SELECT name, email, country, username, password, active_years FROM users WHERE id = ?""", (id,))
+        u = c.fetchone()
+        user = User(name = u[0], email = u[1], country = u[2], username = u[3], password = u[4], active_years = u[5])
+        return user
 
     def create_tables(self):
         try:

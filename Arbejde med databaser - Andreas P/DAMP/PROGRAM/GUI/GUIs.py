@@ -185,9 +185,29 @@ class DampGui(ttk.Frame):
         self.data = DAMPData()
         self.userID = userID
 
+        self.get_user()
         self.build_GUI()
 
 
+    def get_user(self):
+        # defining the active user
+        self.a_user = self.data.get_user_from_id(self.userID)
+
     def build_GUI(self):
-        print(self.userID)
+        self.name_label = tk.Label(self, text = f'{self.a_user.name}')
+        self.mail_label = tk.Label(self, text = f'{self.a_user.email}')
+        self.country_label = tk.Label(self, text = f'{self.a_user.country}')
+        self.username_label = tk.Label(self, text = f'{self.a_user.username}')
+        self.password_label = tk.Label(self, text = f'{self.a_user.password}')
+        self.re_password_label = tk.Label(self, text = f'{self.a_user.active_years}')
+
+
+        self.name_label.grid(row = 0, sticky = tk.E)
+        self.mail_label.grid(row = 1, sticky = tk.E)
+        self.country_label.grid(row = 2, sticky = tk.E)
+        self.username_label.grid(row = 3, sticky = tk.E)
+        self.password_label.grid(row = 4, sticky = tk.E)
+        self.re_password_label.grid(row = 5, sticky = tk.E)
+
+        self.pack()
 
