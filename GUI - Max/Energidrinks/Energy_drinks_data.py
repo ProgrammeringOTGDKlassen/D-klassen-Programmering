@@ -66,17 +66,6 @@ class Energy_drink_data():
         c = self.db.cursor()
         c.execute('INSERT INTO producers (name, location) VALUES (?, ?);', (n, l))
         self.db.commit()
-
-    def edit_drink(self, d):
-        c = self.db.cursor()
-        d_id = d.id
-        name, price, producer, e_type = c.execute('SELECT FROM drinks (name, price, producers, type) WHERE id = ?;', (d.id,))
-        if name != d.name:
-            pass
-        if price != d.price:
-            pass
-        if producer != d.producer:
-            pass
     
     def delete_drink(self, id):
         c = self.db.cursor()
