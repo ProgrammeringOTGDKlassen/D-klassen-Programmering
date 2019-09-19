@@ -112,7 +112,8 @@ class DampAddUserGui(ttk.Frame):
     def add_user(self):
         same_password = self.app_evnethandler.check_same_password(self.password_entry.get(), self.re_password_entry.get())
         if same_password:
-            u = User(self.name_entry.get(), self.mail_entry.get(), self.country_entry.get(), self.username_entry.get(), self.password_entry.get(), 0)
+            encrypt_password = self.data.encrypt_password(self.password_entry.get())
+            u = User(self.name_entry.get(), self.mail_entry.get(), self.country_entry.get(), self.username_entry.get(), encrypt_password, 0)
             correct_parameters = self.app_evnethandler.check_paramators_add_user(u)
             if correct_parameters:
                 userID = self.data.add_user(u)
