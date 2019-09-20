@@ -21,7 +21,7 @@ from damp_datalayer import DAMPData, User, Game
 # APP---------------------------------------------------------
 nav_to_folder_w_file('APP')
 import loading
-from events import eventhandler
+from events import Eventhandler
 # ------------------------------------------------------------
 
 
@@ -31,7 +31,7 @@ class DampLoginGui(ttk.Frame):
     def __init__(self, master=None):
         ttk.Frame.__init__(self, master)
         self.data = DAMPData()
-        self.app_evnethandler = eventhandler(self.data)
+        self.app_evnethandler = Eventhandler(self.data)
 
         self.build_GUI()
 
@@ -92,12 +92,13 @@ class DampAddUserGui(ttk.Frame):
     def __init__(self, master=None):
         ttk.Frame.__init__(self, master)
         self.data = DAMPData()
-        self.app_evnethandler = eventhandler(self.data)
+        self.app_evnethandler = Eventhandler(self.data)
 
         self.build_GUI()
 
 
     def returning(self, event):
+        print(type(event))
         self.add_user()
 
 
@@ -182,7 +183,7 @@ class DampGui(ttk.Frame):
 
         self.get_user()
         self.build_GUI()
-        self.update()
+        self.update_games_view()
 
 
     def get_user(self):
@@ -190,7 +191,7 @@ class DampGui(ttk.Frame):
         self.a_user = self.data.get_user_from_id(self.userID)
 
 
-    def update(self):
+    def update_games_view(self):
         l = self.data.get_games_list(self.userID)
         self.games_view.delete(*self.games_view.get_children())
         for g in l:
@@ -213,9 +214,9 @@ class DampGui(ttk.Frame):
         self.main_window_width = self.window_width - self.sidebar_width
         self.main_window = tk.Frame(self, width = self.main_window_width, height = self.main_window_height)
 
-        self.name_label = tk.Label(self.navbar, text = f'{self.a_user.name}')
+        self.username_label = tk.Label(self.navbar, text = f'{self.a_user.username}')
         self.active_years = tk.Label(self.navbar, text = f'{self.a_user.active_years} years of service')
-        self.name_label.grid(row = 0, column = 0)
+        self.username_label.grid(row = 0, column = 0)
         self.active_years.grid(row = 1, column = 0)
 
         self.games_view = ttk.Treeview(self.sidebar, column = ("column1", "column2"), show = 'headings')

@@ -90,7 +90,7 @@ class DAMPData():
         return encrypted
 
 
-    def get_games_list(self, userID):
+    def get_games_list(self, userID: int):
         c = self.db.cursor()
         c.execute("""SELECT games.name, games.description, games.icon, games.init_gamestats, games.id FROM userLibrary 
         INNER JOIN users ON userLibrary.userID = users.id
@@ -104,7 +104,7 @@ class DAMPData():
         return g_liste
 
 
-    def decrypt_password(self, encrypted_password):
+    def decrypt_password(self, encrypted_password: bytes):
         f = Fernet(self.pass_key)
         decrypted = f.decrypt(encrypted_password)
         decoded = decrypted.decode()
