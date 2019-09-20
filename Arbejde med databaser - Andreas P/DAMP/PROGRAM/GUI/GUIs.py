@@ -198,20 +198,28 @@ class DampGui(ttk.Frame):
 
 
     def build_GUI(self):
-        self.name_label = tk.Label(self, text = f'{self.a_user.name}')
-        self.mail_label = tk.Label(self, text = f'{self.a_user.email}')
-        self.country_label = tk.Label(self, text = f'{self.a_user.country}')
-        self.username_label = tk.Label(self, text = f'{self.a_user.username}')
-        self.password_label = tk.Label(self, text = f'{self.a_user.password}')
-        self.re_password_label = tk.Label(self, text = f'{self.a_user.active_years}')
+        self.window_height = self.master.winfo_height()
+        self.window_width = self.master.winfo_width()
+        print(self.window_height)
+
+        navbar = tk.Frame(self, width = self.window_width, height = (self.window_height * 0.10), bg = "red")
+        navbar.pack(side = tk.TOP)
+        
+        
+        # self.name_label = tk.Label(self, text = f'{self.a_user.name}')
+        # self.mail_label = tk.Label(self, text = f'{self.a_user.email}')
+        # self.country_label = tk.Label(self, text = f'{self.a_user.country}')
+        # self.username_label = tk.Label(self, text = f'{self.a_user.username}')
+        # self.password_label = tk.Label(self, text = f'{self.a_user.password}')
+        # self.re_password_label = tk.Label(self, text = f'{self.a_user.active_years}')
 
 
-        self.name_label.grid(row = 0, sticky = tk.E)
-        self.mail_label.grid(row = 1, sticky = tk.E)
-        self.country_label.grid(row = 2, sticky = tk.E)
-        self.username_label.grid(row = 3, sticky = tk.E)
-        self.password_label.grid(row = 4, sticky = tk.E)
-        self.re_password_label.grid(row = 5, sticky = tk.E)
+        # self.name_label.grid(row = 0, sticky = tk.E)
+        # self.mail_label.grid(row = 1, sticky = tk.E)
+        # self.country_label.grid(row = 2, sticky = tk.E)
+        # self.username_label.grid(row = 3, sticky = tk.E)
+        # self.password_label.grid(row = 4, sticky = tk.E)
+        # self.re_password_label.grid(row = 5, sticky = tk.E)
 
         self.pack()
 
