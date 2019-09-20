@@ -9,20 +9,10 @@ def nav_to_folder_w_file(folder_path: str):
     sys.path.append(new_path)
 
 
-# GUI--------------------------------------------------------
-nav_to_folder_w_file('GUI')
-
-# ------------------------------------------------------------
-
-
 # DATA---------------------------------------------------------
 nav_to_folder_w_file('DATA')
 from damp_datalayer import DAMPData
 # ------------------------------------------------------------
-
-
-# LOCAL_FOLDER (this folder)----------------------------------
-nav_to_folder_w_file('APP')
 
 
 class eventhandler():

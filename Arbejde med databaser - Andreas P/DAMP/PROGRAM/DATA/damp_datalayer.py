@@ -12,21 +12,11 @@ def nav_to_folder_w_file(folder_path: str):
     sys.path.append(new_path)
 
 
-# GUI--------------------------------------------------------
-nav_to_folder_w_file('GUI')
-
-# ------------------------------------------------------------
-
-
 # APP---------------------------------------------------------
 nav_to_folder_w_file('APP')
-
+import password_manager
 # ------------------------------------------------------------
 
-
-# LOCAL_FOLDER (this folder)----------------------------------
-nav_to_folder_w_file('DATA')
-import password_manager
 
 class User():
 
@@ -41,6 +31,7 @@ class User():
 
     def set_id(self, id: int):
         self.id = id
+
 
     def __str__(self):
         return f'''
@@ -120,13 +111,11 @@ class DAMPData():
         return decoded
 
 
-
     def create_tables(self):
         try:
             self.db.execute("""DROP TABLE IF EXISTS users;""")
             self.db.execute("""DROP TABLE IF EXISTS userLibrary;""")
             self.db.execute("""DROP TABLE IF EXISTS games;""")
-
 
             print('Tables dropped')
         except Exception as e:

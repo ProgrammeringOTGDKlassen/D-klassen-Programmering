@@ -25,16 +25,9 @@ from events import eventhandler
 # ------------------------------------------------------------
 
 
-# LOCAL_FOLDER (this folder)----------------------------------
-nav_to_folder_w_file('GUI')
-
-
-
-# classes
-# ----------------------------------------------------------------------
-
 # separate GUI as the login-screen
 class DampLoginGui(ttk.Frame):
+
     def __init__(self, master=None):
         ttk.Frame.__init__(self, master)
         self.data = DAMPData()
@@ -65,7 +58,6 @@ class DampLoginGui(ttk.Frame):
     def launch_add_user(self):
         self.master.destroy()
         loading.load_add_user_app()
-
 
 
     def build_GUI(self):
@@ -221,22 +213,15 @@ class DampGui(ttk.Frame):
         self.main_window_width = self.window_width - self.sidebar_width
         self.main_window = tk.Frame(self, width = self.main_window_width, height = self.main_window_height)
 
-        self.navbar.pack(side = tk.TOP)
-        self.sidebar.pack(side = tk.LEFT)
-        self.main_window.pack(side = tk.LEFT)
-
         self.name_label = tk.Label(self.navbar, text = f'{self.a_user.name}')
         self.active_years = tk.Label(self.navbar, text = f'{self.a_user.active_years} years of service')
         self.name_label.grid(row = 0, column = 0)
         self.active_years.grid(row = 1, column = 0)
 
         self.games_view = ttk.Treeview(self.sidebar, column = ("column1", "column2"), show = 'headings')
-        # self.games_view.bind("<ButtonRelease-1>", self.on_guitar_selected)
         self.games_view.heading("#1", text="Games")
         self.games_view.heading("#2", text="id")
         self.games_view["displaycolumns"] = ("column1",)
-        # ysb = ttk.Scrollbar(self.sidebar, command = self.games_view.yview, orient=tk.VERTICAL)
-        # self.games_view.configure(yscrollcommand=ysb.set)
         self.games_view.pack(side = tk.TOP)
 
         self.navbar.pack(side = tk.TOP)

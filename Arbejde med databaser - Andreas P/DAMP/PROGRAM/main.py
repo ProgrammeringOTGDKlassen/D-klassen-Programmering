@@ -1,7 +1,5 @@
-import tkinter as tk
-import tkinter.ttk as ttk
-
 import sys, os
+
 
 def nav_to_folder_w_file(folder_path: str):
   abs_file_path = os.path.abspath(__file__)                # Absolute Path of the module
@@ -11,21 +9,9 @@ def nav_to_folder_w_file(folder_path: str):
   sys.path.append(new_path)
 
 
-# DATA--------------------------------------------------------
-nav_to_folder_w_file('PROGRAM/DATA')
-from damp_datalayer import DAMPData
-# ------------------------------------------------------------
-
-
 # APP---------------------------------------------------------
 nav_to_folder_w_file('PROGRAM/APP')
 import loading
 # ------------------------------------------------------------
-
-
-# LOCAL_FOLDER (this folder)----------------------------------
-nav_to_folder_w_file('PROGRAM/GUI')
-from GUIs import *
-
 
 loading.start()
