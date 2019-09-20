@@ -34,14 +34,10 @@ class Energy_drink_gui(ttk.Frame):
         self.entry_producer_location.delete(0, tk.END)
     
     def clear_current_drink_label(self):
-        self.label_current_name = ttk.Label(self.button_panel, text = 'Navn: ')
-        self.label_current_name.grid(row = 0, column = 3)
-        self.label_current_producer = ttk.Label(self.button_panel, text = 'Producent: ')
-        self.label_current_producer.grid(row = 1, column = 3)
-        self.label_current_price = ttk.Label(self.button_panel, text = 'Pris: ')
-        self.label_current_price.grid(row = 2, column = 3)
-        self.label_current_type = ttk.Label(self.button_panel, text = 'Type: ')
-        self.label_current_type.grid(row = 3, column = 3)
+        self.label_current_name.configure(text = 'Navn: ')
+        self.label_current_producer.configure(text = 'Producent: ')
+        self.label_current_price.configure(text = 'Price: ')
+        self.label_current_type.configure(text = 'Type: ')
 
     def add_new_drink(self):
         e = Energy_drink(self.entry_name.get(), int(self.entry_price.get()), self.cb_producers.get(), self.cb_type.get())
