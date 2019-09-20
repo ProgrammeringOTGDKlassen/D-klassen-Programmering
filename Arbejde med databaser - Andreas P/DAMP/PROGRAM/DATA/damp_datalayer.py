@@ -53,14 +53,14 @@ class User():
 
 class Game():
 
-    def __init__(self, name: str, description: str, icon: str, gamestats: int):
+    def __init__(self, name: str, description: str, icon: str, gamestats: str):
         self.name = name
         self.description = description
         self.icon = icon
         self.gamestats = gamestats
 
 
-    def set_id(self, id: str):
+    def set_id(self, id: int):
         self.id = id
 
 
@@ -99,6 +99,20 @@ class DAMPData():
         return encrypted
 
 
+    def get_games_list(self, userID):
+        c = self.db.cursor()
+        c.execute("""SELECT games.name, games.description, games.icon, games.init_gamestats, games.id FROM userLibrary 
+        INNER JOIN users ON userLibrary.userID = users.id
+        INNER JOIN games ON userLibrary.gamesID = games.id
+        WHERE users.id = ?;""", (userID,))
+        g_liste = []
+        for g in c:
+            guitar = Game(g[0],g[1],g[2],g[3])
+            guitar.set_id(g[4])
+            g_liste.append(guitar)
+        return g_liste
+
+
     def decrypt_password(self, encrypted_password):
         f = Fernet(self.pass_key)
         decrypted = f.decrypt(encrypted_password)
@@ -130,8 +144,8 @@ class DAMPData():
 
             self.db.execute("""CREATE TABLE userLibrary (
                 id INTEGER PRIMARY KEY,
-                gamesID INTEGER,
                 userID INTEGER,
+                gamesID INTEGER,
                 game_stat_file TEXT);""")
 
             self.db.execute("""CREATE TABLE games (
@@ -155,10 +169,11 @@ class DAMPData():
         self.db.execute("""INSERT INTO users (name, email, country, username, password, active_years) VALUES ('Svend', 'din_mor@gmail.com', 'Denmark', 'Din mor', ?, 0);""", (second_password,))
 
         self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'./DATA/user_gamestats/userID-1_gamesID-1.json');""")
-        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'./DATA/user_gamestats/userID-1_gamesID-2.json');""")
-        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'./DATA/user_gamestats/userID-2_gamesID-1.json');""")
-        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,1,'./DATA/user_gamestats/userID-2_gamesID-2.json');""")
+        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (1,2,'./DATA/user_gamestats/userID-1_gamesID-2.json');""")
+        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (2,1,'./DATA/user_gamestats/userID-2_gamesID-1.json');""")
+        self.db.execute("""INSERT INTO userLibrary (gamesID, userID, game_stat_file) VALUES (2,2,'./DATA/user_gamestats/userID-2_gamesID-2.json');""")
 
         self.db.execute("""INSERT INTO games (name, description, icon, init_gamestats) VALUES ('Rocket League','A game with flying rocket cars','rocket_league.ico', './DATA/init_ganestats/rocket_league_init_gamestats.json');""")
+        self.db.execute("""INSERT INTO games (name, description, icon, init_gamestats) VALUES ('Test','Test gane','test.ico', './DATA/init_ganestats/test_init_gamestats.json');""")
 
         self.db.commit()

@@ -190,6 +190,7 @@ class DampGui(ttk.Frame):
 
         self.get_user()
         self.build_GUI()
+        self.update()
 
 
     def get_user(self):
@@ -197,29 +198,48 @@ class DampGui(ttk.Frame):
         self.a_user = self.data.get_user_from_id(self.userID)
 
 
+    def update(self):
+        l = self.data.get_games_list(self.userID)
+        self.games_view.delete(*self.games_view.get_children())
+        for g in l:
+            self.games_view.insert("", tk.END, values=(g.name, g.id))
+
+
     def build_GUI(self):
         self.window_height = self.master.winfo_height()
         self.window_width = self.master.winfo_width()
-        print(self.window_height)
-
-        navbar = tk.Frame(self, width = self.window_width, height = (self.window_height * 0.10), bg = "red")
-        navbar.pack(side = tk.TOP)
         
+        self.navbar_height = (self.window_height * 0.10)
+        self.navbar_width = self.window_width
+        self.navbar = tk.Frame(self, width = self.navbar_width, height = self.navbar_height)
+
+        self.sidebar_height = self.window_height - self.navbar_height
+        self.sidebar_width = (self.window_width * 0.20)
+        self.sidebar = tk.Frame(self, width = self.sidebar_width, height = self.sidebar_height)
         
-        # self.name_label = tk.Label(self, text = f'{self.a_user.name}')
-        # self.mail_label = tk.Label(self, text = f'{self.a_user.email}')
-        # self.country_label = tk.Label(self, text = f'{self.a_user.country}')
-        # self.username_label = tk.Label(self, text = f'{self.a_user.username}')
-        # self.password_label = tk.Label(self, text = f'{self.a_user.password}')
-        # self.re_password_label = tk.Label(self, text = f'{self.a_user.active_years}')
+        self.main_window_height = self.window_height - self.navbar_height
+        self.main_window_width = self.window_width - self.sidebar_width
+        self.main_window = tk.Frame(self, width = self.main_window_width, height = self.main_window_height)
 
+        self.navbar.pack(side = tk.TOP)
+        self.sidebar.pack(side = tk.LEFT)
+        self.main_window.pack(side = tk.LEFT)
 
-        # self.name_label.grid(row = 0, sticky = tk.E)
-        # self.mail_label.grid(row = 1, sticky = tk.E)
-        # self.country_label.grid(row = 2, sticky = tk.E)
-        # self.username_label.grid(row = 3, sticky = tk.E)
-        # self.password_label.grid(row = 4, sticky = tk.E)
-        # self.re_password_label.grid(row = 5, sticky = tk.E)
+        self.name_label = tk.Label(self.navbar, text = f'{self.a_user.name}')
+        self.active_years = tk.Label(self.navbar, text = f'{self.a_user.active_years} years of service')
+        self.name_label.grid(row = 0, column = 0)
+        self.active_years.grid(row = 1, column = 0)
 
+        self.games_view = ttk.Treeview(self.sidebar, column = ("column1", "column2"), show = 'headings')
+        # self.games_view.bind("<ButtonRelease-1>", self.on_guitar_selected)
+        self.games_view.heading("#1", text="Games")
+        self.games_view.heading("#2", text="id")
+        self.games_view["displaycolumns"] = ("column1",)
+        # ysb = ttk.Scrollbar(self.sidebar, command = self.games_view.yview, orient=tk.VERTICAL)
+        # self.games_view.configure(yscrollcommand=ysb.set)
+        self.games_view.pack(side = tk.TOP)
+
+        self.navbar.pack(side = tk.TOP)
+        self.sidebar.pack(side = tk.LEFT)
+        self.main_window.pack(side = tk.LEFT)
         self.pack()
-
