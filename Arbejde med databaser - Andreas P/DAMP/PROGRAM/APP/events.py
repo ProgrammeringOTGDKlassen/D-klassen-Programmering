@@ -9,23 +9,13 @@ def nav_to_folder_w_file(folder_path: str):
     sys.path.append(new_path)
 
 
-# GUI--------------------------------------------------------
-nav_to_folder_w_file('GUI')
-
-# ------------------------------------------------------------
-
-
 # DATA---------------------------------------------------------
 nav_to_folder_w_file('DATA')
-from damp_datalayer import DAMPData
+from damp_datalayer import DAMPData, User
 # ------------------------------------------------------------
 
 
-# LOCAL_FOLDER (this folder)----------------------------------
-nav_to_folder_w_file('APP')
-
-
-class eventhandler():
+class Eventhandler():
   
   def __init__(self, data):
     self.data = data
@@ -45,14 +35,14 @@ class eventhandler():
         return False, None
 
 
-  def check_paramators_add_user(self, user):
+  def check_paramators_add_user(self, user: User):
     if not user.name or not user.email or not user.country or not user.username or not user.password:
       return False
     else:
       return True
 
 
-  def check_same_password(self, password, re_password):
+  def check_same_password(self, password: str, re_password: str):
     if password == re_password:
       return True
     else:

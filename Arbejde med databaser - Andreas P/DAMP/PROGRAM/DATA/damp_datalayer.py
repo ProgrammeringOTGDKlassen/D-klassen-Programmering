@@ -12,21 +12,11 @@ def nav_to_folder_w_file(folder_path: str):
     sys.path.append(new_path)
 
 
-# GUI--------------------------------------------------------
-nav_to_folder_w_file('GUI')
-
-# ------------------------------------------------------------
-
-
 # APP---------------------------------------------------------
 nav_to_folder_w_file('APP')
-
+import password_manager
 # ------------------------------------------------------------
 
-
-# LOCAL_FOLDER (this folder)----------------------------------
-nav_to_folder_w_file('DATA')
-import password_manager
 
 class User():
 
@@ -41,6 +31,7 @@ class User():
 
     def set_id(self, id: int):
         self.id = id
+
 
     def __str__(self):
         return f'''
@@ -99,7 +90,7 @@ class DAMPData():
         return encrypted
 
 
-    def get_games_list(self, userID):
+    def get_games_list(self, userID: int):
         c = self.db.cursor()
         c.execute("""SELECT games.name, games.description, games.icon, games.init_gamestats, games.id FROM userLibrary 
         INNER JOIN users ON userLibrary.userID = users.id
@@ -113,12 +104,11 @@ class DAMPData():
         return g_liste
 
 
-    def decrypt_password(self, encrypted_password):
+    def decrypt_password(self, encrypted_password: bytes):
         f = Fernet(self.pass_key)
         decrypted = f.decrypt(encrypted_password)
         decoded = decrypted.decode()
         return decoded
-
 
 
     def create_tables(self):
@@ -126,7 +116,6 @@ class DAMPData():
             self.db.execute("""DROP TABLE IF EXISTS users;""")
             self.db.execute("""DROP TABLE IF EXISTS userLibrary;""")
             self.db.execute("""DROP TABLE IF EXISTS games;""")
-
 
             print('Tables dropped')
         except Exception as e:

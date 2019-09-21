@@ -1,7 +1,9 @@
 import tkinter as tk
 import tkinter.ttk as ttk
+import cv2
 
 import sys, os
+
 
 def nav_to_folder_w_file(folder_path: str):
     abs_file_path = os.path.abspath(__file__)                # Absolute Path of the module
@@ -17,19 +19,7 @@ from GUIs import *
 # ------------------------------------------------------------
 
 
-# DATA---------------------------------------------------------
-nav_to_folder_w_file('DATA')
-
-# ------------------------------------------------------------
-
-
-# LOCAL_FOLDER (this folder)----------------------------------
-nav_to_folder_w_file('APP')
-
-
 def loading_screen():
-    import cv2
-
     # Create a VideoCapture object and read from input file
     # If the input is the camera, pass 0 instead of the video file name
     cap = cv2.VideoCapture('../Videos/Loading screen.mp4')
@@ -71,7 +61,6 @@ def start():
 
 
 def load_login_app():
-
     root = tk.Tk()
     # sets the icon top left to e predefined icon
     root.iconbitmap('../Icons/DAMP_ICON.ico')
@@ -97,7 +86,6 @@ def load_login_app():
 
 
 def load_add_user_app():
-
     root = tk.Tk()
     # sets the icon top left to e predefined icon
     root.iconbitmap('../Icons/DAMP_ICON.ico')
@@ -123,7 +111,6 @@ def load_add_user_app():
 
 
 def load_main_app(userID):
-
     loading_screen()
 
     root = tk.Tk()
