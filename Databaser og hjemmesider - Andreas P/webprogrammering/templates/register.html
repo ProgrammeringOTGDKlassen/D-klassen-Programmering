@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="row box" id="login-box">
+<div class="col-md-6 col-md-offset-3">
+<div class="panel panel-login">
+<div class="panel-body">
+  <div class="row">
+  <div class="col-lg-12">
+    {% if success == False %}
+      <div class="alert alert-danger hide" role="alert">Fejl, kunne ikke oprette bruger</div>
+    {% endif %}
+    <form id="login-form" name="register_form" role="form" style="display: block;" action="register_user" method="post">
+    <h2>LOGIN</h2>
+      <div class="form-group">
+        <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Brugernavn" value=""  required>
+      </div>
+      <div class="form-group">
+        <input type="text" name="email" id="email" tabindex="2" class="form-control" placeholder="Email" value=""  required>
+      </div>
+      <div class="form-group">
+        <input type="password" name="password" id="password" tabindex="3" class="form-control" placeholder="Kodeord" required>
+      </div>
+      <div class="form-group">
+        <input type="password" name="repeat_password" id="repeat_password" tabindex="4" class="form-control" placeholder="Gentag kodeord" required>
+      </div>
+      <div class="col-xs-6 form-group pull-right">
+        <input type="submit" name="login-submit" id="login-submit" tabindex="5" class="form-control btn btn-login" value="Log In">
+      </div>
+    </form>
+  </div>
+  </div>
+</div>
+<div class="panel-heading">
+</div>
+</div>
+</div>
+</div>
+
+{% endblock content %}
