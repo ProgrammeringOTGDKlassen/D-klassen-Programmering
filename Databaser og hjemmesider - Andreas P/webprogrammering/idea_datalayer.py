@@ -1,13 +1,12 @@
 from flask import g
 import sqlite3
-import password_manager
-from cryptography.fernet import Fernet
+
+import hashlib, binascii, os
 
 class IdeaData():
 
     def __init__(self):
         self.DATABASE = 'ideahouse.db'
-        self.pass_key = password_manager.read_key()
 
         self._create_db_tables()
 
@@ -24,6 +23,24 @@ class IdeaData():
         if db is not None:
             db.close()
 
+    def hash_password(self, password):
+        # Hash a password for storing.
+        salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
+        pwdhash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), 
+                                    salt, 100000)
+        pwdhash = binascii.hexlify(pwdhash)
+        return (salt + pwdhash).decode('ascii')
+
+    def verify_password(self, stored_password, provided_password):
+        # Verify a stored password against one provided by user
+        salt = stored_password[:64]
+        stored_password = stored_password[64:]
+        pwdhash = hashlib.pbkdf2_hmac('sha512', 
+                                        provided_password.encode('utf-8'), 
+                                        salt.encode('ascii'), 
+                                        100000)
+        pwdhash = binascii.hexlify(pwdhash).decode('ascii')
+        return pwdhash == stored_password
 
     def get_number_of_ideas(self):
         c = self._get_db().cursor()
@@ -43,24 +60,6 @@ class IdeaData():
         for i in c:
             idea_list.append(i[0])
         return idea_list
-
-
-    def encrypt_password(self, password: str):
-        # encode password
-        encoded = password.encode()
-
-        # encrypt password
-        f = Fernet(self.pass_key)
-        encrypted = f.encrypt(encoded)
-
-        return encrypted
-
-
-    def decrypt_password(self, encrypted_password: bytes):
-        f = Fernet(self.pass_key)
-        decrypted = f.decrypt(encrypted_password)
-        decoded = decrypted.decode()
-        return decoded
 
 
     def register_new_idea(self, idea, id):
@@ -112,10 +111,9 @@ class IdeaData():
         r = c.fetchone()
         if r is not None:
             db_pw = r[0]
-            db_pw = self.decrypt_password(db_pw)
         else:
             return False
-        return db_pw == password
+        return self.verify_password(stored_password = db_pw, provided_password = password)
 
 
     def _create_db_tables(self):

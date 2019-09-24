@@ -70,7 +70,7 @@ def contact():
 
 @app.route('/register_user', methods=['POST'])
 def register_user():
-    password = data.encrypt_password(str(request.form['password']))
+    password = data.hash_password(request.form['password'])
     user = request.form['username']
     email = request.form['email']
 
