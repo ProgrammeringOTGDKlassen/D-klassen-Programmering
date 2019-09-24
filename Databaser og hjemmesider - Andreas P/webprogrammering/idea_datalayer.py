@@ -24,6 +24,7 @@ class IdeaData():
             db.close()
 
     def hash_password(self, password):
+        # https://www.vitoshacademy.com/hashing-passwords-in-python/
         # Hash a password for storing.
         salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
         pwdhash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), 
