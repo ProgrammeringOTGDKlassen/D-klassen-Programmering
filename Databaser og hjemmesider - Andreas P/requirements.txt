@@ -3,3 +3,4 @@ flask
 # sqlite3
 pysqlite3
 
+cryptography

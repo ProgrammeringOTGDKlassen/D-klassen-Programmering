@@ -1,11 +1,13 @@
 from flask import g
 import sqlite3
-
+import password_manager
+from cryptography.fernet import Fernet
 
 class IdeaData():
 
     def __init__(self):
         self.DATABASE = 'ideahouse.db'
+        self.pass_key = password_manager.read_key()
 
         self._create_db_tables()
 
@@ -16,10 +18,12 @@ class IdeaData():
             db = g._database = sqlite3.connect(self.DATABASE)
         return db
 
+
     def close_connection(self):
         db = getattr(g, '_database', None)
         if db is not None:
             db.close()
+
 
     def get_number_of_ideas(self):
         c = self._get_db().cursor()
@@ -29,6 +33,7 @@ class IdeaData():
             return val[0]
         else:
             return None
+
 
     def get_idea_list(self, id):
         db = self._get_db()
@@ -40,11 +45,30 @@ class IdeaData():
         return idea_list
 
 
+    def encrypt_password(self, password: str):
+        # encode password
+        encoded = password.encode()
+
+        # encrypt password
+        f = Fernet(self.pass_key)
+        encrypted = f.encrypt(encoded)
+
+        return encrypted
+
+
+    def decrypt_password(self, encrypted_password: bytes):
+        f = Fernet(self.pass_key)
+        decrypted = f.decrypt(encrypted_password)
+        decoded = decrypted.decode()
+        return decoded
+
+
     def register_new_idea(self, idea, id):
         db = self._get_db()
         c = db.cursor()
         c.execute("""INSERT INTO Ideas (idea, userid) VALUES (?, ?);""",(idea, id))
         db().commit()
+
 
     def get_user_id(self, s):
         c = self._get_db().cursor()
@@ -56,7 +80,8 @@ class IdeaData():
         else:
             return None
 
-    def register_user(self, user, pw, email):
+
+    def register_user(self, user, password, email):
         db = self._get_db()
         c = db.cursor()
         c.execute("SELECT * from UserProfiles WHERE username = ? OR email = ?", (user,email))
@@ -66,10 +91,11 @@ class IdeaData():
             #The username og email is already in use
             res = False
         else:
-            c.execute("INSERT INTO UserProfiles (username, password, email) VALUES (?,?,?)", (user,pw,email))
+            c.execute("INSERT INTO UserProfiles (username, password, email) VALUES (?,?,?)", (user, password, email))
             db.commit()
             res = True
         return res
+
 
     def get_user_list(self):
         l = []
@@ -79,15 +105,18 @@ class IdeaData():
             l.append("Navn: {}, email: {}, pw: {}".format(u[1],u[2],u[3]))
         return l
 
-    def login_success(self, user, pw):
+
+    def login_success(self, user, password):
         c = self._get_db().cursor()
         c.execute("SELECT password FROM UserProfiles WHERE username = ?", (user,))
         r = c.fetchone()
         if r is not None:
             db_pw = r[0]
+            self.decrypt_password(db_pw)
         else:
             return False
-        return db_pw == pw
+        return db_pw == password
+
 
     def _create_db_tables(self):
         db = self._get_db()
