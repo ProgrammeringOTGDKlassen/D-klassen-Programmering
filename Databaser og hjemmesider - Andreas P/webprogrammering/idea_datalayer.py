@@ -112,7 +112,7 @@ class IdeaData():
         r = c.fetchone()
         if r is not None:
             db_pw = r[0]
-            self.decrypt_password(db_pw)
+            db_pw = self.decrypt_password(db_pw)
         else:
             return False
         return db_pw == password
