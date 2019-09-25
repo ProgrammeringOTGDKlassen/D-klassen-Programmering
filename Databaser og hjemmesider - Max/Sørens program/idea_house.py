@@ -39,11 +39,11 @@ def home():
 
 @app.route("/register")
 def register():
-    return my_render('register.html', success= True, complete = True)
+    return my_render('register.html', success= True, complete = True, title = 'register')
 
 @app.route("/login")
 def login():
-    return my_render('login.html', success = True)
+    return my_render('login.html', success = True, title = 'login')
 
 @app.route("/logout")
 def logout():
