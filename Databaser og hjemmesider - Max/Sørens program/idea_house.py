@@ -10,12 +10,12 @@ data = None
 def close_connection(exception):
     data.close_connection()
 
+"""
+Denne funktion sørger for at pakke den template, der skal vises,
+ind i nogle standard-ting, f.eks. loginstatus.
 
-# Denne funktion sørger for at pakke den template, der skal vises,
-# ind i nogle standard-ting, f.eks. loginstatus.
-
-# my_render bør kaldes i stedet for at kalde render_template direkte.
-
+my_render bør kaldes i stedet for at kalde render_template direkte.
+"""
 def my_render(template, **kwargs):
     login_status = get_login_status()
     if login_status:
