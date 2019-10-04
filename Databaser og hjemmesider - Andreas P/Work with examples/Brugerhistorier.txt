@@ -1,0 +1,43 @@
+Brugerhistorie 1: Opret bruger.
+  - Brugeren indtaster brugernavn, email, password og passwordbekræftelse i formularen til oprettelse af bruger.
+  - Systemet kontrollerer om brugernavn og email vha. regulære udtryk, samt om de to passwords er ens.
+  - Hvis ja:
+    - Systemet registrerer den nye bruger.
+  - Hvis nej:
+    - Systemet informerer brugeren om fejlen.
+
+Brugerhistorie 2: Login.
+  - Brugeren indtaster brugernavn og password.
+  - Systemet kontrollerer om de indtastede oplysninger matcher en bruger i databasen.
+  - Hvis ja:
+    - Systemet registrerer at brugeren er logget ind, og fortsætter med brugerens rettigheder.
+  - Hvis nej:
+    - Systemet fortæller brugeren, at login fejlede.
+
+Brugerhistorie 3: Logout.
+  - Brugeren trykker på logout.
+  - Systemet registrerer at ingen bruger er logget ind.
+
+Brugerhistori 4: Indtast idé.
+  - Brugeren indtaster en kort beskrivelse af sin idé.
+  - Brugeren klikker på "Gem min idé".
+  - Systemet gemmer idéen i databasen.
+  - Hvis en bruger er logget ind:
+    - Idéen gemmes med brugerens id
+  - Ellers
+    - Idéen gemmes uden et brugerid.
+  - Systemet fører brugeren videre til idéoversigten.
+
+Brugerhistorie 5: Vis mine idéer.
+  - Brugeren vælger "Mine idéer" i menuen, eller bringes videre fra brugerhistorie 4.
+  - Systemet samler brugerens seneste idéer, og præsenterer dem for brugeren.
+
+Brugerhistorie 6: Få inspiration.
+  - Brugeren klikker på "Inspiration" i menuen.
+  - Systemet præsenterer brugeren for et antal begreber eller ord, både blandt brugerens seneste idéer og fra ord der er særligt aktuelle lige nu.
+  - Brugeren vælger et af ordene.
+  - Systemet samler et antal idéer der passer til det valgte ord, og præsenterer dem for brugeren.
+
+Brugerhistorie 7: Vis streak.
+  - Brugeren klikker på "Streaks" i menuen.
+  - Systemet viser brugeren hvor mange dage i træk, brugeren har indtastet en idé.

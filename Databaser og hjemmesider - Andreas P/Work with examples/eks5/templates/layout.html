@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Vores smarte webserver</title>
+  </head>
+  <body>
+    <div style="background-color:lightblue">
+        <p>Denne del vises på alle sider</p><br>
+        <p>Her står {{ text1 }}</p>
+        <a href="/">Home</a>
+    </div>
+    {% block content %}{% endblock %}
+</body>
+</html>
