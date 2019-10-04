@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Eksempel 1</title>
+  </head>
+  <body>
+    <h1>En overskrift</h1>
+    {% for item in navne %}
+    <p>3.d har en lærer der hedder {{ item['navn'] }}</p>
+    {% endfor %}
+  </body>
+</html>
