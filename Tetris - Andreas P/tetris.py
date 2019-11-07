@@ -111,6 +111,7 @@ class Game(object):
         return self.grid
 
     def main(self):
+        # TODO Make grid an atribute of the class (call create grid in dunder init)
         global grid
 
         pygame.mixer.music.play(-1)
