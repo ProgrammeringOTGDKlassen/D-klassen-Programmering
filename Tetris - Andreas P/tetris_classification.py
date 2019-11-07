@@ -71,9 +71,19 @@ shape_colors = [
     (255, 255, 0),
     (255, 165, 0),
     (0, 0, 255),
-    (128, 0, 128),
+    (150, 0, 150),
 ]
 # index 0 - 6 represent shape
+
+shadow_colors = [
+    (0, 150, 0),
+    (150, 0, 0),
+    (0, 150, 150),
+    (150, 150, 0),
+    (150, 80, 0),
+    (0, 0, 150),
+    (70, 0, 70),
+]
 
 
 class Piece(object):
@@ -112,9 +122,7 @@ class Game(object):
         run = True
         self.current_piece = self.get_shape()
         self.shadow = self.get_shape()
-        self.shadow.shape = self.current_piece.shape
-        self.shadow.color = self.current_piece.color
-        self.shadow.rotation = self.current_piece.rotation
+        self.update_shadow()
         next_piece = self.get_shape()
         clock = pygame.time.Clock()
         fall_time = 0
@@ -148,11 +156,13 @@ class Game(object):
                         self.current_piece.x -= 1
                         if not self.valid_space(self.current_piece, grid):
                             self.current_piece.x += 1
+                        self.update_shadow()
 
                     elif event.key == pygame.K_RIGHT:
                         self.current_piece.x += 1
                         if not self.valid_space(self.current_piece, grid):
                             self.current_piece.x -= 1
+                        self.update_shadow()
                     elif event.key == pygame.K_UP:
                         # rotate shape
                         self.current_piece.rotation = (
@@ -164,18 +174,21 @@ class Game(object):
                                 self.current_piece.rotation
                                 - 1 % len(self.current_piece.shape)
                             )
-                        self.shadow.rotation = self.current_piece.rotation
+                        # self.shadow.rotation = self.current_piece.rotation
+                        self.update_shadow()
 
                     if event.key == pygame.K_DOWN:
                         # move shape down
                         self.current_piece.y += 1
                         if not self.valid_space(self.current_piece, grid):
                             self.current_piece.y -= 1
+                        self.update_shadow()
 
                     if event.key == pygame.K_SPACE:
                         while self.valid_space(self.current_piece, grid):
                             self.current_piece.y += 1
                         self.current_piece.y -= 1
+                        self.update_shadow()
                         # TODO fix this:
                         # print(self.convert_shape_format(self.current_piece))
 
@@ -195,9 +208,7 @@ class Game(object):
                     p = (pos[0], pos[1])
                     locked_positions[p] = self.current_piece.color
                 self.current_piece = next_piece
-                self.shadow.shape = self.current_piece.shape
-                self.shadow.color = self.current_piece.color
-                self.shadow.rotation = self.current_piece.rotation
+                self.update_shadow()
                 next_piece = self.get_shape()
                 change_piece = False
 
@@ -212,9 +223,13 @@ class Game(object):
             if self.check_lost(locked_positions):
                 run = False
 
-        self.draw_text_middle("You Lost", 40, (255, 255, 255), self.win)
+        self.game_over()
         pygame.display.update()
         pygame.time.delay(2000)
+
+    def game_over(self):
+        self.draw_text_middle("You Lost", 40, (255, 255, 255), self.win)
+        pygame.mixer.music.pause()
 
     def draw_text_middle(self, text, size, color, surface):
         font = pygame.font.SysFont("comicsans", size, bold=True)
@@ -294,7 +309,7 @@ class Game(object):
         return Piece(5, 0, random.choice(shapes))
 
     def draw__shadow(self):
-        self.shadow.x = self.current_piece.x 
+        self.shadow.x = self.current_piece.x
         while self.valid_space(self.shadow, grid):
             self.shadow.y += 1
         self.shadow.y -= 1
@@ -306,6 +321,15 @@ class Game(object):
             if y > -1:
                 grid[y][x] = self.shadow.color
 
+    def update_shadow(self):
+        self.shadow.shape = self.current_piece.shape
+        self.set_shadow_color()
+        self.shadow.rotation = self.current_piece.rotation
+
+    def set_shadow_color(self):
+        for i in range(len(shape_colors)):
+            if shape_colors[i] == self.current_piece.color:
+                self.shadow.color = shadow_colors[i]
 
     def draw_grid(self, surface, row, col):
         sx = top_left_x
