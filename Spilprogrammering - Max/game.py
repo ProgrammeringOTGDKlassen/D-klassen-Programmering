@@ -4,7 +4,6 @@ class Game():
     def __init__(self):
         self.grid = [[random.randint(1,5) for y in range(0,10)] for x in range(0,10)]
         self.anim = [[0 for y in range(0,10)] for x in range(0,10)]
-        print(self.grid)
 
     def build_grid(self):
         for x in range(0, len(self.grid)):
@@ -19,7 +18,6 @@ class Game():
                     for fill in range(0,len(self.grid[x])):
                         if self.grid[x][fill] == 0:
                             self.grid[x][fill] = random.randint(1,5)
-
 
     def shift_column(self, l, n):
         return l[n:] + l[:n]
@@ -42,5 +40,16 @@ class Game():
                     self.anim[x][y] = 50
                     self.grid[x+1][y] = 0
                     self.anim[x+1][y] = 50
+                    #Hvis vi har fjernet brikker, skal pladen fyldes igen
+                    self.build_grid()
+        for y in range(1, len(self.grid)-1):
+            for x in range(0, len(self.grid)):
+                if self.grid[x][y] == self.grid[x][y-1] and self.grid[x][y] == self.grid[x][y+1]:
+                    self.grid[x][y-1] = 0
+                    self.anim[x][y-1] = 50
+                    self.grid[x][y] = 0
+                    self.anim[x][y] = 50
+                    self.grid[x][y+1] = 0
+                    self.anim[x][y+1] = 50
                     #Hvis vi har fjernet brikker, skal pladen fyldes igen
                     self.build_grid()

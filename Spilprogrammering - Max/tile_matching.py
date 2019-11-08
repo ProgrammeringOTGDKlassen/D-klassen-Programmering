@@ -54,10 +54,9 @@ while not done:
                     game.swap_tiles(x_cell, y_cell, current_tile[0], current_tile[1])
                     current_tile = None
                     #Når der er byttet brikker, kan vi kontrollere om der er lavet et match
-                    
         
-
     draw_game()
+    game.detect_matches()
     #pygame kommandoer til at vise grafikken og opdatere 60 gange i sekundet.
     pygame.display.flip()
     clock.tick(60)
