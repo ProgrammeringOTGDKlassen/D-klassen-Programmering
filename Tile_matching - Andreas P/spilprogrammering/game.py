@@ -17,7 +17,8 @@ class Game():
                         # Flyt kolonnen ned
                         while(self.grid[x][y] == 0):
                             self.grid[x][y:] = self.shift_column(self.grid[x][y:], 1)
-                            self.anim[x][y:] = [50 for i in range(y,len(self.anim[x]))]
+                            if self.user_press:
+                                self.anim[x][y:] = [50 for i in range(y,len(self.anim[x]))]
                     # Fyld op med nye tiles
                     for fill in range(0,len(self.grid[x])):
                         if self.grid[x][fill] == 0:
