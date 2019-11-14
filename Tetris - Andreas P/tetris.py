@@ -111,13 +111,10 @@ class Game(object):
         return self.grid
 
     def main(self):
-        # TODO Make grid an atribute of the class (call create grid in dunder init)
-        global grid
-
         pygame.mixer.music.play(-1)
 
         locked_positions = {}  # (x,y):(255,0,0)
-        grid = self.create_grid(locked_positions)
+        self.create_grid(locked_positions)
 
         change_piece = False
         run = True
@@ -131,7 +128,7 @@ class Game(object):
         while run:
             fall_speed = 0.27
 
-            grid = self.create_grid(locked_positions)
+            self.create_grid(locked_positions)
             fall_time += clock.get_rawtime()
             clock.tick()
 
@@ -140,7 +137,7 @@ class Game(object):
                 fall_time = 0
                 self.current_piece.y += 1
                 if (
-                    not (self.valid_space(self.current_piece, grid))
+                    not (self.valid_space(self.current_piece))
                     and self.current_piece.y > 0
                 ):
                     self.current_piece.y -= 1
@@ -155,13 +152,13 @@ class Game(object):
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
                         self.current_piece.x -= 1
-                        if not self.valid_space(self.current_piece, grid):
+                        if not self.valid_space(self.current_piece):
                             self.current_piece.x += 1
                         self.update_shadow()
 
                     elif event.key == pygame.K_RIGHT:
                         self.current_piece.x += 1
-                        if not self.valid_space(self.current_piece, grid):
+                        if not self.valid_space(self.current_piece):
                             self.current_piece.x -= 1
                         self.update_shadow()
                     elif event.key == pygame.K_UP:
@@ -170,7 +167,7 @@ class Game(object):
                             self.current_piece.rotation
                             + 1 % len(self.current_piece.shape)
                         )
-                        if not self.valid_space(self.current_piece, grid):
+                        if not self.valid_space(self.current_piece):
                             self.current_piece.rotation = (
                                 self.current_piece.rotation
                                 - 1 % len(self.current_piece.shape)
@@ -181,17 +178,15 @@ class Game(object):
                     if event.key == pygame.K_DOWN:
                         # move shape down
                         self.current_piece.y += 1
-                        if not self.valid_space(self.current_piece, grid):
+                        if not self.valid_space(self.current_piece):
                             self.current_piece.y -= 1
                         self.update_shadow()
 
                     if event.key == pygame.K_SPACE:
-                        while self.valid_space(self.current_piece, grid):
+                        while self.valid_space(self.current_piece):
                             self.current_piece.y += 1
                         self.current_piece.y -= 1
                         self.update_shadow()
-                        # TODO fix this:
-                        # print(self.convert_shape_format(self.current_piece))
 
             shape_pos = self.convert_shape_format(self.current_piece)
 
@@ -199,7 +194,7 @@ class Game(object):
             for i in range(len(shape_pos)):
                 x, y = shape_pos[i]
                 if y > -1:
-                    grid[y][x] = self.current_piece.color
+                    self.grid[y][x] = self.current_piece.color
 
             self.draw__shadow()
 
@@ -214,7 +209,7 @@ class Game(object):
                 change_piece = False
 
                 # call four times to check for multiple clear rows
-                self.clear_rows(grid, locked_positions)
+                self.clear_rows(locked_positions)
 
             self.draw_window(self.win)
             self.draw_next_shape(next_piece, self.win)
@@ -266,9 +261,10 @@ class Game(object):
                 return True
         return False
 
-    def valid_space(self, shape, grid):
+    def valid_space(self, shape):
         accepted_positions = [
-            [(j, i) for j in range(10) if grid[i][j] == (0, 0, 0)] for i in range(20)
+            [(j, i) for j in range(10) if self.grid[i][j] == (0, 0, 0)]
+            for i in range(20)
         ]
         accepted_positions = [j for sub in accepted_positions for j in sub]
         formatted = self.convert_shape_format(shape)
@@ -288,11 +284,11 @@ class Game(object):
 
         surface.blit(label, (top_left_x + play_width / 2 - (label.get_width() / 2), 30))
 
-        for i in range(len(grid)):
-            for j in range(len(grid[i])):
+        for i in range(len(self.grid)):
+            for j in range(len(self.grid[i])):
                 pygame.draw.rect(
                     surface,
-                    grid[i][j],
+                    self.grid[i][j],
                     (top_left_x + j * 30, top_left_y + i * 30, 30, 30),
                     0,
                 )
@@ -311,7 +307,7 @@ class Game(object):
 
     def draw__shadow(self):
         self.shadow.x = self.current_piece.x
-        while self.valid_space(self.shadow, grid):
+        while self.valid_space(self.shadow):
             self.shadow.y += 1
         self.shadow.y -= 1
         shape_pos = self.convert_shape_format(self.shadow)
@@ -320,7 +316,7 @@ class Game(object):
         for i in range(len(shape_pos)):
             x, y = shape_pos[i]
             if y > -1:
-                grid[y][x] = self.shadow.color
+                self.grid[y][x] = self.shadow.color
 
     def update_shadow(self):
         self.shadow.shape = self.current_piece.shape
@@ -350,12 +346,12 @@ class Game(object):
                     (sx + j * 30, sy + play_height),
                 )  # vertical lines
 
-    def clear_rows(self, grid, locked):
+    def clear_rows(self, locked):
         # need to see if row is clear to shift every other row above down one
 
         inc = 0
-        for i in range(len(grid) - 1, -1, -1):
-            row = grid[i]
+        for i in range(len(self.grid) - 1, -1, -1):
+            row = self.grid[i]
             if (0, 0, 0) not in row:
                 inc += 1
                 # add positions to remove from locked
