@@ -99,6 +99,9 @@ class Piece(object):
 
 
 class Game(object):
+    def __init__(self):
+        self.menu = None
+
     def create_grid(self, locked_positions={}):
         self.grid = [[(0, 0, 0) for x in range(10)] for x in range(20)]
 
@@ -386,12 +389,23 @@ class Game(object):
 
         surface.blit(label, (sx + 10, sy - 30))
 
+    def play(self):
+        self.win = pygame.display.set_mode((s_width, s_height))
+        pygame.display.set_caption("Tetris")
+
+        self.menu.main_menu()  # start game
+
+
+class Menu:
+    def __init__(self, game):
+        self.game = game
+
     def main_menu(self):
         run = True
         while run:
-            self.win.fill((0, 0, 0))
-            self.draw_text_middle(
-                "Press any key to begin.", 60, (255, 255, 255), self.win
+            self.game.win.fill((0, 0, 0))
+            self.game.draw_text_middle(
+                "Press any key to begin.", 60, (255, 255, 255), self.game.win
             )
             pygame.display.update()
             for event in pygame.event.get():
@@ -399,16 +413,12 @@ class Game(object):
                     run = False
 
                 if event.type == pygame.KEYDOWN:
-                    self.main()
+                    self.game.main()
         pygame.quit()
-
-    def play(self):
-        self.win = pygame.display.set_mode((s_width, s_height))
-        pygame.display.set_caption("Tetris")
-
-        self.main_menu()  # start game
 
 
 if __name__ == "__main__":
     game = Game()
+    menu = Menu(game)
+    game.menu = menu
     game.play()
