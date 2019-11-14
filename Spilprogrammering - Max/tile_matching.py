@@ -4,7 +4,8 @@ from game import Game
 # Setup pygame
 pygame.init()
 screen = pygame.display.set_mode((800, 600))#, pygame.FULLSCREEN)
-myfont = pygame.font.SysFont("monospace", 12)
+point_font = pygame.font.SysFont("monospace", 20, True)
+restart_font = pygame.font.SysFont("monospace", 20, True)
 clock = pygame.time.Clock()
 
 # Initialize game variables
@@ -28,8 +29,16 @@ def draw_game():
         for x in range(0,len(game.grid[y])):
             if game.anim[x][y] > 0:
                 game.anim[x][y] -= 1
+                if game.anim[x][y] == 0:
+                    game.detect_matches()
             pygame.draw.rect(screen, tile_colors[game.grid[x][y]], pygame.Rect(tile_offset[0] + x*tile_size[0], tile_offset[1] - (y+1)*tile_size[1] - game.anim[x][y], tile_size[0]-5, tile_size[1]-5))
-            
+    screen.blit(point_font.render(f'Point: {game.point}', 0, (255,255,255)), (50,50))
+    pos = pygame.mouse.get_pos()
+    if 52 <= pos[0] <= 152 and 100 <= pos[1] <= 140:
+        pygame.draw.rect(screen, (195,0,0), pygame.Rect(52, 100, 100, 40))
+    else:
+        pygame.draw.rect(screen, (255,0,0), pygame.Rect(52, 100, 100, 40))
+    screen.blit(restart_font.render("Restart", 0, (255,255,255)), (60,108))
 def pixels_to_cell(x,y):
     x1 = int((x - tile_offset[0])/tile_size[0])
     y1 = int((-y + tile_offset[1])/tile_size[1])
@@ -54,9 +63,11 @@ while not done:
                     game.swap_tiles(x_cell, y_cell, current_tile[0], current_tile[1])
                     current_tile = None
                     #Når der er byttet brikker, kan vi kontrollere om der er lavet et match
-        
+                    game.detect_matches()
+            if 52 <= pos[0] <= 152 and 100 <= pos[1] <= 140:
+                game = Game()
+
     draw_game()
-    game.detect_matches()
     #pygame kommandoer til at vise grafikken og opdatere 60 gange i sekundet.
     pygame.display.flip()
     clock.tick(60)
