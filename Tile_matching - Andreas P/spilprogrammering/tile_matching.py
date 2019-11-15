@@ -24,6 +24,10 @@ reset_score_dim = (100, 30)
 reset_score_pos = (120, 150)
 reset_score_txt = (reset_score_pos[0] + 10, reset_score_pos[1] + 10)
 
+# MUSIC
+pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=4096)
+pygame.mixer.music.load("./Fruit Level - Candy Crush Saga.ogg")
+
 
 def draw_game():
     pygame.draw.rect(screen, (0,0,0), pygame.Rect(0,0,800,600))
@@ -63,6 +67,7 @@ def pixels_to_cell(x,y):
     return x1,y1
 
 
+pygame.mixer.music.play(-1)
 #Main game loop
 while not done:
     for event in pygame.event.get():
