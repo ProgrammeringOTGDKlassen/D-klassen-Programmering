@@ -69,10 +69,12 @@ class Game():
                         while x1 < len(self.grid) and self.grid[x1][y].color == c:
                             self.grid[x1][y].color = 0
                             x1 += 1
+                        self.points += 10
                     else:
                         for i in range(0,10):
                             self.grid[i][y].color = 0
-                    self.points += 10
+                            self.points += 10
+
                     #Hvis vi har fjernet brikker, skal pladen fyldes igen
                     self.build_grid()
         for y in range(1, len(self.grid)-1):
@@ -93,11 +95,11 @@ class Game():
                         while y1 < len(self.grid) and self.grid[x][y1].color == c:
                             self.grid[x][y1].color = 0
                             y1 += 1
+                        self.points += 10
                     else:
                         for i in range(0,10):
                             self.grid[x][i].color = 0
-
-                    self.points += 10
+                            self.points += 10
                     #Hvis vi har fjernet brikker, skal pladen fyldes igen
                     self.build_grid()
         if not self.user_press:
