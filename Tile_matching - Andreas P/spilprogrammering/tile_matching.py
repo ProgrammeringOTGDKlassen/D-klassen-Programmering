@@ -41,7 +41,14 @@ def draw_game():
                 game.anim[x][y] -= 1
                 if game.anim[x][y] == 0:
                     game.detect_matches()
-            pygame.draw.rect(screen, tile_colors[game.grid[x][y]], pygame.Rect(tile_offset[0] + x*tile_size[0], tile_offset[1] - (y+1)*tile_size[1] - game.anim[x][y], tile_size[0]-5, tile_size[1]-5))
+            sc_r, sc_g, sc_b = tile_colors[game.grid[x][y].color]
+            scale_color = 0.5
+            sc_r = sc_r * scale_color
+            sc_g = sc_g * scale_color
+            sc_b = sc_b * scale_color
+            special_color = (sc_r, sc_g, sc_b)
+            
+            pygame.draw.rect(screen, tile_colors[game.grid[x][y].color] if game.grid[x][y].special == None else special_color, pygame.Rect(tile_offset[0] + x*tile_size[0], tile_offset[1] - (y+1)*tile_size[1] - game.anim[x][y], tile_size[0]-5, tile_size[1]-5))
             if not game.user_press:
                 game.detect_matches()
     screen.blit(myfont.render("Du har {} point".format(game.points), 0, (255,255,255)), (50, 50))
