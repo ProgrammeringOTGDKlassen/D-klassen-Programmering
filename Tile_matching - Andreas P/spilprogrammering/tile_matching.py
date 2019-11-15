@@ -41,6 +41,7 @@ def draw_game():
                 game.anim[x][y] -= 1
                 if game.anim[x][y] == 0:
                     game.detect_matches()
+            # TODO: add image to show the soecial blocks
             sc_r, sc_g, sc_b = tile_colors[game.grid[x][y].color]
             scale_color = 0.5
             sc_r = sc_r * scale_color
