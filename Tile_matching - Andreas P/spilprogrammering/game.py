@@ -16,6 +16,9 @@ class Game:
         self.detect_matches()
 
     def build_grid(self):
+        """
+        Builds a grid of 10x10 with different tiles in each cell
+        """
         # import pdb; pdb.set_trace()
         for x in range(0, len(self.grid)):
             for y in range(0, len(self.grid)):
@@ -37,9 +40,15 @@ class Game:
                             self.grid[x][fill].color = random.randint(1, 5)
 
     def shift_column(self, l, n):
+        """
+        Shifts down tiles for a specified, n, amount.
+        """
         return l[n:] + l[:n]
 
     def swap_tiles(self, x1, y1, x2, y2):
+        """
+        If possible swaps the first-selected tile with the second-selected tile.
+        """
         # Sørg for, at vi kun kan bytte naboceller.
         if abs(x1 - x2) <= 1 and abs(y1 - y2) <= 1:
             self.grid[x1][y1], self.grid[x2][y2] = self.grid[x2][y2], self.grid[x1][y1]
@@ -53,6 +62,11 @@ class Game:
         return special
 
     def detect_matches(self):
+        """
+        Detects if there are 3 or more similar tiles in a line, 
+        and if there is removes them from the view and triggers a new build, 
+        that will shift the missing tiles down.
+        """
         for x in range(1, len(self.grid) - 1):
             for y in range(0, len(self.grid)):
                 # Detect horizontal match

@@ -4,7 +4,7 @@ from game import Game
 # Setup pygame
 pygame.init()
 screen = pygame.display.set_mode((800, 600))  # , pygame.FULLSCREEN)
-myfont = pygame.font.SysFont("monospace", 12)
+my_font = pygame.font.SysFont("monospace", 12)
 clock = pygame.time.Clock()
 
 # Initialize game variables
@@ -57,7 +57,7 @@ def draw_game():
                 game.anim[x][y] -= 1
                 if game.anim[x][y] == 0:
                     game.detect_matches()
-            
+
             sc_r, sc_g, sc_b = tile_colors[game.grid[x][y].color]
             scale_color = 0.5
             sc_r = sc_r * scale_color
@@ -81,7 +81,7 @@ def draw_game():
             if not game.user_press:
                 game.detect_matches()
     screen.blit(
-        myfont.render("Du har {} point".format(game.points), 0, (255, 255, 255)),
+        my_font.render("Du har {} point".format(game.points), 0, (255, 255, 255)),
         (50, 50),
     )
 
@@ -103,7 +103,7 @@ def draw_game():
             pygame.Rect(restart_pos[0], restart_pos[1], restart_dim[0], restart_dim[1]),
         )
     screen.blit(
-        myfont.render("RESTART", 0, (0, 0, 0)), (restart_txt[0], restart_txt[1])
+        my_font.render("RESTART", 0, (0, 0, 0)), (restart_txt[0], restart_txt[1])
     )
 
     if (
@@ -132,11 +132,12 @@ def draw_game():
             ),
         )
     screen.blit(
-        myfont.render("Reset score", 0, (0, 0, 0)),
+        my_font.render("Reset score", 0, (0, 0, 0)),
         (reset_score_txt[0], reset_score_txt[1]),
     )
 
-# TODO: add image to show the soecial blocks
+
+# TODO: add image to show the special blocks
 def draw_special(x, y, special):
     if special == 1:
         pass
