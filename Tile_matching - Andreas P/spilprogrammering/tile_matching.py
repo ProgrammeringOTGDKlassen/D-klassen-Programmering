@@ -58,18 +58,9 @@ def draw_game():
                 if game.anim[x][y] == 0:
                     game.detect_matches()
 
-            sc_r, sc_g, sc_b = tile_colors[game.grid[x][y].color]
-            scale_color = 0.5
-            sc_r = sc_r * scale_color
-            sc_g = sc_g * scale_color
-            sc_b = sc_b * scale_color
-            special_color = (sc_r, sc_g, sc_b)
-
             pygame.draw.rect(
                 screen,
-                tile_colors[game.grid[x][y].color]
-                if game.grid[x][y].special == None
-                else special_color,
+                tile_colors[game.grid[x][y].color],
                 pygame.Rect(
                     tile_offset[0] + x * tile_size[0],
                     tile_offset[1] - (y + 1) * tile_size[1] - game.anim[x][y],
@@ -77,7 +68,15 @@ def draw_game():
                     tile_size[1] - 5,
                 ),
             )
-            draw_special(x, y, game.grid[x][y].special)
+            if game.grid[x][y].special != None:
+                draw_special(
+                    screen,
+                    x,
+                    y,
+                    tile_size[0] - 5,
+                    tile_size[1] - 5,
+                    game.grid[x][y].special,
+                )
             if not game.user_press:
                 game.detect_matches()
     screen.blit(
@@ -138,9 +137,17 @@ def draw_game():
 
 
 # TODO: add image to show the special blocks
-def draw_special(x, y, special):
+def draw_special(screen, x, y, tile_size_x, tile_size_y, special):
     if special == 1:
-        pass
+        picture = pygame.image.load("./images/broom.png")
+        picture = pygame.transform.scale(picture, (tile_size_x, tile_size_y))
+        screen.blit(
+            picture,
+            (
+                tile_offset[0] + x * tile_size[0],
+                tile_offset[1] - (y + 1) * tile_size[1] - game.anim[x][y],
+            ),
+        )
     else:
         pass
 
