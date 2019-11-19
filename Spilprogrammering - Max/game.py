@@ -67,3 +67,5 @@ class Game():
                     print(y1)
                     self.build_grid()
 
+        
+
