@@ -18,8 +18,12 @@ tile_colors = [(0,0,0), (255,0,0), (0,255,0), (0,0,255), (255,255,0), (0,255,255
 tile_offset = [280,530]
 tile_size = [50,50]
 
-pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=4096)
+music = ['Sounds\music\きゃりーぱみゅぱみゅ - PONPONPON , Kyary Pamyu Pamyu - PONPONPON.ogg', 'Sounds\music\Alan Walker - Darkside (feat. AuRa and Tomine Harket).ogg']
 
+pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=4096)
+pygame.mixer.music.load(music[0])
+pygame.mixer.music.play()
+pygame.mixer.music.queue(music[1])
 
 def draw_game():
     pygame.draw.rect(screen, (0,0,0), pygame.Rect(0,0,800,600))
