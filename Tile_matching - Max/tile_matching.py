@@ -25,6 +25,9 @@ pygame.mixer.music.load(music[0])
 pygame.mixer.music.play()
 pygame.mixer.music.queue(music[1])
 
+picture = pygame.image.load("./images/sweeper.png")
+picture = pygame.transform.scale(picture, (tile_size[0] - 5, tile_size[1] - 5))
+
 def draw_game():
     pygame.draw.rect(screen, (0,0,0), pygame.Rect(0,0,800,600))
     if current_tile is not None:
@@ -37,17 +40,28 @@ def draw_game():
                 game.anim[x][y] -= 1
                 if game.anim[x][y] == 0:
                     game.detect_matches()
-            pygame.draw.rect(screen, tile_colors[game.grid[x][y]], pygame.Rect(tile_offset[0] + x*tile_size[0], tile_offset[1] - (y+1)*tile_size[1] - game.anim[x][y], tile_size[0]-5, tile_size[1]-5))
+            pygame.draw.rect(screen, tile_colors[game.grid[x][y].color], pygame.Rect(tile_offset[0] + x*tile_size[0], tile_offset[1] - (y+1)*tile_size[1] - game.anim[x][y], tile_size[0]-5, tile_size[1]-5))
+            if game.grid[x][y].special != None:
+                draw_special(screen, x, y, tile_size[0] - 5, tile_size[1] - 5, game.grid[x][y].special,)
+
     screen.blit(point_font.render(f'Point: {game.point}', 0, (255,255,255)), (50,50))
+
     pos = pygame.mouse.get_pos()
     if 52 <= pos[0] <= 152 and 100 <= pos[1] <= 140:
         pygame.draw.rect(screen, (195,0,0), pygame.Rect(52, 100, 100, 40))
     else:
         pygame.draw.rect(screen, (255,0,0), pygame.Rect(52, 100, 100, 40))
     screen.blit(restart_font.render("Restart", 0, (255,255,255)), (60,108))
+
+def draw_special(screen, x, y, tile_size_x, tile_size_y, special):
+    if special == 1:
+        screen.blit(picture,(tile_offset[0] + x * tile_size[0], tile_offset[1] - (y + 1) * tile_size[1] - game.anim[x][y],),)
+    else:
+        pass
+
 def pixels_to_cell(x,y):
-    x1 = int((x - tile_offset[0])/tile_size[0])
-    y1 = int((-y + tile_offset[1])/tile_size[1])
+    x1 = int((x - tile_offset[0]) / tile_size[0])
+    y1 = int((-y + tile_offset[1]) / tile_size[1])
     return x1,y1
 
 
