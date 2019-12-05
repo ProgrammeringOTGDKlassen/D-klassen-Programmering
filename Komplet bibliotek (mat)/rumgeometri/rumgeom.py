@@ -36,6 +36,11 @@ class Vector():
 
 
     def __mul__(self, other):
+        if isinstance(other, int) or isinstance(other, float):
+            for i in range(len(self.coords)):
+                self.coords[i] = self.coords[i] * other
+            return self
+        
         if len(self.coords) != len(other.coords):
             raise ValueError("Vectors are not the same fucking length, nøøb")
         d = 0
@@ -52,7 +57,10 @@ class Vector():
 
 
     def __str__(self):
-        s = "(" + ("{}," for i in range(len(self.coords))) + ")".format(c for c in self.coords)
+        s = ""
+        for c in self.coords:
+            s += "{}, ".format(c)
+        s = s[:-2]
         return s
 
 
@@ -311,6 +319,17 @@ class Matrix():
 
     Magic methods
     -------
+    __str__()
+        Defines the string representation of a matrix.
+        Rows and columns are printed in the right positions.
+    
+    __add__()
+        Magic method for addition in python. Two matrices can be added with +.
+        
+    
+    __mul__()
+        Magic method for multiplication, so matrices can be multiplied with the standard * operator.
+        
     
 
     Factory methods
@@ -326,18 +345,30 @@ class Matrix():
             if prev == None:
                 continue
             if len(v.coords) != len(prev.coords):
-                raise ValueError("Vectors are not same fucking length, nøøb")
+                raise ValueError("Vectors have to be same length in Matrix")
             prev = v
         
         self.vectors = vectors
         
-        self.m = len(self.vectors)
-        self.n = len(self.vectors.coords)
+        self.m = len(self.vectors) # Antal rækker
+        self.n = len(self.vectors[0].coords) # Antal kolonner
 
+    def __str__(self):
+        '''
+        Defines the string representation of a matrix.
+        Rows and columns are printed in the right positions.
+        '''
+        s = ""
+        for v in self.vectors:
+            s += str(v) + "\n"
+        return s
 
     def __add__(self, other):
-        if not self.equal_size(other):
-            raise ValueError("Wrong fucking size, nøøb")
+        '''
+        Magic method for addition in python. Two matrices can be added with +.
+        '''
+        if not isinstance(other, Matrix) or not self.equal_size(other):
+            raise ValueError("Can only add two Matrix objects with same dimensions")
         
         vectors = list()
         for i in range(self.m):
@@ -348,71 +379,172 @@ class Matrix():
 
 
     def __mul__(self, other):
+        '''
+        Magic method for multiplication, so matrices can be multiplied with the standard * operator.
+        '''
         if isinstance(other, Vector):
             # Matrix vector product
             v = Vector(list())
-            for i in range(len(other.vectors)):
-                v += scale(other.vectors[i][i], self.vectors[i])
-            # v1 = scale(other.x, self.vectors[0])
-            # v2 = scale(other.y, self.vectors[1])
-            # v3 = scale(other.z, self.vectors[2])
-            # v4 = scale(other.t, self.vectors[3])
+            for n in range(len(other.vectors)):
+                v += scale(other.vectors[n][n], self.vectors[n])
             return v
-
         elif isinstance(other, Matrix):
             # Matrix matrix product
-            if self.m != other.n:
+            if self.n != other.m:
                 raise ValueError("Wrong fucking sizes, nøøb")
 
             selfVectors = self.vectors
+            selfColVectors = self.transpose()
             otherVectors = other.vectors
-
-            # vo1 = otherVectors[0].coords[1] # Other matrix; vector 1, coordinate 2
-
-            #v1 = scale(other.vectors[0].x, self.vectors[0]) + scale(other.vectors[0].y, self.vectors[1]) + scale(other.vectors[0].z, self.vectors[2]) + scale(other.vectors[0].t, self.vectors[3])
-            #v2 = scale(other.vectors[1].x, self.vectors[0]) + scale(other.vectors[1].y, self.vectors[1]) + scale(other.vectors[1].z, self.vectors[2]) + scale(other.vectors[1].t, self.vectors[3])
-            #v3 = scale(other.vectors[2].x, self.vectors[0]) + scale(other.vectors[2].y, self.vectors[1]) + scale(other.vectors[2].z, self.vectors[2]) + scale(other.vectors[2].t, self.vectors[3])
-            #v4 = scale(other.vectors[3].x, self.vectors[0]) + scale(other.vectors[3].y, self.vectors[1]) + scale(other.vectors[3].z, self.vectors[2]) + scale(other.vectors[3].t, self.vectors[3])
-            l = 0
+            otherColVectors = other.transpose()
             vectors = list()
-            for k in range(self.m):
-                for i in range(self.m):
-                    for j in range(other.n):
-                        l += selfVectors[j].coords[i] * otherVectors[k].coords[j] 
-                        cordinator = []
-                        cordinator.append(l)
-                    v = Vector(cordinator)
-                vectors.append(v)
-            return Matrix(vectors)
+            for col in range(other.n):
+                cordinator = []
 
+                for row in range(self.m):
+                    coord = 0
+
+                    for k in range(other.m):
+                        coord += selfVectors[row].coords[k] * otherColVectors.vectors[col].coords[k]
+                    
+                    cordinator.append(coord)
+                
+                v = Vector(cordinator)
+                vectors.append(v)
+            matrix = Matrix(vectors)
+            matrix = matrix.transpose()
+            return matrix
+        elif isinstance(other, int) or isinstance(other, float): # Skalering af matrix
+            for i in range(len(self.vectors)):
+                self.vectors[i] *= other
         else:
-            raise ValueError("Wrong fucking type, nøøb")
+            raise ValueError("Can only multiply Matrix with Matrix, Vector, Integer or Float")
 
 
     @classmethod
-    def identity_matrix(cls):
-        # Generates the identity matrix; Static
-        v1 = Vector(1, 0, 0, 0)
-        v2 = Vector(0, 1, 0, 0)
-        v3 = Vector(0, 0, 1, 0)
-        v4 = Vector(0, 0, 0, 1)
-        return Matrix([v1, v2, v3, v4])
+    def identity_matrix(cls, s: int):
+        '''
+        Arguments:
+        s: (int) size of matrix
 
+        Returns:
+        (Matrix) identity matrix
 
-    def transpose(self):
+        Static method for generating identity matrix containing zeroes and a diagonal of ones.
+        '''
+        if not isinstance(s, int):
+            raise ValueError("Size can only be an Integer")
+
         vectors = list()
-        for i in range(self.n):
-            v = Vector(list())
-            for j in range(self.m):
-                v.append(self.vectors[n].coords[m])
-            vectors.insert(i, v)
+        for i in range(s):
+            v = Vector([0 for i in range(s)])
+            v.coords[i] = 1
+            vectors.append(v)
         return Matrix(vectors)
 
 
+    def transpose(self):
+        '''
+        Swaps 
+        '''
+        vectors = list()
+        for col in range(self.n):
+            vRes = Vector(list())
+            for row in range(self.m):
+                v = self.vectors[row]
+                vRes.coords.insert(row,v.coords[col])
+            vectors.append(vRes)
+        m = Matrix(vectors)
+        return Matrix(vectors)
+
+    # <Row Operations>
+    def row_swap(self, row1:int, row2:int):
+        '''
+        Swaps row 1 and row 2, and returns the resulting matrix
+        '''
+        if row1 >= self.m or row2 >= self.m:
+            raise ValueError("Given rows are outside the bounds of the matrix")
+        v1 = self.vectors[row1]
+        v2 = self.vectors[row2]
+        self.vectors[row1] = v2
+        self.vectors[row2] = v1
+        return self
+    
+    def row_scale(self, row, scalar):
+        '''
+        Scales a row
+        '''
+        if self.row > self.m:
+            raise ValueError("Given row is outside the bounds of the matrix")
+        self.vectors[row] *= scalar
+        return self
+
+    def scaled_row_addition(self, row1, row2, scalar):
+        '''
+        Scales row1 and adds it to row2, returns the resulting matrix
+        '''
+        if row1 >= self.m or row2 >= self.m:
+            raise ValueError("Given rows are outside the bounds of the matrix")
+        vScaled = self.vectors[row1] * scalar
+        self.vectors[row2] = vScaled + self.vectors[row2]
+        return self
+    # </Row Operations>
+    
+    
+    def append_column(self, vector):
+        if len(vector.coords) != self.n:
+            raise ValueError("Vector needs to match the height of the Matrix")
+
+        for i in range(len(vector.coords)):
+            self.vectors[i].coords.append(vector.coords[i])
+        return self
+
+    # https://martin-thoma.com/solving-linear-equations-with-gaussian-elimination/
+    def gauss(self):
+        for i in range(0, self.m):
+            # Search for maximum in this column
+            maxEl = abs(self.vectors[i].coords[i])
+            maxRow = i
+            for k in range(i+1, self.m):
+                if abs(self.vectors[k].coords[i]) > maxEl:
+                    maxEl = abs(self.vectors[k].coords[i])
+                    maxRow = k
+
+            # Swap maximum row with current row (column by column)
+            for k in range(i, self.m+1):
+                tmp = self.vectors[maxRow].coords[k]
+                self.vectors[maxRow].coords[k] = self.vectors[i].coords[k]
+                self.vectors[i].coords[k] = tmp
+
+            # Make all rows below this one 0 in current column
+            for k in range(i+1, self.m):
+                c = -self.vectors[k].coords[i]/self.vectors[i].coords[i]
+                for j in range(i, self.m+1):
+                    if i == j:
+                        self.vectors[k].coords[j] = 0
+                    else:
+                        self.vectors[k].coords[j] += c * self.vectors[i].coords[j]
+
+        # Solve equation Ax=b for an upper triangular matrix A
+        x = [0 for i in range(self.m)]
+        for i in range(self.m-1, -1, -1):
+            x[i] = self.vectors[i].coords[self.m]/self.vectors[i].coords[i]
+            for k in range(i-1, -1, -1):
+                self.vectors[k].coords[self.m] -= self.vectors[k].coords[i] * x[i]
+
+        result = Matrix.identity_matrix(self.n-1).append_column(Vector(x))
+        return result
+    # </Row Operations>
+
     def equal_size(self, other):
-        return other.m == self.m
+        """
+        Returns True if self and other have same dimensions
+        """
+        if not isinstance(other, Matrix):
+            raise ValueError("Can only compare two matrices")
+        return other.m == self.m and other.n == self.n
 
-
+    # Til robotten
     def get_rotation_matrix(self, angleX, angleY, angleZ):
         v1 = Vector(math.cos(angleZ)*math.cos(angleY), math.sin(angleZ)*math.cos(angleY), -1*math.sin(angleY))
         v2 = Vector(math.cos(angleZ)*math.sin(angleY)*math.sin(angleX)-math.sin(angleZ)*math.cos(angleX), math.sin(angleZ)*math.sin(angleY)*math.sin(angleX)+math.cos(angleZ)*math.cos(angleX), math.cos(angleY)*math.sin(angleX))
