@@ -3,7 +3,7 @@ import random
 import pygame
 import tkinter as tk
 from tkinter import messagebox
-rows = 12
+rows = 10
 width = 500
 dis = width // rows
 snakeHead = pygame.image.load('images\snakeHead.png')
@@ -18,7 +18,7 @@ pygame.mixer.music.load(music[0])
 pygame.mixer.music.set_volume(100)
 pygame.mixer.music.play(-1)
 class cube(object):
-    rows = 12
+    rows = 10
     w = 500
     def __init__(self,start,img = 'images\snakeHead.png',dirnx=1,dirny=0,color=(255,0,0), isMax = True):
         self.pos = start
@@ -153,7 +153,8 @@ def redrawWindow(surface):
     surface.fill((0,0,0))
     s.draw(surface)
     snack.draw(surface)
-    #drawGrid(width,rows, surface)
+    drawGrid(width,rows, surface)
+    print(s.head.pos)
     pygame.display.update()
  
  
@@ -186,14 +187,14 @@ def message_box(subject, content):
 def main():
     global width, rows, s, snack
     width = 500
-    rows = 12
+    rows = 10
     win = pygame.display.set_mode((width, width))
     s = snake((255,0,0), (10,10))
     snack = cube(randomSnack(rows, s), 'images\snakeHead.png',color=(0,255,0), isMax = False)
     flag = True
  
     clock = pygame.time.Clock()
-   
+    ti = 10
     while flag:
         pygame.time.delay(50)
         clock.tick(10)
@@ -201,6 +202,7 @@ def main():
         if s.body[0].pos == snack.pos:
             s.addCube()
             snack = cube(randomSnack(rows, s), 'images\snakeHead.png', color=(0,255,0), isMax = False)
+            ti = ti-0.5
  
         for x in range(len(s.body)):
             if s.body[x].pos in list(map(lambda z:z.pos,s.body[x+1:])):
