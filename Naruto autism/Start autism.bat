@@ -1,0 +1,2 @@
+python naruto.py
+pause
