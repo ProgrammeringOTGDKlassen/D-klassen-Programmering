@@ -10,6 +10,8 @@ snakeHead = pygame.image.load('images\snakeHead.png')
 snakeHead = pygame.transform.scale(snakeHead,(dis,dis))
 snackPic = pygame.image.load('images\points.png')
 snackPic = pygame.transform.scale(snackPic, (dis,dis))
+boostPic = pygame.image.load('images\Boost.png')
+boostPic = pygame.transform.scale(boostPic, (dis,dis))
 
 music = ['sounds\y2mate.com - nytrstale_til_dansk_i_2g_g8pnBZHa8Bg.ogg']
 
@@ -20,7 +22,7 @@ pygame.mixer.music.play(-1)
 class cube(object):
     rows = 10
     w = 500
-    def __init__(self,start,img = 'images\snakeHead.png',dirnx=1,dirny=0,color=(255,0,0), isMax = True):
+    def __init__(self,start,img = 'images\snakeHead.png',dirnx=1,dirny=0,color=(255,0,0), isMax = True, isBoost = False, isSnack = False):
         self.pos = start
         self.dirnx = 1
         self.dirny = 0
@@ -29,6 +31,9 @@ class cube(object):
         self.giffler = snackPic
         self.max = snakeHead
         self.isMax = isMax
+        self.isBoost = isBoost
+        self.booster = boostPic
+        self.isSnack = isSnack
        
     def move(self, dirnx, dirny):
         self.dirnx = dirnx
@@ -42,11 +47,11 @@ class cube(object):
 
         if self.isMax:
             surface.blit(self.max, (i*dis+1,j*dis+1, dis-2, dis-2))
+        elif self.isBoost:
+            surface.blit(self.booster, (i*dis+1,j*dis+1, dis-2, dis-2))
         else:
             surface.blit(self.giffler, (i*dis+1,j*dis+1, dis-2, dis-2))
        
- 
- 
  
 class snake(object):
     body = []
@@ -149,29 +154,52 @@ def drawGrid(w, rows, surface):
        
  
 def redrawWindow(surface):
-    global rows, width, s, snack
+    global rows, width, s, snack, boost
     surface.fill((0,0,0))
     s.draw(surface)
     snack.draw(surface)
+    boost.draw(surface)
     drawGrid(width,rows, surface)
-    print(s.head.pos)
+    #print(s.head.pos)
+    #print(boost.pos)
     pygame.display.update()
  
  
-def randomSnack(rows, item):
- 
+def randomSnack(rows, item, boost):
+    boost = boost
     positions = item.body
+    if boost == None:
+        while True:
+            x = random.randrange(rows)
+            y = random.randrange(rows)
+            if len(list(filter(lambda z:z.pos == (x,y), positions))) > 0:
+                continue
+            else:
+                break        
+    else:
+        while True:
+            x = random.randrange(rows)
+            y = random.randrange(rows)
+            if len(list(filter(lambda z:z.pos == (x,y), positions))) > 0 or boost.pos == (x,y):
+                continue
+            else:
+                break
+       
+    return (x,y)
  
+
+def randomBoost(rows, item, snack):
+    snack = snack
+    positions = item.body
     while True:
         x = random.randrange(rows)
         y = random.randrange(rows)
-        if len(list(filter(lambda z:z.pos == (x,y), positions))) > 0:
+        if len(list(filter(lambda z:z.pos == (x,y), positions))) > 0 or snack.pos == (x,y):
             continue
         else:
             break
        
     return (x,y)
- 
  
 def message_box(subject, content):
     root = tk.Tk()
@@ -185,12 +213,13 @@ def message_box(subject, content):
  
  
 def main():
-    global width, rows, s, snack
+    global width, rows, s, snack, boost
     width = 500
     rows = 10
     win = pygame.display.set_mode((width, width))
     s = snake((255,0,0), (10,10))
-    snack = cube(randomSnack(rows, s), 'images\snakeHead.png',color=(0,255,0), isMax = False)
+    snack = cube(randomSnack(rows, s, None), 'images\snakeHead.png',color=(0,255,0), isMax = False, isSnack = True)
+    boost = cube(randomBoost(rows, s, snack), 'images\snakeHead.png',color=(0,255,255),isMax = False, isBoost = True)
     flag = True
  
     clock = pygame.time.Clock()
@@ -201,8 +230,10 @@ def main():
         s.move()
         if s.body[0].pos == snack.pos:
             s.addCube()
-            snack = cube(randomSnack(rows, s), 'images\snakeHead.png', color=(0,255,0), isMax = False)
+            snack = cube(randomSnack(rows, s, boost), 'images\snakeHead.png', color=(0,255,0), isMax = False, isSnack = True)
             ti = ti-0.5
+        elif s.body[0].pos == boost.pos:
+            boost = cube(randomBoost(rows, s, snack), 'images\snakeHead.png',color=(0,255,255),isMax = False, isBoost = True)
  
         for x in range(len(s.body)):
             if s.body[x].pos in list(map(lambda z:z.pos,s.body[x+1:])):
