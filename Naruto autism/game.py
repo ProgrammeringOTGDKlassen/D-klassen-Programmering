@@ -49,7 +49,9 @@ class Autist:
         if self.walking:
             self.screen.blit(
                 self.running_sprites[self.walk_count // framerate_determinator],
-                self.running_sprites[self.walk_count // framerate_determinator].get_rect(x=self.x, y=self.y),
+                self.running_sprites[
+                    self.walk_count // framerate_determinator
+                ].get_rect(x=self.x, y=self.y),
             )
         if not self.walking:
             self.screen.blit(

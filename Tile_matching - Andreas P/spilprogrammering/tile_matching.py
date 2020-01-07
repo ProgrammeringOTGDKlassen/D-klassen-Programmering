@@ -68,14 +68,9 @@ def draw_game():
                     tile_size[1] - 5,
                 ),
             )
-            if game.grid[x][y].special != None:
+            if special := game.grid[x][y].special != None:
                 draw_special(
-                    screen,
-                    x,
-                    y,
-                    tile_size[0] - 5,
-                    tile_size[1] - 5,
-                    game.grid[x][y].special,
+                    screen, x, y, tile_size[0] - 5, tile_size[1] - 5, special,
                 )
             if not game.user_press:
                 game.detect_matches()
@@ -136,13 +131,14 @@ def draw_game():
     )
 
 
-# TODO: add image to show the special blocks
 def draw_special(screen, x, y, tile_size_x, tile_size_y, special):
     if special == 1:
-        picture = pygame.image.load("./images/broom.png")
-        picture = pygame.transform.scale(picture, (tile_size_x, tile_size_y))
+        special_1_image = pygame.image.load("./images/broom.png")
+        special_1_image = pygame.transform.scale(
+            special_1_image, (tile_size_x, tile_size_y)
+        )
         screen.blit(
-            picture,
+            special_1_image,
             (
                 tile_offset[0] + x * tile_size[0],
                 tile_offset[1] - (y + 1) * tile_size[1] - game.anim[x][y],
