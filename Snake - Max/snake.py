@@ -160,8 +160,6 @@ def redrawWindow(surface):
     snack.draw(surface)
     boost.draw(surface)
     drawGrid(width,rows, surface)
-    #print(s.head.pos)
-    #print(boost.pos)
     pygame.display.update()
  
  
@@ -173,7 +171,7 @@ def randomSnack(rows, item, boost):
             x = random.randrange(rows)
             y = random.randrange(rows)
             if len(list(filter(lambda z:z.pos == (x,y), positions))) > 0:
-                continue
+                randomSnack(rows, item, boost)
             else:
                 break        
     else:
@@ -181,7 +179,7 @@ def randomSnack(rows, item, boost):
             x = random.randrange(rows)
             y = random.randrange(rows)
             if len(list(filter(lambda z:z.pos == (x,y), positions))) > 0 or boost.pos == (x,y):
-                continue
+                randomSnack(rows, item, boost)
             else:
                 break
        
@@ -195,7 +193,7 @@ def randomBoost(rows, item, snack):
         x = random.randrange(rows)
         y = random.randrange(rows)
         if len(list(filter(lambda z:z.pos == (x,y), positions))) > 0 or snack.pos == (x,y):
-            continue
+            randomBoost(rows, item, snack)
         else:
             break
        
@@ -239,7 +237,7 @@ def main():
             if s.body[x].pos in list(map(lambda z:z.pos,s.body[x+1:])):
                 print('Score: ', len(s.body))
                 message_box('You Lost!', 'Play again...')
-                s.reset((10,10))
+                s.reset((random.randint(0,10),random.randint(0,10)))
                 break
  
            
