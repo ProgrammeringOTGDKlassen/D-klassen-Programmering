@@ -2,6 +2,7 @@ import math
 import random
 import pygame
 import tkinter as tk
+import time
 from tkinter import messagebox
 rows = 10
 width = 500
@@ -57,13 +58,14 @@ class snake(object):
     body = []
     turns = {}
     
-    def __init__(self, color, pos):
+    def __init__(self, color, pos, speed):
         self.color = color
         self.head = cube(pos, 'images\snakeHead.png')
         self.body.append(self.head)
         self.dirnx = 0
         self.dirny = 1
-        self.time_to_move = 10
+        self.time_to_move = speed
+        self.move_speed = speed
  
     def move(self):
         for event in pygame.event.get():
@@ -95,7 +97,7 @@ class snake(object):
 
         self.time_to_move -= 1
         if self.time_to_move <= 0:
-            self.time_to_move = 10
+            self.time_to_move = self.move_speed
             for i, c in enumerate(self.body):
                 p = c.pos[:]
                 if p in self.turns:
@@ -105,20 +107,26 @@ class snake(object):
                         self.turns.pop(p)
                 else:
                     if c.dirnx == -1 and c.pos[0] <= 0: c.pos = (c.rows-1, c.pos[1])
-                    elif c.dirnx == 1 and c.pos[0] >= c.rows-1: c.pos = (0,c.pos[1])
+                    elif c.dirnx == 1 and c.pos[0] >= c.rows-1: c.pos = (0, c.pos[1])
                     elif c.dirny == 1 and c.pos[1] >= c.rows-1: c.pos = (c.pos[0], 0)
-                    elif c.dirny == -1 and c.pos[1] <= 0: c.pos = (c.pos[0],c.rows-1)
+                    elif c.dirny == -1 and c.pos[1] <= 0: c.pos = (c.pos[0], c.rows-1)
                     else: c.move(c.dirnx,c.dirny)
        
- 
-    def reset(self, pos):
+    def speedup(self):
+        self.move_speed = 10
+    
+    def slowdown(self):
+        self.move_speed = self.move_speed+1
+        
+    def reset(self, pos, speed):
         self.head = cube(pos, 'images\snakeHead.png')
         self.body = []
         self.body.append(self.head)
         self.turns = {}
         self.dirnx = 0
         self.dirny = 1
- 
+        self.time_to_move = speed
+        self.move_speed = speed
  
     def addCube(self):
         tail = self.body[-1]
@@ -220,28 +228,30 @@ def main():
     width = 500
     rows = 10
     win = pygame.display.set_mode((width, width))
-    s = snake((255,0,0), (10,10))
+    speed = 10
+    s = snake((255,0,0), (random.randint(0,9),random.randint(0,9)), speed)
     snack = cube(randomSnack(rows, s, None), 'images\snakeHead.png',color=(0,255,0), isMax = False, isSnack = True)
     boost = cube(randomBoost(rows, s, snack), 'images\snakeHead.png',color=(0,255,255),isMax = False, isBoost = True)
     flag = True
  
     clock = pygame.time.Clock()
-    ti = 10
     while flag:
         clock.tick(100)
         s.move()
+        # print(s.body[0].pos)
         if s.body[0].pos == snack.pos:
             s.addCube()
             snack = cube(randomSnack(rows, s, boost), 'images\snakeHead.png', color=(0,255,0), isMax = False, isSnack = True)
-            ti = ti-0.5
+            s.slowdown()
         elif s.body[0].pos == boost.pos:
             boost = cube(randomBoost(rows, s, snack), 'images\snakeHead.png',color=(0,255,255),isMax = False, isBoost = True)
+            s.speedup()
  
         for x in range(len(s.body)):
             if s.body[x].pos in list(map(lambda z:z.pos,s.body[x+1:])):
                 print('Score: ', len(s.body))
-                message_box('You Lost!', 'Play again...')
-                s.reset((random.randint(0,10),random.randint(0,10)))
+                message_box('You Lost!', f'Score: {len(s.body)} \nPlay again...')
+                s.reset((random.randint(0,9),random.randint(0,9)), speed)
                 break
  
            
