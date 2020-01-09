@@ -18,8 +18,8 @@ obstacles = list()
 
 
 # MUSIC
-# pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=4096)
-# pygame.mixer.music.load("./Fruit Level - Candy Crush Saga.ogg")
+pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=4096)
+pygame.mixer.music.load("./naruto_run.ogg")
 
 
 def draw_game(done):
@@ -44,7 +44,7 @@ def draw_game(done):
     return done
 
 
-# pygame.mixer.music.play(-1)
+pygame.mixer.music.play(-1)
 # Main game loop
 while not done:
     for event in pygame.event.get():
