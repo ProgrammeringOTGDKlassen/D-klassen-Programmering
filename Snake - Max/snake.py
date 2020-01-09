@@ -20,6 +20,7 @@ pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=4096)
 pygame.mixer.music.load(music[0])
 pygame.mixer.music.set_volume(100)
 pygame.mixer.music.play(-1)
+tidligereScore = None
 class cube(object):
     rows = 10
     w = 500
@@ -111,14 +112,16 @@ class snake(object):
                     elif c.dirny == 1 and c.pos[1] >= c.rows-1: c.pos = (c.pos[0], 0)
                     elif c.dirny == -1 and c.pos[1] <= 0: c.pos = (c.pos[0], c.rows-1)
                     else: c.move(c.dirnx,c.dirny)
+
        
     def speedup(self):
-        self.move_speed = 10
+        self.move_speed = 8
     
     def slowdown(self):
-        self.move_speed = self.move_speed+1
+        self.move_speed = self.move_speed + 1
         
-    def reset(self, pos, speed):
+    def reset(self, pos, speed, score):
+        global tidligereScore
         self.head = cube(pos, 'images\snakeHead.png')
         self.body = []
         self.body.append(self.head)
@@ -127,6 +130,7 @@ class snake(object):
         self.dirny = 1
         self.time_to_move = speed
         self.move_speed = speed
+        tidligereScore = score
  
     def addCube(self):
         tail = self.body[-1]
@@ -168,7 +172,8 @@ def drawGrid(w, rows, surface):
  
 def redrawWindow(surface):
     global rows, width, s, snack, boost
-    surface.fill((0,0,0))
+    surface.fill((10, 10, 44))
+    #surface.fill((0, 0, 0))
     s.draw(surface)
     snack.draw(surface)
     boost.draw(surface)
@@ -224,11 +229,11 @@ def message_box(subject, content):
  
  
 def main():
-    global width, rows, s, snack, boost
+    global width, rows, s, snack, boost, tidligereScore
     width = 500
     rows = 10
     win = pygame.display.set_mode((width, width))
-    speed = 10
+    speed = 8
     s = snake((255,0,0), (random.randint(0,9),random.randint(0,9)), speed)
     snack = cube(randomSnack(rows, s, None), 'images\snakeHead.png',color=(0,255,0), isMax = False, isSnack = True)
     boost = cube(randomBoost(rows, s, snack), 'images\snakeHead.png',color=(0,255,255),isMax = False, isBoost = True)
@@ -249,9 +254,13 @@ def main():
  
         for x in range(len(s.body)):
             if s.body[x].pos in list(map(lambda z:z.pos,s.body[x+1:])):
-                print('Score: ', len(s.body))
-                message_box('You Lost!', f'Score: {len(s.body)} \nPlay again...')
-                s.reset((random.randint(0,9),random.randint(0,9)), speed)
+                score = len(s.body)
+                print(tidligereScore)
+                if tidligereScore == None:
+                    message_box('You Lost!', f'Score: {score} \nSpil igen...')
+                else:
+                    message_box('You Lost!', f'Score: {score} \nTidligere score: {tidligereScore} \Spil igen...')
+                s.reset((random.randint(0,9),random.randint(0,9)), speed, score)
                 break
  
            
