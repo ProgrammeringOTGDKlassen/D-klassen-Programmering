@@ -259,7 +259,7 @@ def main():
                 if tidligereScore == None:
                     message_box('You Lost!', f'Score: {score} \nSpil igen...')
                 else:
-                    message_box('You Lost!', f'Score: {score} \nTidligere score: {tidligereScore} \Spil igen...')
+                    message_box('You Lost!', f'Score: {score} \nTidligere score: {tidligereScore} \nSpil igen...')
                 s.reset((random.randint(0,9),random.randint(0,9)), speed, score)
                 break
  
