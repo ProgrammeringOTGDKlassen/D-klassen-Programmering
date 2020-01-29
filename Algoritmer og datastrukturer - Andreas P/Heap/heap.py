@@ -1,9 +1,13 @@
 import random
 
+
 class Heap:
     def __init__(self, A: list):
         self.A = A
         self.heap_size = len(self.A)
+
+    def exchange(self, element1: int, element2: int):
+        self.A[element1], self.A[element2] = self.A[element2], self.A[element1]
 
     def parent(self, i: int):
         return (i - 1) // 2
@@ -24,7 +28,7 @@ class Heap:
         if r < self.heap_size and self.A[r] > self.A[largest]:
             largest = r
         if largest != i:
-            self.A[i], self.A[largest] = self.A[largest], self.A[i]
+            self.exchange(i, largest)
             self.max_heapify(largest)
 
     def build_max_heap(self):
@@ -35,7 +39,7 @@ class Heap:
     def heapsort(self):
         self.build_max_heap()
         for i in reversed(range(1, len(self.A))):
-            self.A[0], self.A[i] = self.A[i], self.A[0]
+            self.exchange(0, i)
             self.heap_size -= 1
             self.max_heapify(0)
 
