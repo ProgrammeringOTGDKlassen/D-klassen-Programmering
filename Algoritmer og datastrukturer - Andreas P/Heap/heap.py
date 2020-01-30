@@ -6,24 +6,34 @@ class Heap:
         self.A = A
         self.heap_size = len(self.A)
 
-    def is_max_heap(self, i=0, n=None):
-        if n == None:
-            n = self.heap_size - 1
-        # If a leaf node
-        if i > int((n - 2) / 2):
-            return True
-        # If an internal node and is greater
-        # than its children, and same is
-        # recursively true for the children
-        if (
-            self.A[i] >= self.A[2 * i + 1]
-            and self.A[i] >= self.A[2 * i + 2]
-            and self.is_max_heap(2 * i + 1, n)
-            and self.is_max_heap(2 * i + 2, n)
-        ):
-            return True
+    # def is_max_heap(self, i=1, n=None):
+    #     if n == None:
+    #         n = self.heap_size - 1
+    #     # If a leaf node
+    #     if i > int((n - 2) / 2):
+    #         return True
+    #     # If an internal node and is greater
+    #     # than its children, and same is
+    #     # recursively true for the children
+    #     if (
+    #         self.A[i] >= self.A[2 * i + 1]
+    #         and self.A[i] >= self.A[2 * i + 2]
+    #         and self.is_max_heap(2 * i + 1, n)
+    #         and self.is_max_heap(2 * i + 2, n)
+    #     ):
+    #         return True
 
-        return False
+    #     return False
+
+    def is_max_heap(self):
+        for i in range(len(self.A)):
+            l = self.left(i)
+            r = self.right(i)
+            if l < len(self.A) and self.A[l] > self.A[i]: # Left is greater than parent
+                return False
+            if r < len(self.A) and self.A[r] > self.A[i]: # Right is greater than parent
+                return False
+        return True
 
     def exchange(self, element1: int, element2: int):
         self.A[element1], self.A[element2] = self.A[element2], self.A[element1]
@@ -88,17 +98,18 @@ class Heap:
             i = self.parent(i)
 
     def max_heap_insert(self, key):
-        self.heap_size = self.heap_size - 1
-        self.A[self.heap_size] = float("-inf")
-        self.heap_increase_key(self.heap_size, key)
+        self.A.append(float("-inf"))
+        self.heap_size = len(self.A)
+        self.heap_increase_key(self.heap_size - 1, key)
 
 
 if __name__ == "__main__":
     heap = Heap([random.randint(1, 900) for i in range(0, 10)])
 
     heap.build_max_heap()
-
     print(f"List: {heap.A=}")
+    print(f"is max heap: {heap.is_max_heap()=}")
+    
     heap.max_heap_insert(600)
     print(f"List: {heap.A=}")
     print(f"is max heap: {heap.is_max_heap()=}")
