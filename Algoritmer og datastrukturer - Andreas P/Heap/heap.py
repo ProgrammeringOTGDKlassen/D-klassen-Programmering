@@ -1,4 +1,4 @@
-import random
+import random, math
 
 
 class Heap:
@@ -29,9 +29,11 @@ class Heap:
         for i in range(len(self.A)):
             l = self.left(i)
             r = self.right(i)
-            if l < len(self.A) and self.A[l] > self.A[i]: # Left is greater than parent
+            if l < len(self.A) and self.A[l] > self.A[i]:  # Left is greater than parent
                 return False
-            if r < len(self.A) and self.A[r] > self.A[i]: # Right is greater than parent
+            if (
+                r < len(self.A) and self.A[r] > self.A[i]
+            ):  # Right is greater than parent
                 return False
         return True
 
@@ -62,7 +64,7 @@ class Heap:
 
     def build_max_heap(self):
         self.heap_size = len(self.A)
-        for i in reversed(range(0, ((len(self.A) - 1) // 2) + 1)):
+        for i in reversed(range(0, int(math.ceil((len(self.A) - 1) / 2)))):
             self.max_heapify(i)
 
     def heapsort(self):
@@ -102,37 +104,27 @@ class Heap:
         self.heap_size = len(self.A)
         self.heap_increase_key(self.heap_size - 1, key)
 
+    def the_test():
+        success_count = 0
+        fail_count = 0
+        total = 0
+
+        for i in range(10000):
+            heap = Heap([random.randint(1, 10000) for i in range(0, 1000)])
+            heap.build_max_heap()
+            heap1 = heap.A
+            heap.max_heap_insert(random.randint(1, 100000))
+            heap2 = heap.A
+            if Heap(heap1).is_max_heap() and Heap(heap1).is_max_heap():
+                success_count += 1
+            else:
+                fail_count += 1
+            total += 1
+
+        success_percent = (success_count / total) * 100
+        print(f"The heap is {success_percent}% successfull")
+        print(f"Just for fun. Fail count: {fail_count}")
+
 
 if __name__ == "__main__":
-    heap = Heap([random.randint(1, 900) for i in range(0, 10)])
-    print(f"\nNot maxified: {heap.A}")
-    print(f"Check is max heap: {heap.is_max_heap()}\n")
-    heap.build_max_heap()
-    print(f"Max heap: {heap.A}")
-    print(f"Check is max heap: {heap.is_max_heap()}\n")
-    
-    heap.max_heap_insert(600)
-    print(f"After insert: {heap.A}")
-    print(f"Check is max heap: {heap.is_max_heap()}\n")
-
-    # not_heap = Heap([4, 1, 3, 2, 16, 9, 10, 14, 8, 7])
-    # print(f"is max heap: {not_heap.is_max_heap()=}")
-    # not_heap.build_max_heap()
-    # print(f"is max heap: {not_heap.is_max_heap()=}")
-    # print(f"List: {not_heap.A=}\n")
-    # not_heap.max_heap_insert(600)
-    # print(f"After insert: {not_heap.A}")
-    # print(f"Check is max heap: {not_heap.is_max_heap()}\n")
-
-
-    # max_heap = Heap([16, 14, 10, 8, 7, 9, 3, 2, 4, 1])
-    # print(f"is max heap: {max_heap.is_max_heap()=}")
-    # max_heap.build_max_heap()
-    # print(f"is max heap: {max_heap.is_max_heap()=}")
-    # print(f"List: {max_heap.A=}\n")
-    # max_heap.max_heap_insert(600)
-    # print(f"After insert: {max_heap.A}")
-    # print(f"Check is max heap: {max_heap.is_max_heap()}\n")
-    
-    
-
+    Heap.the_test()
