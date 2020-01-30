@@ -108,12 +108,16 @@ class Heap:
         success_count = 0
         fail_count = 0
         total = 0
+        the_range = 10000
 
-        for i in range(10000):
-            heap = Heap([random.randint(1, 10000) for i in range(0, 1000)])
+        for i in range(the_range):
+            heap = Heap([random.randint(0, 10000) for i in range(0, 1000)])
             heap.build_max_heap()
             heap1 = heap.A
-            heap.max_heap_insert(random.randint(1, 100000))
+            if i < (the_range // 2):
+                heap.max_heap_insert(random.randint(0, 100000))
+            else:
+                heap.max_heap_insert(random.random())
             heap2 = heap.A
             if Heap(heap1).is_max_heap() and Heap(heap1).is_max_heap():
                 success_count += 1
