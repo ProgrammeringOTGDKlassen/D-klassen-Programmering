@@ -6,25 +6,6 @@ class Heap:
         self.A = A
         self.heap_size = len(self.A)
 
-    # def is_max_heap(self, i=1, n=None):
-    #     if n == None:
-    #         n = self.heap_size - 1
-    #     # If a leaf node
-    #     if i > int((n - 2) / 2):
-    #         return True
-    #     # If an internal node and is greater
-    #     # than its children, and same is
-    #     # recursively true for the children
-    #     if (
-    #         self.A[i] >= self.A[2 * i + 1]
-    #         and self.A[i] >= self.A[2 * i + 2]
-    #         and self.is_max_heap(2 * i + 1, n)
-    #         and self.is_max_heap(2 * i + 2, n)
-    #     ):
-    #         return True
-
-    #     return False
-
     def is_max_heap(self):
         for i in range(len(self.A)):
             l = self.left(i)
@@ -104,11 +85,10 @@ class Heap:
         self.heap_size = len(self.A)
         self.heap_increase_key(self.heap_size - 1, key)
 
-    def the_test():
+    def the_test(the_range=10000):
         success_count = 0
         fail_count = 0
         total = 0
-        the_range = 10000
 
         for i in range(the_range):
             heap = Heap([random.randint(0, 10000) for i in range(0, 1000)])
