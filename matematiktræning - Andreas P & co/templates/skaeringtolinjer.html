@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Skæring mellem to linjer</h2>
+<div>
+Herunder ses linjerne \( p \) og \( q \), der har ligningerne:
+\[ p: y = {{ "%.2f"|format(a1) }}x{{ "%+.2f"|format(b1) }} \]
+og
+\[ q: y= {{ "%.2f"|format(a2) }}x{{ "%+.2f"|format(b2) }} \]
+Bestem skæringspunktet mellem linjerne.
+</div>
+<div class="form-group">
+  <form class="form-control" action="/submit_answer?oid=1&qid={{ opg_id }}" method="post">
+    <label class="form-control-static" for="text">Skriv svaret som et punkt (x,y):</label>
+    <input class="form-control" type="text" rows="5" name="svar"></input>
+    <button class="form-control" type="submit" name="button">Send</button>
+  </form>
+</div>
+<div>
+  <h3>Spoiler?</h3>
+  <button id="spoiler_knap" class="form-control" onclick="show_spoiler()">Vis graf</button>
+</div>
+<script type="text/javascript">
+  function show_spoiler() {
+    var x = document.getElementById("graf");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+    var knap = document.getElementById("spoiler_knap");
+    if (x.style.display === "block") {
+      document.querySelector('#spoiler_knap').innerText = 'Skjul graf';
+    } else {
+      document.querySelector('#spoiler_knap').innerText = 'Vis graf';
+    }
+  }
+</script>
+
+<div id="graf" style="display:none">
+  <canvas id="myChart" width="200" height="200"></canvas>
+
+  <script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var range = [-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10];
+    var data = {
+      labels: range,
+      datasets: [{
+          label: "p",
+          yAxisID: "y",
+          //Linje 1
+          linje: function(x) { return {{ a1 }}*x + {{ b1 }} },
+          data: [], // Denne linje er vigtig!
+          borderColor: "rgba(50, 200, 200, 1)",
+          fill: false
+      },
+      {
+          label: "q",
+          yAxisID: "y",
+          //Linje 2
+          linje: function(x) { return {{ a2 }}*x + {{ b2 }}  },
+          data: [], // Denne linje er vigtig!
+          borderColor: "rgba(150, 100, 200, 1)",
+          fill: false
+      }]
+    };
+    var options = {
+      scales:{
+        yAxes:[{
+          id:"y",
+          ticks: {
+            min: -10,
+            max: 10,
+            stepSize: 1
+          }
+        }]
+      }
+    };
+
+    Chart.pluginService.register({
+    beforeInit: function(chart) {
+        var data = chart.config.data;
+        for (var i = 0; i < data.datasets.length; i++) {
+          for (var j = 0; j < data.labels.length; j++) {
+            var fct = data.datasets[i].linje;
+            var x = data.labels[j];
+            var y = fct(x);
+            data.datasets[i].data.push(y);
+          }
+        }
+      }
+    });
+
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: options
+    });
+  </script>
+</div>
+{% endblock content %}

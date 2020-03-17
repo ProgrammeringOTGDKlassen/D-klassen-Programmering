@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>
+  {% if result %}
+    <h2>Korrekt svar! Stærkt.</h2>
+  {% else %}
+      <h3>Desværre, svaret var forkert.</h3>
+  {% endif %}
+  Vil du have en ny opgave?
+  <form action="/opg" method="get">
+    <input type="hidden" name="opg_id" value="{{ return_opg }}" />
+    <button class="form-control" type="submit">Ja tak, giv mig en til</button>
+  </form>
+  <form action="/home">
+    <button class="form-control" type="submit">Nej tak, retur til forsiden</button>
+  </form>
+</div>
+{% endblock content %}
