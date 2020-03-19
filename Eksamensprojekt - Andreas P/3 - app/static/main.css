@@ -1,0 +1,196 @@
+/*TODO Clean up this CSS file.*/
+
+/* Makes a new font from the font folder */
+
+@font-face {
+  font-family: Roboto;
+  src: url('./fonts/Roboto-Regular.ttf')
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+#parent {
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  width: 100%;
+  min-height: 818px;
+  /* needs to be more responsive*/
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+body {
+  font-family: Roboto;
+  font-size: 20px;
+  background: #485460;
+}
+
+nav {
+  height: 60px;
+}
+
+.header {
+  padding: 5px;
+  width: calc(100vw - 60px);
+  display: inline-block;
+  height: 60px;
+}
+
+.burger {
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+  position: relative;
+  top: -6px;
+}
+
+.header a {
+  text-align: center;
+  padding-top: 10px;
+  display: inline-block;
+  width: 200px;
+  margin-left: calc(50vw - 105px);
+}
+
+.burger .navbar-toggler {
+  background-image: url("burger.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  border: 0;
+  background-color: transparent
+}
+
+h3 {
+  margin: 0;
+}
+
+.col .form-control::placeholder {
+  color: #FFFFFF;
+}
+
+.col .form-control::-webkit-input-placeholder {
+  color: #FFFFFF;
+}
+
+.col .form-control::-moz-placeholder {
+  color: #FFFFFF;
+}
+
+#parent #signup {
+  height: 570px;
+  position: absolute;
+  top: calc(100vh/2 - 570px/2);
+}
+
+#parent #signin {
+  height: 350px;
+  position: absolute;
+  top: calc(100vh/2 - 350px/2);
+}
+
+.form-group .form-control {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + .75rem + 2px);
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.but .btn {
+  display: inline-block;
+  font-weight: 400;
+  color: #212529;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.info {
+  margin-top: 20px;
+}
+
+.info .info-box {
+  display: inline-block;
+  max-width: 240px;
+  width: 25%;
+  background-color: #d2dae2;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #101418;
+}
+
+::-webkit-scrollbar-thumb {
+  height: 30px;
+  background-color: #05C46B;
+}
+
+.card-body {
+  scrollbar-color: #05C46B #151b20;
+  scrollbar-width: thin;
+}
+
+.footer {
+  font-family: 'Roboto', sans-serif;
+  font-size: 23px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+}
+
+.slink:link {
+  color: #0038FF;
+  text-decoration: none;
+}
+
+.slink:visited {
+  color: #0038FF;
+}
+
+.slink:hover {
+  text-decoration: underline;
+}

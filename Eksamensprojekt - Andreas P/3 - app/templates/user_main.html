@@ -1,0 +1,86 @@
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='user.css') }}">
+{% extends "header.html" %}
+{% block content %}
+
+<head>
+  <style>
+    .form-control::-webkit-input-placeholder {
+      color: black;
+    }
+  </style>
+</head>
+<div class="content">
+  <div class="card" style=" background-color: rgba(0, 0, 0, 0); border: none;">
+    <form action="joinroom" method="POST">
+      <div class="joinroom" style="display: inline-block">
+        <input class="form-control"
+          style=" color: #000000; border-radius: 34px; background-color: #D2DAE2; text-align: center; height: 50px; margin-top: 10px;"
+          type="text" placeholder="Join Code" name="join_code" required>
+        <button class="btn btn-success" style="background-color: #05C46B; border-radius: 34px; "
+          type="submit">Join</button>
+      </div>
+    </form>
+  </div>
+  <div class="card-body">
+    <div class="sort">
+      <p class="card-title" style="color:#FFFFFF; ">Favorites</p>
+      <div style="font-size: 18px;">Sort by:
+        <select class="" name="sort" style="font-size: 18px;">
+          <option value="Name">Name</option>
+          <option value="Last">Last opened</option>
+          <option value="Users">Users</option>
+        </select>
+      </div>
+    </div>
+    <div class="favroom">
+      {% for room_info in rooms_info %}
+      <div class="room">
+        <div class="room-name">
+          <a href="/showroom?room='{{ room_info['room_id'] }}'" title = "{{ room_info['room_name'] }}">{{ room_info['room_name'] }}</a>
+        </div>
+        <div class="users">
+          {% if room_info['num_need_help'] == 1 %}
+          <p>1 user</p>
+          {% endif %}
+          {% if room_info['num_need_help'] != 1 %}
+          <p>{{ room_info['num_need_help'] }} users</p>
+          {% endif %}
+          {% set remove_info = {"user_id": current_user, "room_id": room_info['room_id'], "remove_from": "main"} %}
+          <a href="/remove_favorite?='{{ remove_info }}'" title = "Remove {{ room_info['room_name'] }} from your favorites">Remove</a>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+<div class="sidebar" style="background-color: #808E9B; ">
+  <div class="recents">
+    <h2>Recents</h2>
+    {% for recent_info in recents_info %}
+    <div class="newest">
+      <div class="recent-info">
+        <a href="showroom?room='{{ recent_info['room_id'] }}'" class="recent-room-name" title = "{{ recent_info['room_name'] }}">
+          {{ recent_info["room_name"] }}
+        </a>
+        <br>
+        
+        <a class="recent-room-timestamp">{{ recent_info["timestamp"] }}</a>
+      </div>
+      {% if recent_info["favorite"] == False %}
+      <div class="star-favorite">
+        {% set add_fav_info = {"room_id": recent_info['room_id'], "from": 'main' }%}
+        <a href="/favorite_room?='{{ add_fav_info }}'" title = "Add {{ recent_info['room_name'] }} to favorites"></a>
+      </div>
+      {% elif recent_info["favorite"] == True %}
+      <div class="is-star-favorite">
+        {% set remove_info = {"user_id": current_user, "room_id": recent_info['room_id'], "remove_from": "main"} %}
+        <a href="/remove_favorite?='{{ remove_info }}'" title = "Remove {{ recent_info['room_name'] }} from your favorites"></a>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,57 @@
+{% extends "header.html" %}
+{% block content %}
+<div id="parent">
+  <div class="container" id="signup"
+    style="padding: 20px; background-color: #1E272E; border-radius: 40px; max-width: 400px;" align="center">
+    <br>
+    <div class="row">
+      <div class="col">
+        <h3 style="color: #FFFFFF;">Sign Up Here</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <form action="signup_profile" method="POST">
+          <div class="form-group">
+            <br>
+            <input class="form-control"
+              style="color: #FFFFFF; border-radius: 34px; background-color: #485460; text-align: center; border-width: 3px; border-color: #FFFFFF;"
+              type="text" placeholder="Username" name="username" required>
+            <br>
+            <input class="form-control"
+              style="color: #FFFFFF; border-radius: 34px; background-color: #485460; text-align: center; border-width: 3px; border-color: #FFFFFF;"
+              type="text" placeholder="Firstname" name="firstname" required>
+            <br>
+            <input class="form-control"
+              style="color: #FFFFFF; border-radius: 34px; background-color: #485460; text-align: center; border-width: 3px; border-color: #FFFFFF;"
+              type="text" placeholder="Lastname" name="lastname" required>
+            <br>
+            <input class="form-control"
+              style="color: #FFFFFF; border-radius: 34px; background-color: #485460; text-align: center; border-width: 3px; border-color: #FFFFFF;"
+              type="email" placeholder="E-mail" name="email" required>
+            <br>
+            <input class="form-control"
+              style="color: #FFFFFF; border-radius: 34px; background-color: #485460; text-align: center; border-width: 3px; border-color: #FFFFFF;"
+              type="password" placeholder="Password" name="password" required>
+            <br>
+            <input class="form-control"
+              style="color: #FFFFFF; border-radius: 34px; background-color: #485460; text-align: center; border-width: 3px; border-color: #FFFFFF;"
+              type="password" placeholder="Re-enter Password" name="re_password" required>
+            <br>
+            <div class="but" align="center">
+              <button class="btn btn-success mb-2" type="submit"
+                style="background-color: #05C46B; border-radius: 34px; border-color: #FFFFFF; border-width: 3px;">Sign
+                Up</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p style="color: #FFFFFF;">Already have an account? <a class="slink" href="/">Sign in here</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
