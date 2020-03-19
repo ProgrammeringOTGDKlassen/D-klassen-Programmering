@@ -107,8 +107,9 @@ def generate_skaering_to_linjer():
 
 
 def get_circle_radius(cent1, cent2, distance):
-    r1 = uniform(1, distance)
-    r2 = uniform(1, (r1 + distance))
+    min_r = 10
+    r1 = uniform(min_r, distance)
+    r2 = uniform(min_r, (r1 + distance))
     rdist = r1 + r2
     # * checks
     while not rdist >= distance:
@@ -231,7 +232,6 @@ def fig(figure_key, x0, y0, r0, x1, y1, r1):
         )
         print(x0, y0, r0, x1, y1, r1)
         # now make a circle with no fill, which is good for hi-lighting key results
-        plt.title(figure_key)
         circle1 = plt.Circle((x0, y0), r0, color="b", fill=False)
         circle2 = plt.Circle((x1, y1), r1, color="r", fill=False)
         ax = plt.gca()
@@ -241,6 +241,7 @@ def fig(figure_key, x0, y0, r0, x1, y1, r1):
         # change default range so that new circles will work
         ax.set_xlim((min_x, max_x))
         ax.set_ylim((min_y, max_y))
+        ax.set_aspect(1)
 
         ax.add_artist(circle1)
         ax.add_artist(circle2)
