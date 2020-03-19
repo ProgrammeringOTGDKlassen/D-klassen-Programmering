@@ -2,32 +2,51 @@
 {% block content %}
 <h2>Bestemmelse af cirkelbue</h2>
 <div>
-Herunder ses informationer til en cirkle \( C \):
+Herunder ses informationer til en cirkel \( C \):
 <br>
 Formel for cirkelbue:
-\[L_bue = (v / 360) * (π * d) = (v / 180) π * r \]
+\[L_bue = (v / 180) π * r \]
 For \( C1 \) gælder det:
-\[ Centrum: ({{ "%.2f"|format(c1x) }};{{ "%.2f"|format(c1y) }}) \]
-\[ Radius: {{"%.2f"|format(c1r)}}\]
+\[ Radius: {{ "%.2f"|format(r) }} \]
+\[ Vinkel: {{"%.2f"|format(angle)}}º\]
+
+Bestem cirkelbuens længde:
 <br>
-For \( C2 \) gælder det:
-<br>
-\[ Centrum: ({{ "%.2f"|format(c2x) }};{{ "%.2f"|format(c2y) }}) \]
-\[ Radius: {{"%.2f"|format(c2r)}}\]
-Bestem skæringspunktet/skæringspunkterne mellem cirklerne.
-<br>
-Svaret er: <br>
-({{ x1 }},{{ y1 }}), ({{ x2 }},{{ y2 }})
+
 </div>
 <div class="form-group">
   <form class="form-control" action="/submit_answer?oid=4&qid={{ opg_id }}" method="post">
-    {% if x2 == None or y2 == None %}
-    <label class="form-control-static" for="text">Skriv svaret som et punkt "(x,y)":</label>
-    {% elif not x2 == None or not y2 == None %}
-    <label class="form-control-static" for="text">Skriv svaret som to punkter "(x1,y1), (x2,y2)":</label>
-    {% endif %}
+    <label class="form-control-static" for="text">Skriv svaret uden decimaler:</label>
     <input class="form-control" type="text" rows="5" name="svar"></input>
     <button class="form-control" type="submit" name="button">Send</button>
   </form>
 </div>
+
+<div>
+  <h3>Spoiler?</h3>
+  <button id="spoiler_knap" class="form-control" onclick="show_spoiler()">Vis svar</button>
+</div>
+
+<script type="text/javascript">
+  function show_spoiler() {
+    var x = document.getElementById("result");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+    var knap = document.getElementById("spoiler_knap");
+    if (x.style.display === "block") {
+      document.querySelector('#spoiler_knap').innerText = 'Skjul svar';
+    } else {
+      document.querySelector('#spoiler_knap').innerText = 'Vis svar';
+    }
+  }
+</script>
+
+<div id="result" style="display:none">
+  Svaret er: <br>
+  Cirkelbuen har en længde på: {{ length }}
+</div>
+
 {% endblock content %}

@@ -1,10 +1,23 @@
-from flask import Flask
-from flask import request
-from flask import g
-from flask import render_template
-from flask import session
-from flask import redirect
-from flask import url_for
+from flask import (
+    Flask,
+    request,
+    g,
+    render_template,
+    session,
+    redirect,
+    url_for,
+    send_file,
+)
+
+# !
+# ! https://stackoverflow.com/questions/49921721/runtimeerror-main-thread-is-not-in-main-loop-with-matplotlib-and-flask
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+# !
+import io
 from random import randint, uniform
 from math import tan, radians, dist, sqrt, pi
 
@@ -108,12 +121,12 @@ def get_circle_radius(cent1, cent2, distance):
     return (r1, r2)
 
 
-def get_intercetions(x0, y0, r0, x1, y1, r1, d):
+def get_intercetions(x0, y0, r0, x1, y1, r1):
     # circle 1: (x0, y0), radius r0
     # circle 2: (x1, y1), radius r1
 
     # The afstandsformel
-    # d = math.sqrt((x1 - x0) ** 2 + (y1 - y0) ** 2)
+    d = sqrt((x1 - x0) ** 2 + (y1 - y0) ** 2)
 
     # non intersecting
     if d > r0 + r1:
@@ -160,7 +173,7 @@ def generate_two_circle_intersect():
 
     c1r, c2r = get_circle_radius(cent1, cent2, distance)
 
-    x1, y1, x2, y2 = get_intercetions(c1x, c1y, c1r, c2x, c2y, c2r, distance)
+    x1, y1, x2, y2 = get_intercetions(c1x, c1y, c1r, c2x, c2y, c2r)
 
     two_points = True
     if x2 == None or y2 == None:
@@ -190,20 +203,72 @@ def generate_two_circle_intersect():
     )
 
 
+def get_plot_dimensions(x0, y0, r0, x1, y1, r1):
+    big_x = x0 if x0 >= x1 else x1
+    big_y = y1 if y1 >= y0 else y0
+    small_x = x0 if x0 <= x1 else x1
+    small_y = y1 if y1 <= y0 else y0
+    big_r = r1 if r1 >= r0 else r0
+
+    min_x = -(abs(small_x) + big_r)
+    min_y = -(abs(small_y) + big_r)
+    max_x = big_x + big_r
+    max_y = big_y + big_r
+
+    return (min_x, min_y, max_x, max_y)
+
+
+@app.route("/fig/<figure_key>/<x0>/<y0>/<r0>/<x1>/<y1>/<r1>")
+def fig(figure_key, x0, y0, r0, x1, y1, r1):
+    if figure_key == "Skæring mellem to cirkler":
+        x0, y0, r0, x1, y1, r1 = (
+            round(float(x0)),
+            round(float(y0)),
+            round(float(r0)),
+            round(float(x1)),
+            round(float(y1)),
+            round(float(r1)),
+        )
+        print(x0, y0, r0, x1, y1, r1)
+        # now make a circle with no fill, which is good for hi-lighting key results
+        plt.title(figure_key)
+        circle1 = plt.Circle((x0, y0), r0, color="b", fill=False)
+        circle2 = plt.Circle((x1, y1), r1, color="r", fill=False)
+        ax = plt.gca()
+        ax.cla()  # clear things for fresh plot
+
+        min_x, min_y, max_x, max_y = get_plot_dimensions(x0, y0, r0, x1, y1, r1)
+        # change default range so that new circles will work
+        ax.set_xlim((min_x, max_x))
+        ax.set_ylim((min_y, max_y))
+
+        ax.add_artist(circle1)
+        ax.add_artist(circle2)
+        img = io.BytesIO()
+        plt.savefig(img)
+        img.seek(0)
+    else:
+        plt.title(figure_key)
+        plt.plot([1, 2, 3, 4], [1, 3, 2, 4])
+        img = io.BytesIO()
+        # plt.savefig(img)
+        img.seek(0)
+    return send_file(img, mimetype="image/png")
+
+
 def generate_circular_arc():
     length = randint(1, 100)
     qid = register_answer("{}".format(length))
     angle = randint(1, 180)
-    r = length/((v/180)*pi)
+    r = length / ((angle / 180) * pi)
     return my_render(
         "circulararc.html",
         title="Skæring mellem to linjer",
         opg_id=qid,
         r=r,
         angle=angle,
+        length=length,
     )
-
-
 
 
 if __name__ == "__main__":

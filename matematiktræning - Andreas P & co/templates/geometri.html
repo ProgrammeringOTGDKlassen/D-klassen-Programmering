@@ -1,10 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="form-group">
-  <form class="form-control" action="/submit_answer" method="post">
-    <label class="form-control-static" for="text">Her er en opgave om geometri. Skriv svaret:</label>
-    <textarea class="form-control" rows="5" id="text" name="idea"></textarea>
-    <button class="form-control" type="submit" name="button">Svar</button>
-  </form>
-</div>
+<h1>Opgaver i klassisk geometri og trigonometri</h1>
+<a href="/opg?opg_id=4">Bestemmelse af cirkelbue</a><br>
 {% endblock content %}
