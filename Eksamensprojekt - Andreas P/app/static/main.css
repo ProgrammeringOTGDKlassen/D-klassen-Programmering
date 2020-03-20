@@ -17,7 +17,11 @@ html, body {
 
 .center {
   margin: auto;
-  /* padding: 10px; */
+}
+
+a.custom-card,
+a.custom-card:hover {
+  color: inherit;
 }
 
 .log-in-container {
