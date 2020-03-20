@@ -64,7 +64,7 @@ def signup_success(username, firstname, lastname, email, password, re_password):
 @app.route("/")
 @app.route("/login")
 def index():
-    return my_render("index.html", title="login")
+    return my_render("index.html", success=False, title="login")
 
 
 @app.route("/login_profile", methods=["POST"])
@@ -78,7 +78,13 @@ def login():
         return redirect(f"/profile")
     else:
         session.pop("currentuser", None)
-        return my_render("index.html", success=False)
+        return redirect(f"/")
+
+
+@app.route("/logout")
+def logout():
+    session.pop("currentuser", None)
+    return redirect(f"/")
 
 
 @app.route("/signup")
@@ -88,7 +94,7 @@ def signup_site():
 
 @app.route("/profile")
 def profile():
-    return my_render("user_main.html", title="Student")
+    return my_render("user_main.html", title="Student", success=True)
 
 
 @app.route("/signup_profile", methods=["POST"])
