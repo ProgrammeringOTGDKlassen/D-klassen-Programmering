@@ -1,57 +1,91 @@
-{% extends "header.html" %}
-{% block content %}
-<div id="parent">
-  <div class="container" id="signup"
-    style="padding: 20px; background-color: #1E272E; border-radius: 40px; max-width: 400px;" align="center">
-    <br>
-    <div class="row">
-      <div class="col">
-        <h3 style="color: #FFFFFF;">Sign Up Here</h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <form action="signup_profile" method="POST">
-          <div class="form-group">
-            <br>
-            <input class="form-control"
-              style="color: #FFFFFF; border-radius: 34px; background-color: #485460; text-align: center; border-width: 3px; border-color: #FFFFFF;"
-              type="text" placeholder="Username" name="username" required>
-            <br>
-            <input class="form-control"
-              style="color: #FFFFFF; border-radius: 34px; background-color: #485460; text-align: center; border-width: 3px; border-color: #FFFFFF;"
-              type="text" placeholder="Firstname" name="firstname" required>
-            <br>
-            <input class="form-control"
-              style="color: #FFFFFF; border-radius: 34px; background-color: #485460; text-align: center; border-width: 3px; border-color: #FFFFFF;"
-              type="text" placeholder="Lastname" name="lastname" required>
-            <br>
-            <input class="form-control"
-              style="color: #FFFFFF; border-radius: 34px; background-color: #485460; text-align: center; border-width: 3px; border-color: #FFFFFF;"
-              type="email" placeholder="E-mail" name="email" required>
-            <br>
-            <input class="form-control"
-              style="color: #FFFFFF; border-radius: 34px; background-color: #485460; text-align: center; border-width: 3px; border-color: #FFFFFF;"
-              type="password" placeholder="Password" name="password" required>
-            <br>
-            <input class="form-control"
-              style="color: #FFFFFF; border-radius: 34px; background-color: #485460; text-align: center; border-width: 3px; border-color: #FFFFFF;"
-              type="password" placeholder="Re-enter Password" name="re_password" required>
-            <br>
-            <div class="but" align="center">
-              <button class="btn btn-success mb-2" type="submit"
-                style="background-color: #05C46B; border-radius: 34px; border-color: #FFFFFF; border-width: 3px;">Sign
-                Up</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <p style="color: #FFFFFF;">Already have an account? <a class="slink" href="/">Sign in here</a></p>
-      </div>
-    </div>
-  </div>
+{% extends "header.html" %} {% block content %}
+<div class="content center">
+	<div class="log-in-container">
+		<!-- Default form register -->
+		<!-- https://mdbootstrap.com/docs/jquery/forms/basic/ -->
+		<form class="text-center border border-light p-5" action="signup_profile" method="POST">
+			<p class="h4 mb-4">Sign up</p>
+
+			<!-- Username -->
+			<input
+				type="email"
+				id="defaultRegisterFormEmail"
+				class="form-control mb-4"
+                placeholder="Username"
+                name="username"
+			/>
+
+			<div class="form-row mb-4">
+				<div class="col">
+					<!-- First name -->
+					<input
+						type="text"
+						id="defaultRegisterFormFirstName"
+						class="form-control"
+                        placeholder="First name"
+                        name="firstname"
+					/>
+				</div>
+				<div class="col">
+					<!-- Last name -->
+					<input
+						type="text"
+						id="defaultRegisterFormLastName"
+						class="form-control"
+                        placeholder="Last name"
+                        name="lastname"
+					/>
+				</div>
+			</div>
+
+			<!-- E-mail -->
+			<input
+				type="email"
+				id="defaultRegisterFormEmail"
+				class="form-control mb-4"
+                placeholder="E-mail"
+                name="email"
+			/>
+
+			<!-- Password -->
+			<input
+				type="password"
+				id="defaultRegisterFormPassword"
+				class="form-control"
+				placeholder="Password"
+                aria-describedby="defaultRegisterFormPasswordHelpBlock"
+                name="password"
+			/>
+			<small
+				id="defaultRegisterFormPasswordHelpBlock"
+				class="form-text text-muted mb-4"
+			>
+				At least 8 characters and 1 digit
+			</small>
+
+			<!-- Repeat password -->
+			<input
+				type="password"
+				id="defaultRegisterFormPassword"
+				class="form-control"
+				placeholder="Repeat password"
+                aria-describedby="defaultRegisterFormPasswordHelpBlock"
+                name="re_password"
+			/>
+            </small>
+            
+			<!-- Sign up button -->
+            <button type="submit" class="btn m-4 btn-primary">Sign in</button>
+
+			<!-- Register -->
+			<p>
+				Already a member?
+				<a href="/">Log in</a>
+			</p>
+		</form>
+
+		<!-- Default form register -->
+	</div>
 </div>
+
 {% endblock content %}

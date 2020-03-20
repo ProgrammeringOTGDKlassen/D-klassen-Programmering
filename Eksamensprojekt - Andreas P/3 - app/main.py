@@ -75,7 +75,7 @@ def login():
     if login_success(username=username, password=password):
         # Create user object, store in session.
         session["currentuser"] = data.get_user_id(username)
-        return redirect(f"/show_profile")
+        return redirect(f"/profile")
     else:
         session.pop("currentuser", None)
         return my_render("index.html", success=False)

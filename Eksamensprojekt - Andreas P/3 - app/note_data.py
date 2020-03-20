@@ -132,12 +132,6 @@ class Database:
 
         try:
             c.execute("""DROP TABLE IF EXISTS userprofiles;""")
-            c.execute("""DROP TABLE IF EXISTS ranks;""")
-            c.execute("""DROP TABLE IF EXISTS help_stats;""")
-            c.execute("""DROP TABLE IF EXISTS user_favorites;""")
-            c.execute("""DROP TABLE IF EXISTS recents;""")
-            c.execute("""DROP TABLE IF EXISTS rooms;""")
-            c.execute("""DROP TABLE IF EXISTS room_que;""")
         except Exception as e:
             print(e)
         db.commit()
@@ -153,7 +147,6 @@ class Database:
                 username TEXT, 
                 email TEXT, 
                 password TEXT,
-                rank INTEGER,
                 fullname VARCHAR(128) NOT NULL);"""
             )
         except Exception as e:
@@ -169,99 +162,7 @@ class Database:
         #     print(e)
         # ?----------------------------------------------------------------------------------------
 
-        try:
-            c.execute(
-                """CREATE TABLE IF NOT EXISTS ranks (
-                id INTEGER PRIMARY KEY,
-                rank TEXT);"""
-            )
-
-        except Exception as e:
-            print(e)
-
-        try:
-            c.execute(
-                """CREATE TABLE IF NOT EXISTS help_stats (
-                id INTEGER PRIMARY KEY,
-                stat TEXT);"""
-            )
-
-        except Exception as e:
-            print(e)
-
-        try:
-            c.execute(
-                """CREATE TABLE IF NOT EXISTS user_favorites (
-                id INTEGER PRIMARY KEY,
-                user_id INTEGER,
-                room_id INTEGER);"""
-            )
-        except Exception as e:
-            print(e)
-
-        try:
-            c.execute(
-                """CREATE TABLE IF NOT EXISTS recents (
-                id INTEGER PRIMARY KEY,
-                user_id INTEGER,
-                room_id INTEGER,
-                timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);"""
-            )
-        except Exception as e:
-            print(e)
-
-        try:
-            c.execute(
-                """CREATE TABLE IF NOT EXISTS rooms (
-                id INTEGER PRIMARY KEY,
-                room_name INTEGER,
-                room_code TEXT,
-                creator_id INTEGER);"""
-            )
-        except Exception as e:
-            print(e)
-
-        try:
-            c.execute(
-                """CREATE TABLE IF NOT EXISTS room_que (
-                id INTEGER PRIMARY KEY,
-                room_id INTEGER,
-                user_id INTEGER,
-                need_help BIT, 
-                help_stat INTEGER,
-                timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);"""
-            )
-            # BIT stores eather 1, 0 or None
-        except Exception as e:
-            print(e)
-
         db.commit()
-
-        # Create ranks
-        try:
-            c.execute(
-                """
-                INSERT INTO ranks (rank) 
-                SELECT "Student"
-                WHERE NOT EXISTS (SELECT 1 FROM ranks WHERE rank = "Student");
-                """
-            )
-            c.execute(
-                """
-                INSERT INTO ranks (rank) 
-                SELECT "Teacher"
-                WHERE NOT EXISTS (SELECT 1 FROM ranks WHERE rank = "Teacher");
-                """
-            )
-            c.execute(
-                """
-                INSERT INTO ranks (rank) 
-                SELECT "Admin"
-                WHERE NOT EXISTS (SELECT 1 FROM ranks WHERE rank = "Admin");
-                """
-            )
-        except Exception as e:
-            print(e)
 
         # Create testing profiles
         pass1 = self.hash_password("1234")
@@ -269,201 +170,19 @@ class Database:
         try:
             c.execute(
                 """
-                INSERT INTO userprofiles (username, email, password, rank, fullname)
-                SELECT "user", "andreasgdp@gmail.com", ?, 1, "Andreas;Petersen"
-                WHERE NOT EXISTS (SELECT 1 FROM userprofiles WHERE username = "user" AND email = "andreasgdp@gmail.com" AND rank = 1 AND fullname = "Andreas;Petersen");
+                INSERT INTO userprofiles (username, email, password, fullname)
+                SELECT "user", "andreasgdp@gmail.com", ?, "Andreas;Petersen"
+                WHERE NOT EXISTS (SELECT 1 FROM userprofiles WHERE username = "user" AND email = "andreasgdp@gmail.com" AND fullname = "Andreas;Petersen");
                 """,
                 (pass1,),
             )
             c.execute(
                 """
-                INSERT INTO userprofiles (username, email, password, rank, fullname) 
-                SELECT "teacher", "andreasgdp@gmail.com", ?, 2, "Mande;Manden"
-                WHERE NOT EXISTS (SELECT 1 FROM userprofiles WHERE username = "teacher" AND email = "andreasgdp@gmail.com" AND rank = 2 AND fullname = "Mande;Manden");
+                INSERT INTO userprofiles (username, email, password, fullname) 
+                SELECT "user2", "mand@gmail.com", ?, "Mande;Manden"
+                WHERE NOT EXISTS (SELECT 1 FROM userprofiles WHERE username = "teacher" AND email = "mand@gmail.com" AND fullname = "Mande;Manden");
                 """,
                 (pass1,),
-            )
-            c.execute(
-                """
-                INSERT INTO userprofiles (username, email, password, rank, fullname) 
-                SELECT "admin", "andreasgdp@gmail.com", ?, 3, "Big;Boss"
-                WHERE NOT EXISTS (SELECT 1 FROM userprofiles WHERE username = "admin" AND email = "andreasgdp@gmail.com" AND rank = 3 AND fullname = "Big;Boss");
-                """,
-                (pass1,),
-            )
-            c.execute(
-                """
-                INSERT INTO userprofiles (username, email, password, rank, fullname) 
-                SELECT "user2", "andreasgdp@gmail.com", ?, 1, "Anden;Bruger"
-                WHERE NOT EXISTS (SELECT 1 FROM userprofiles WHERE username = "user2" AND email = "andreasgdp@gmail.com" AND rank = 1 AND fullname = "Anden;Bruger");
-                """,
-                (pass1,),
-            )
-            c.execute(
-                """
-                INSERT INTO userprofiles (username, email, password, rank, fullname)
-                SELECT "kurt", "andreasgdp@gmail.com", ?, 1, "Kurt;Cobain"
-                WHERE NOT EXISTS (SELECT 1 FROM userprofiles WHERE username = "kurt" AND email = "andreasgdp@gmail.com" AND rank = 1 AND fullname = "Kurt;Cobain");
-                """,
-                (pass1,),
-            )
-        except Exception as e:
-            print(e)
-
-        # Create a testrooms for the test teacher
-        try:
-            c.execute(
-                """
-                INSERT INTO rooms (room_name, room_code, creator_id)
-                SELECT "test room 1", "SEJKODE1", 2
-                WHERE NOT EXISTS (SELECT 1 FROM rooms WHERE room_name = "test room 1" AND room_code = "SEJKODE1" AND creator_id = 2);
-                """
-            )
-            c.execute(
-                """
-                INSERT INTO rooms (room_name, room_code, creator_id) 
-                SELECT "test room 2", "SEJKODE2", 2 
-                WHERE NOT EXISTS (SELECT 1 FROM rooms WHERE room_name = "test room 2" AND room_code = "SEJKODE2" AND creator_id = 2);
-                """
-            )
-            c.execute(
-                """
-                INSERT INTO rooms (room_name, room_code, creator_id) 
-                SELECT "test room 3", "SEJKODE3", 2 
-                WHERE NOT EXISTS (SELECT 1 FROM rooms WHERE room_name = "test room 3" AND room_code = "SEJKODE3" AND creator_id = 2);
-                """
-            )
-        except Exception as e:
-            print(e)
-
-        # Create helpstats
-        try:
-            c.execute(
-                """
-                INSERT INTO help_stats (stat) 
-                SELECT "Beginning"
-                WHERE NOT EXISTS (SELECT 1 FROM help_stats WHERE stat = "Beginning");
-                """
-            )
-            c.execute(
-                """
-                INSERT INTO help_stats (stat) 
-                SELECT "Middle"
-                WHERE NOT EXISTS (SELECT 1 FROM help_stats WHERE stat = "Middle");
-                """
-            )
-            c.execute(
-                """
-                INSERT INTO help_stats (stat) 
-                SELECT "Almost done"
-                WHERE NOT EXISTS (SELECT 1 FROM help_stats WHERE stat = "Almost done");
-                """
-            )
-        except Exception as e:
-            print(e)
-
-        # Create a que for the test user
-        try:
-            c.execute(
-                """
-                INSERT INTO room_que (room_id, user_id, need_help, help_stat) 
-                SELECT 1, 1, 0, 1
-                WHERE NOT EXISTS (SELECT 1 FROM room_que WHERE room_id = 1 AND user_id = 1 AND need_help = 0 AND help_stat = 1);
-                """
-            )
-            time.sleep(1)
-            c.execute(
-                """
-                INSERT INTO room_que (room_id, user_id, need_help, help_stat) 
-                SELECT 2, 1, 0, 1
-                WHERE NOT EXISTS (SELECT 1 FROM room_que WHERE room_id = 2 AND user_id = 1 AND need_help = 0 AND help_stat = 1);
-                """
-            )
-            time.sleep(1)
-            c.execute(
-                """
-                INSERT INTO room_que (room_id, user_id, need_help, help_stat) 
-                SELECT 3, 1, 0, 1
-                WHERE NOT EXISTS (SELECT 1 FROM room_que WHERE room_id = 3 AND user_id = 1 AND need_help = 0 AND help_stat = 1);
-                """
-            )
-            time.sleep(1)
-            c.execute(
-                """
-                INSERT INTO room_que (room_id, user_id, need_help, help_stat) 
-                SELECT 1, 4, 1, 3
-                WHERE NOT EXISTS (SELECT 1 FROM room_que WHERE room_id = 1 AND user_id = 4 AND need_help = 1 AND help_stat = 3);
-                """
-            )
-            time.sleep(1)
-            c.execute(
-                """
-                INSERT INTO room_que (room_id, user_id, need_help, help_stat) 
-                SELECT 1, 5, 0, 1
-                WHERE NOT EXISTS (SELECT 1 FROM room_que WHERE room_id = 1 AND user_id = 5 AND need_help = 0 AND help_stat = 1);
-                """
-            )
-            time.sleep(1)
-        except Exception as e:
-            print(e)
-
-        # Create a favorite for the test user
-        try:
-            c.execute(
-                """
-                INSERT INTO user_favorites (user_id, room_id)
-                SELECT 1, 1
-                WHERE NOT EXISTS (SELECT 1 FROM user_favorites WHERE user_id = 1 AND room_id = 1);
-                """
-            )
-            c.execute(
-                """
-                INSERT INTO user_favorites (user_id, room_id)
-                SELECT 1, 2
-                WHERE NOT EXISTS (SELECT 1 FROM user_favorites WHERE user_id = 1 AND room_id = 2);
-                """
-            )
-            c.execute(
-                """
-                INSERT INTO user_favorites (user_id, room_id)
-                SELECT 1, 3
-                WHERE NOT EXISTS (SELECT 1 FROM user_favorites WHERE user_id = 1 AND room_id = 3);
-                """
-            )
-            c.execute(
-                """
-                INSERT INTO user_favorites (user_id, room_id)
-                SELECT 5, 1
-                WHERE NOT EXISTS (SELECT 1 FROM user_favorites WHERE user_id = 5 AND room_id = 1);
-                """
-            )
-        except Exception as e:
-            print(e)
-
-        # Create a recent for the test user
-        try:
-            c.execute(
-                """
-                INSERT INTO recents (user_id, room_id) 
-                SELECT 1, 1
-                WHERE NOT EXISTS (SELECT 1 FROM recents WHERE user_id = 1 AND room_id = 1);
-                """
-            )
-            time.sleep(1)
-            c.execute(
-                """
-                INSERT INTO recents (user_id, room_id)
-                SELECT 1, 2
-                WHERE NOT EXISTS (SELECT 1 FROM recents WHERE user_id = 1 AND room_id = 2);
-                """
-            )
-            time.sleep(1)
-            c.execute(
-                """
-                INSERT INTO recents (user_id, room_id)
-                SELECT 1, 3
-                WHERE NOT EXISTS (SELECT 1 FROM recents WHERE user_id = 1 AND room_id = 3);
-                """
             )
         except Exception as e:
             print(e)
@@ -471,27 +190,11 @@ class Database:
         db.commit()
         print("Database tables created")
 
-    def _update_database_new_data(self):
-        db = self._get_db()
-        c = db.cursor()
-        pass_teach = self.hash_password("OTGLÆRER2020")
-        c.execute(
-            """
-                INSERT INTO userprofiles (username, email, password, rank, fullname)
-                SELECT "betalærer", "andreasgdp@gmail.com", ?, 2, "Beta;Lærer"
-                WHERE NOT EXISTS (SELECT 1 FROM userprofiles WHERE username = "teacher" AND email = "andreasgdp@gmail.com" AND rank = 2 AND fullname = "Beta;Lærer");
-                """,
-            (pass_teach,),
-        )
-        db.commit()
-        print("Database tables updated")
-
-
 if __name__ == "__main__":
     app = Flask(__name__)
     key = "very secret string"
     app.secret_key = key
     with app.app_context():
-        data = HelpData()
+        data = Database()
         data._drop_tables()
         data._create_tables()
