@@ -115,8 +115,9 @@ def get_circle_radius(cent1, cent2, distance):
     while not rdist >= distance:
         r2 = uniform(1, (r1 + distance))
         rdist = r1 + r2
-    if r1 > r2 + distance or r2 > r1 + distance:
-        raise ValueError("Radius too long")
+    while r1 > r2 + distance or r2 > r1 + distance:
+        r2 = uniform(1, (r1 + distance))
+        rdist = r1 + r2
     if not r1 >= 1 or not r1 >= 1:
         raise ValueError("Radius not at least 1")
     return (r1, r2)
