@@ -53,7 +53,7 @@ def signup_success(username, firstname, lastname, email, password, re_password):
     if check_same_password(password, re_password):
         hashed_password = data.hash_password(password)
         # The last parameter is 1 because the user signing up will always be a Student. An admin will then be able to change that rank.
-        u = User(username, firstname, lastname, email, hashed_password, 1)
+        u = User(username, firstname, lastname, email, hashed_password)
         if not data.signup_success(user=u):
             return False
         return True

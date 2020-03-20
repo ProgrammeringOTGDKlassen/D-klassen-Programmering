@@ -95,8 +95,8 @@ class Database:
         fullname = f"{user.firstname};{user.lastname}"
         if not self.check_existing_username(user.username):
             c.execute(
-                "INSERT INTO userprofiles (username, email, password, rank, fullname) VALUES (?, ?, ?, ?, ?)",
-                (user.username, user.email, user.password, user.rank, fullname),
+                "INSERT INTO userprofiles (username, email, password, fullname) VALUES (?, ?, ?, ?)",
+                (user.username, user.email, user.password, fullname),
             )
             db.commit()
             return True
@@ -125,7 +125,6 @@ class Database:
         else:
             return None
 
-
     def _drop_tables(self):
         db = self._get_db()
         c = db.cursor()
@@ -151,16 +150,6 @@ class Database:
             )
         except Exception as e:
             print(e)
-
-        # ? Template to use to alter tables in future----------------------------------------------------------
-        # adding fullname to userprofiles table in database
-        # try:
-        #     c.execute(
-        #         """ALTER TABLE userprofiles ADD fullname VARCHAR(128) NOT NULL DEFAULT 'none';"""
-        #     )
-        # except Exception as e:
-        #     print(e)
-        # ?----------------------------------------------------------------------------------------
 
         db.commit()
 
@@ -189,6 +178,7 @@ class Database:
 
         db.commit()
         print("Database tables created")
+
 
 if __name__ == "__main__":
     app = Flask(__name__)
