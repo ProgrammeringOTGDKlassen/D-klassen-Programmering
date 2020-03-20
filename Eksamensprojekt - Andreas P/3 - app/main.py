@@ -113,6 +113,7 @@ def signup():
         session.pop("currentuser", None)
         return my_render("sign_up.html", success=False)
 
+
 if __name__ == "__main__":
     with app.app_context():
         data = Database()
