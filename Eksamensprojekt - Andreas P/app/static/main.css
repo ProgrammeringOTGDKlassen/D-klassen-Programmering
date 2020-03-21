@@ -41,14 +41,22 @@ a.custom-card, a.custom-card:hover {
   background-size: cover;
 }
 
+.class-card {
+  color: black;
+  text-decoration: none !important;
+}
+
+.class-card:hover {
+  color: black;
+  text-decoration: none !important;
+}
+
 .back-btn {
   margin-left: 2%;
   margin-top: 2%;
 }
 
-.note-container {}
-
-.note-heading {
+.class-heading {
   text-align: center;
   padding-top: 4rem;
   padding-bottom: 2rem;
