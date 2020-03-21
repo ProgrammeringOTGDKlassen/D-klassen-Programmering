@@ -1,7 +1,6 @@
 {% extends "header.html" %} {% block content %}
 <a href="/profile" class="btn btn-light back-btn" type="button">Go back</a>
 <div class="container">
-	<h2 class="note-heading">Dansk</h2>
 	<form action="">
 		<div class="form-group">
 			<label for="exampleFormControlInput1">Enter subject</label>
@@ -70,7 +69,7 @@
 							class="btn btn-danger"
 							onclick="show_spoiler()"
 						>
-							No, choose class
+							No
 						</button>
 						<script type="text/javascript">
 							function show_spoiler() {
@@ -88,16 +87,16 @@
 								if (x.style.display === 'block') {
 									document.querySelector(
 										'#spoiler_knap'
-									).innerText = 'Woops, mistake';
+									).innerText = 'Woops';
 								} else {
 									document.querySelector(
 										'#spoiler_knap'
-									).innerText = 'No, choose class';
+									).innerText = 'No';
 								}
 							}
 						</script>
 						<button type="button" class="btn btn-primary">
-							Yes, save changes
+							Yes
 						</button>
 					</div>
 					<div
