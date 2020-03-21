@@ -49,6 +49,13 @@ def check_same_password(password, re_password):
         return False
 
 
+def clean_dict_from_req_args(cluttered_dict):
+    cluttered_dict = cluttered_dict[""].replace("'", '"')
+    cluttered_dict = cluttered_dict[1:-1]
+    info = json.loads(cluttered_dict)
+    return info
+
+
 def signup_success(username, firstname, lastname, email, password, re_password):
     if check_same_password(password, re_password):
         hashed_password = data.hash_password(password)
@@ -118,6 +125,17 @@ def signup():
     else:
         session.pop("currentuser", None)
         return my_render("sign_up.html", success=False)
+
+
+@app.route("/showclass")
+def showclass():
+    print(clean_dict_from_req_args(request.args))
+    return my_render("class_page.html")
+
+
+@app.route("/take_notes")
+def take_notes():
+    return my_render("note_writer.html")
 
 
 if __name__ == "__main__":

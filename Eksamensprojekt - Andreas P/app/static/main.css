@@ -15,7 +15,6 @@ html, body {
 }
 
 nav {
-  padding-left: 0.5rem !important;
   padding-right: 0.5rem !important;
 }
 
@@ -23,14 +22,14 @@ nav {
   margin: auto;
 }
 
-a.custom-card,
-a.custom-card:hover {
+a.custom-card, a.custom-card:hover {
   color: inherit;
 }
 
 .log-in-container {
   max-width: 30%;
 }
+
 .sign-up-container {
   max-width: 30%;
 }
@@ -42,7 +41,20 @@ a.custom-card:hover {
   background-size: cover;
 }
 
-@media only screen and (max-width: 1020px) {
+.back-btn {
+  margin-left: 2%;
+  margin-top: 2%;
+}
+
+.note-container {}
+
+.note-heading {
+  text-align: center;
+  padding-top: 4rem;
+  padding-bottom: 2rem;
+}
+
+@media only screen and (max-width: 1150px) {
   .log-in-container {
     max-width: 60%;
   }
@@ -57,5 +69,17 @@ a.custom-card:hover {
   }
   .sign-up-container {
     max-width: 90%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .log-in-container {
+    max-width: 100%;
+  }
+  .sign-up-container {
+    max-width: 100%;
+  }
+  .p-5 {
+    padding: 1rem !important;
   }
 }

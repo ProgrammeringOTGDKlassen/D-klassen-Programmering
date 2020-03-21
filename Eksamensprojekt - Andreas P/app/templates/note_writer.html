@@ -1,0 +1,27 @@
+{% extends "header.html" %} {% block content %}
+<a href="/profile" class="btn btn-light back-btn" type="button">Go back</a>
+<div class="container note-container">
+	<h2 class="note-heading">Dansk</h2>
+	<form action="">
+		<div class="form-group">
+			<label for="exampleFormControlInput1">Enter subject</label>
+			<input
+				type="text"
+				class="form-control"
+				id="exampleFormControlInput1"
+				placeholder="Subject"
+			/>
+		</div>
+		<div class="form-group">
+			<label for="exampleFormControlTextarea1">The note:</label>
+			<textarea
+				class="form-control"
+				id="exampleFormControlTextarea1"
+				rows="3"
+			></textarea>
+		</div>
+		<button type="button" class="btn btn-primary">Submit</button>
+		<a href="/profile" type="button" class="btn btn-danger">Trash</a>
+	</form>
+</div>
+{% endblock content %}

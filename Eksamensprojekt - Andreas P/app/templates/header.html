@@ -23,7 +23,7 @@
 		{% if title != "login" and title != "signup" and title !=
 		"login_profile" and success==true %}
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			{% if title == "login" or title == "signup"  %}
+			{% if title == "login" or title == "signup" %}
 			<a class="navbar-brand" href="/">NoteSort</a>
 			{% elif success %}
 			<a class="navbar-brand" href="/profile">NoteSort</a>
@@ -69,15 +69,15 @@
 				</ul>
 			</div>
 		</nav>
-        {% else %} 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		{% else %}
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 			{% if title == "login" or title == "signup" %}
 			<a class="navbar-brand" href="/">NoteSort</a>
 			{% else %}
 			<a class="navbar-brand" href="/profile">NoteSort</a>
 			{% endif %}
 		</nav>
-        {% endif %}
+		{% endif %}
 		<title>NoteSort</title>
 	</head>
 	<body>

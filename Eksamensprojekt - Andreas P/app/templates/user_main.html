@@ -1,23 +1,23 @@
-<link
-	rel="stylesheet"
-	type="text/css"
-	href="{{ url_for('static', filename='user.css') }}"
-/>
 {% extends "header.html" %} {% block content %}
 
 <div class="bg img-fluid"></div>
 
 <div class="container">
-	<button
+	<a
+		href="/take_notes"
 		type="button"
 		class="btn btn-primary btn-lg btn-block center "
 		style="width:50%; margin-top:1.5rem"
 	>
 		New note
-	</button>
+	</a>
 	<div class="card-deck" style="margin-top:1.5rem">
-		<div class="card">
-			<img class="card-img-top" src="..." alt="Card image cap" />
+		<a href="/showclass?='1'" class="card">
+			<img
+				class="card-img-top"
+				src="../static/Images/dansk.png"
+				alt="Card image cap"
+			/>
 			<div class="card-body">
 				<h5 class="card-title">Dansk</h5>
 				<p class="card-text">
@@ -29,9 +29,13 @@
 					<small class="text-muted">Last updated 3 mins ago</small>
 				</p>
 			</div>
-		</div>
-		<div class="card">
-			<img class="card-img-top" src="..." alt="Card image cap" />
+		</a>
+		<a href="/showclass?='1'" class="card">
+			<img
+				class="card-img-top"
+				src="../static/Images/matematik.jpg"
+				alt="Card image cap"
+			/>
 			<div class="card-body">
 				<h5 class="card-title">Matematik</h5>
 				<p class="card-text">
@@ -42,9 +46,13 @@
 					<small class="text-muted">Last updated 3 mins ago</small>
 				</p>
 			</div>
-		</div>
-		<div class="card">
-			<img class="card-img-top" src="..." alt="Card image cap" />
+		</a>
+		<a href="/showclass?='1'" class="card">
+			<img
+				class="card-img-top"
+				src="../static/Images/byggeri & energi.jpg"
+				alt="Card image cap"
+			/>
 			<div class="card-body">
 				<h5 class="card-title">Byggeri & Energi</h5>
 				<p class="card-text">
@@ -56,7 +64,7 @@
 					<small class="text-muted">Last updated 3 mins ago</small>
 				</p>
 			</div>
-		</div>
+		</a>
 	</div>
 </div>
 
