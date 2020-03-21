@@ -130,7 +130,7 @@ def signup():
 @app.route("/showclass")
 def showclass():
     print(clean_dict_from_req_args(request.args))
-    return my_render("class_page.html")
+    return my_render("class_page.html", success=True)
 
 
 @app.route("/take_notes")

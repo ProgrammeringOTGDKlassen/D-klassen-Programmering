@@ -20,8 +20,119 @@
 				rows="3"
 			></textarea>
 		</div>
-		<button type="button" class="btn btn-primary">Submit</button>
+		<!-- !<button type="button" class="btn btn-primary"></button> -->
+		<!-- Button trigger modal -->
+		<button
+			type="button"
+			class="btn btn-primary"
+			data-toggle="modal"
+			data-target="#exampleModalCenter"
+		>
+			Submit
+		</button>
 		<a href="/profile" type="button" class="btn btn-danger">Trash</a>
+		<!-- Modal -->
+		<div
+			class="modal fade"
+			id="exampleModalCenter"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="exampleModalCenterTitle"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLongTitle">
+							Is this the right place to put the note?
+						</h5>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body class-guess-container">
+						<div
+							type="button"
+							class="btn btn-secondary class-guess"
+						>
+							Dansk
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button
+							id="spoiler_knap"
+							type="button"
+							class="btn btn-danger"
+							onclick="show_spoiler()"
+						>
+							No, choose class
+						</button>
+						<script type="text/javascript">
+							function show_spoiler() {
+								var x = document.getElementById(
+									'dropdownFooter'
+								);
+								if (x.style.display === 'none') {
+									x.style.display = 'block';
+								} else {
+									x.style.display = 'none';
+								}
+								var knap = document.getElementById(
+									'spoiler_knap'
+								);
+								if (x.style.display === 'block') {
+									document.querySelector(
+										'#spoiler_knap'
+									).innerText = 'Woops, mistake';
+								} else {
+									document.querySelector(
+										'#spoiler_knap'
+									).innerText = 'No, choose class';
+								}
+							}
+						</script>
+						<button type="button" class="btn btn-primary">
+							Yes, save changes
+						</button>
+					</div>
+					<div
+						class="modal-footer"
+						style="display:none;"
+						id="dropdownFooter"
+					>
+						<div class="dropdown">
+							<button
+								class="btn btn-info dropdown-toggle"
+								type="button"
+								id="dropdownMenuButton"
+								data-toggle="dropdown"
+								aria-haspopup="true"
+								aria-expanded="false"
+							>
+								Select right class
+							</button>
+							<div
+								class="dropdown-menu"
+								aria-labelledby="dropdownMenuButton"
+							>
+								<a class="dropdown-item" href="#">Action</a>
+								<a class="dropdown-item" href="#"
+									>Another action</a
+								>
+								<a class="dropdown-item" href="#"
+									>Something else here</a
+								>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</form>
 </div>
 {% endblock content %}
