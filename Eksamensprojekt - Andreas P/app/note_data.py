@@ -151,6 +151,16 @@ class Database:
         except Exception as e:
             print(e)
 
+        try:
+            c.execute(
+                """CREATE TABLE IF NOT EXISTS classes (
+                id INTEGER PRIMARY KEY, 
+                classname TEXT, 
+                img_path TEXT);"""
+            )
+        except Exception as e:
+            print(e)
+
         db.commit()
 
         # Create testing profiles

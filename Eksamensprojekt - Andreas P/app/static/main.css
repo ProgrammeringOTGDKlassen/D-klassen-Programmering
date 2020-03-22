@@ -72,6 +72,9 @@ a.custom-card, a.custom-card:hover {
   padding: 10px;
 }
 
+.card-deck {
+  margin-bottom: 1rem;
+}
 
 @media only screen and (max-width: 1150px) {
   .log-in-container {
