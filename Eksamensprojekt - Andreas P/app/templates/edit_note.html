@@ -1,7 +1,7 @@
 {% extends "header.html" %} {% block content %}
-<a href="/profile" class="btn btn-light back-btn" type="button">Go back</a>
+<a href="/read_note?='1'" class="btn btn-light back-btn" type="button">Go back</a>
 <div class="container">
-	<form action="submit_note" method="POST">
+	<form action="submit_note_edit" method="POST">
 		<div class="form-group">
 			<label for="exampleFormControlInput1">Enter subject</label>
 			<input
@@ -21,6 +21,7 @@
 		</div>
 		<!-- !<button type="button" class="btn btn-primary"></button> -->
 		<!-- Button trigger modal -->
+		<a href="/read_note?='1'" type="button" class="btn btn-secondary">Cancel</a>
 		<button
 			type="button"
 			class="btn btn-primary"
@@ -29,7 +30,7 @@
 		>
 			Submit
 		</button>
-		<a href="/profile" type="button" class="btn btn-danger">Trash</a>
+		<a href="/showclass?='1'" type="button" class="btn btn-danger">Trash</a>
 		<!-- Modal -->
 		<div
 			class="modal fade"

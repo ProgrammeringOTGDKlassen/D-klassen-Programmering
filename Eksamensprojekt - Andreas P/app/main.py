@@ -127,6 +127,16 @@ def signup():
         return my_render("sign_up.html", success=False)
 
 
+@app.route("/edit_note")
+def edit_note():
+    return my_render("edit_note.html")
+
+
+@app.route("/remove_note")
+def remove_note():
+    return redirect("/showclass?='1'")
+
+
 @app.route("/showclass")
 def showclass():
     print(clean_dict_from_req_args(request.args))
@@ -136,6 +146,22 @@ def showclass():
 @app.route("/take_notes")
 def take_notes():
     return my_render("note_writer.html")
+
+
+@app.route("/submit_note", methods=["POST"])
+def submit_note():
+    return redirect("/profile")
+
+
+@app.route("/submit_note_edit", methods=["POST"])
+def submit_note_edit():
+    return redirect("/profile")
+
+
+@app.route("/read_note")
+def read_note():
+    print(clean_dict_from_req_args(request.args))
+    return my_render("read_note.html", success=True)
 
 
 if __name__ == "__main__":
