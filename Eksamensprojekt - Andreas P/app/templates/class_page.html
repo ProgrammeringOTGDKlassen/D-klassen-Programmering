@@ -1,7 +1,7 @@
 {% extends "header.html" %} {% block content %}
 <a href="/profile" class="btn btn-light back-btn" type="button">Go back</a>
 <div class="container">
-	<h1 class="class-heading">Dansk</h1>
+	<h1 class="class-heading">{{ class_info['class_name'] }}</h1>
 	<div class="table-responsive">
 		<table class="table table-striped table-hover">
 			<thead>
@@ -13,32 +13,18 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr onclick="window.location='/read_note?=`1`'">
-					<th scope="row">1</th>
-					<td>Romantikken</td>
+				{% for note in notes %} {% set note_id = note['note_id'] %}
+				<tr
+					onclick="window.location.href='/read_note?=`{{ note_id }}`'"
+				>
+					<th scope="row">{{ loop.index }}</th>
+					<td>{{ note['subject'] }}</td>
 					<td>
-						Romantikkens afgørende dyder er Intuition(For at der
-						rent faktisk...
+						{{ note['body'] }}
 					</td>
-					<td>19/03-2020 at 20:15</td>
+					<td>{{ note['timestamp'] }}</td>
 				</tr>
-				<tr onclick="window.location='/read_note?=`1`'">
-					<th scope="row">2</th>
-					<td>Romantikken</td>
-					<td>
-						Den såkaldte organicisme eller organismetanke går ud på,
-						at...
-					</td>
-					<td>25/02-2020 at 04:17</td>
-				</tr>
-				<tr onclick="window.location='/read_note?=`1`'">
-					<th scope="row">3</th>
-					<td>Dokumentar</td>
-					<td>
-						Dokumentaren handler om MKs barndom, hans forældre og...
-					</td>
-					<td>21/02-2020 at 15:01</td>
-				</tr>
+				{% endfor %}
 			</tbody>
 		</table>
 	</div>

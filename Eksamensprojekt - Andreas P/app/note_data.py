@@ -80,7 +80,7 @@ class Database:
             return False
         return self.verify_password(stored_password=db_pw, provided_password=password)
 
-    def get_class_info(self):
+    def get_classes_info(self):
         class_info_list = []
         db = self._get_db()
         c = db.cursor()
@@ -95,8 +95,21 @@ class Database:
                 "description": description,
             }
             class_info_list.append(class_info_dict)
-
         return class_info_list
+
+    def get_class_info(self, class_id):
+        db = self._get_db()
+        c = db.cursor()
+        c.execute("SELECT * FROM classes WHERE id = ?", (class_id,))
+        r = c.fetchone()
+        class_id, class_name, class_img_path, description = r
+        class_info_dict = {
+            "class_id": class_id,
+            "class_name": class_name,
+            "class_img": class_img_path,
+            "description": description,
+        }
+        return class_info_dict
 
     def get_num_notes_in_class(self, user_id):
         num_notes_in_class_dict = {}
@@ -104,12 +117,53 @@ class Database:
         c = db.cursor()
         for i in range(1, 4):
             c.execute(
-                "SELECT COUNT(id) FROM notes WHERE user_id == ? AND class_id == ?", (user_id, i)
+                "SELECT COUNT(id) FROM notes WHERE user_id == ? AND class_id == ?",
+                (user_id, i),
             )
             r = c.fetchone()
-            num, = r
-            num_notes_in_class_dict[f'{i}'] = int(num)
+            (num,) = r
+            num_notes_in_class_dict[f"{i}"] = int(num)
         return num_notes_in_class_dict
+
+    def get_notes_in_class(self, user_id, class_id):
+        notes = []
+        db = self._get_db()
+        c = db.cursor()
+        c.execute(
+            "SELECT * FROM notes WHERE user_id == ? AND class_id == ?",
+            (user_id, class_id),
+        )
+        r = c.fetchall()
+        for note in r:
+            note_id, user_id, class_id, subject, body, timestamp = note
+            note_dict = {
+                "note_id": note_id,
+                "user_id": user_id,
+                "class_id": class_id,
+                "subject": subject,
+                "body": body,
+                "timestamp": timestamp,
+            }
+            notes.append(note_dict)
+        return notes
+
+    def get_note_info(self, note_id, user_id):
+        db = self._get_db()
+        c = db.cursor()
+        c.execute(
+            "SELECT * FROM notes WHERE id == ? AND user_id == ?", (note_id, user_id),
+        )
+        r = c.fetchone()
+        note_id, user_id, class_id, subject, body, timestamp = r
+        note_dict = {
+            "note_id": note_id,
+            "user_id": user_id,
+            "class_id": class_id,
+            "subject": subject,
+            "body": body,
+            "timestamp": timestamp,
+        }
+        return note_dict
 
     def check_existing_username(self, username):
         db = self._get_db()

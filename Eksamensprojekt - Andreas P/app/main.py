@@ -102,7 +102,7 @@ def signup_site():
 @app.route("/profile")
 def profile():
     # Get general class info
-    classes_info = data.get_class_info()
+    classes_info = data.get_classes_info()
     # Get amount of notes in each class for current user
     num_notes_in_class_dict = data.get_num_notes_in_class(session["currentuser"])
     for i, class_info in enumerate(classes_info):
@@ -149,8 +149,12 @@ def remove_note():
 
 @app.route("/showclass")
 def showclass():
-    print(clean_dict_from_req_args(request.args))
-    return my_render("class_page.html", success=True)
+    class_id = clean_dict_from_req_args(request.args)
+    class_info = data.get_class_info(class_id)
+    notes = data.get_notes_in_class(session["currentuser"], class_id)
+    return my_render(
+        "class_page.html", success=True, class_info=class_info, notes=notes
+    )
 
 
 @app.route("/take_notes")
@@ -170,8 +174,12 @@ def submit_note_edit():
 
 @app.route("/read_note")
 def read_note():
-    print(clean_dict_from_req_args(request.args))
-    return my_render("read_note.html", success=True)
+    note_id = clean_dict_from_req_args(request.args)
+    note_info = data.get_note_info(note_id, session["currentuser"])
+    class_info = data.get_class_info(note_info["class_id"])
+    return my_render(
+        "read_note.html", success=True, note_info=note_info, class_info=class_info
+    )
 
 
 if __name__ == "__main__":
