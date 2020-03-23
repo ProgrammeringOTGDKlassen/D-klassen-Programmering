@@ -110,10 +110,7 @@ def profile():
         class_info["num_notes"] = num_notes_in_class_dict[f"{i}"]
 
     return my_render(
-        "user_main.html",
-        title="Student",
-        success=True,
-        classes_info=classes_info,
+        "user_main.html", title="Student", success=True, classes_info=classes_info,
     )
 
 

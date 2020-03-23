@@ -87,11 +87,12 @@ class Database:
         c.execute("SELECT * FROM classes")
         r = c.fetchall()
         for class_info in r:
-            class_id, class_name, class_img_path = class_info
+            class_id, class_name, class_img_path, description = class_info
             class_info_dict = {
                 "class_id": class_id,
                 "class_name": class_name,
                 "class_img": class_img_path,
+                "description": description,
             }
             class_info_list.append(class_info_dict)
 
@@ -188,7 +189,8 @@ class Database:
                 """CREATE TABLE IF NOT EXISTS classes (
                 id INTEGER PRIMARY KEY, 
                 classname TEXT, 
-                img_path TEXT);"""
+                img_path TEXT,
+                class_description TEXT);"""
             )
         except Exception as e:
             print(e)
@@ -235,17 +237,17 @@ class Database:
         try:
             c.execute(
                 """
-                INSERT INTO classes (classname, img_path) VALUES ("Dansk", "./static/Images/dansk.png");
+                INSERT INTO classes (classname, img_path, class_description) VALUES ("Dansk", "./static/Images/dansk.png", "Det er dansk");
                 """
             )
             c.execute(
                 """
-                INSERT INTO classes (classname, img_path) VALUES ("Matematik", "./static/Images/matematik.jpg");
+                INSERT INTO classes (classname, img_path, class_description) VALUES ("Matematik", "./static/Images/matematik.jpg", "Det er mat");
                 """
             )
             c.execute(
                 """
-                INSERT INTO classes (classname, img_path) VALUES ("Byggeri & Energi", "./static/Images/byggeri & energi.jpg");
+                INSERT INTO classes (classname, img_path, class_description) VALUES ("Byggeri & Energi", "./static/Images/byggeri & energi.jpg", "Det er Byg og Hyg");
                 """
             )
         except Exception as e:
