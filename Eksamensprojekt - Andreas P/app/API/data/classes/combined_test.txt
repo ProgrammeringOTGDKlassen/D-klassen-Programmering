@@ -1,0 +1,170 @@
+Der udarbejdes en situationsplan, hvor den udvalgte planløsning placeres på grunden sådan at eventuelt ønske fra bygherren om placering på grunden opfyldes.	1
+Byggeriet skal foregå på adressen Tårup Strandpark 61, 5300 Kerteminde.	1
+Det er en grund, som er omfattet af Kerteminde Kommunes lokalplan 200.	1
+Grunden ligger i delområdet 2.	1
+Grunden består af 1020 kvadratmeter	1
+Grunder ligger omkring 1,7 kilometer fra centrum og ikke andet end ca	1
+750 meter fra vandet, den nærmeste skole og den nærmeste dagligvarebutik.	1
+Ydervæg: beton, tegl eller træ som primært materiale.	1
+Murede facader skal fremstå enten blanke eller som pudsede/vandskurede.	1
+Vores vægge er lavet i tegl, og for at overholde kravet i lokalplanen om at murede facader skal fremstå enten blanke eller som pudsede/vandskurede, har vi valgt at kalke vores mure, vi vælger kalk da det er nemmere at påføre end at skulle pudse/vandskure.	1
+I ét baderum skal der være en fri afstand på mindst 110 cm foran sanitetsgenstande, og der bør være en samlet fri gulvplads på mindst 130 x 130 cm.	1
+Det vil gøre det muligt for to personer at være i rummet samtidig, fx så en voksen kan hjælpe et barn	1
+Og det vil give rimelig plads til rengøring.	1
+Herunder er funktionsdiagrammet fra før vi begyndte at skitsere og for efter vi havde tegnet huset.	1
+Der er sket nogle ændringer, da vi fandt ud af, at det var lettere at forbinde rummene ved brug af gange, hvis huset ikke skulle blive alt for stort.	1
+Forbindelserne er som sådan de samme, der er bare ikke så mange direkte forbindelser, da de fleste rum er forbundet med gange.	1
+Køkkenvask, kogeplader og køleskab er de tre vigtigste arbejdszoner i et køkken.	1
+De tre arbejdszoner skal være forbundet i en imaginær trekant, som ikke overskrider eller underskrider den anbefalet omkreds	1
+Den anbefalet omkreds, altså længdesiderne samlet, skal være mellem 3.6 til 6.6 meter	1
+Siden vores arbejdstrekant har en omkreds på 5.6 meter, således er vores arbejdstrekant inden for de anbefalet mål	1
+Dog opfylder vores afstand mellem komfur og køkkenvask ikke den anbefalet afstand lavet af Invita på 1.2 til 1.8 meter, siden afstanden er på 2.3 meter.	1
+§199 - Boliger skal projekteres og udføres, så boligen som helhed samt de enkelte rum har en hensigtsmæssig størrelse og udformning under hensyn til anvendelsen.	1
+Opfyldelse heraf skal dokumenteres i en indretningsplan, møbleringsplan eller lignende.	1
+Huset er placeret på grunden inden for minimumsafstanden fra skel som er 2.5 m.	1
+Derudover ligger det ca 1.	1
+10 m fra vejen, som giver plads til fremtidig byggeri af garage og plads til parkering af biler.	1
+Fundamentet er den del af bygningen, der overfører kræfter fra bygningen til undergrunden.	1
+De kræfter, som påvirker bygningen, består af tyngdekraft og vindkraft.	1
+Disse kræfter kaldes i konstruktionsmæssig sammenhæng for laster.	1
+Fundamentet er således den nederste del af bygningen som regel umiddelbart under yderog indervægge.	1
+Ofte indgår en kælderydervæg i fundamentet.	1
+Den del af fundamentet, som ligger over jordoverfladen kaldes soklen.	1
+Et terrændæk er en gulvkonstruktion, der er anbragt direkte mod jord.	1
+I de fleste bygninger ligger det nederste gulv på et terrændæk	1
+Se eksempler på opbygning af terrændæk i SBI-anvisning 189 side 24-28	1
+Alternativet til et terrændæk er en krybekælder under det nederste dæk i bygningen	1
+Ydervægge er de konstruktioner, som adskiller ude fra inde, og som står oven på fundamentet.	1
+Ydervæggene skal således beskytte bygningens indre mod det udvendige klima – ydervægge og tag kaldes også for klimaskærmen	1
+Ydervæggene bærer de overliggende konstruktioner, specielt etageadskillelser og taget.	1
+Eksempler på ydervægskonstruktioner findes i SBI-anvisning 189 side	1
+Taget er bygningens øverste del.	1
+Det er den mest komplicerede bygningsdel, og det er den del af bygningen som er mest udsat for vind og vejr.	1
+Eksempler på tagkonstruktioner findes i SBI-anvisning 189 side 60-69.a	1
+Vi skal ved dimensionering for anvendelse sikre at ændringer i bjælkens nedbøjning holder sig inden for en acceptabel størrelse.	1
+Dette skal vi gøre ved at bestemme en bjælke og bekræfte at den største nedbøjning umax ikke er større end den acceptable nedbøjning uacc.	1
+Først findes de generelle oplysninger, som skal bruges, og derefter bruges de til at beregne for både en limtræsbjælke og en stålbjælke.	1
+Lambda-værdi (𝜆) for formurens tegl er aflæst til at være 0.71 𝑊 𝑚·𝐾 41 på en graf over designvarmeledningsevnen (𝜆-design) i 𝑊 𝑚·𝐾 som funktion af densitet i kg m3.	1
+42 Tykkelsen af formur og bagmur er valgt til begge at være 108 mm.	1
+43 På Figur 5 er formur og bagmur vist med ens teglsten.	1
+𝜆-værdierne for bagmuren er fundet ved at aflæse ”Kurve A” for indvendigt murværk af teglsten på Figur 6 til at være 0.58 𝑊 𝑚·𝐾 .	1
+Religioner har i årtusinder forpestet samfundet ved at pålægge folk regler og atter regler, og mange af disse regler har, på trods af dets uanstændighed, brændt sig ind i kulturen	2
+Selv med den brede enighed om, at løsne de religiøse indgreb i den private persons hverdag, er der stadig mange traditionelle tænkere, som simpelthen ikke kan lade være med at blande sig i folks sager.	2
+I stedet for et samfund med et forenet folk, som deler viden og livstanker med hinanden for at skabe en bedre forståelse af den verden vi lever i, så vælger en markant mængde af befolkningen at brokke sig over, at nogen mennesker tror på noget andet end de selv gøre.	2
+Religioner begrænser folks muligheder i livet, og i stedet for blindt at følge religiøse doktriner, bør man plukke fra de lærige livsfilosofier, som er opstået ud fra religioner, med et gran salt, og blive realistisk.	2
+Verden er ikke pæn og matematisk indrettet, men vi bruger matematikken til at kunne forstå, hvordan verden hænger sammen, i forhold til vores definitioner.	2
+I gymnasiet f.eks.	2
+smider man resultater væk, som ikke lige passer til, hvad det skulle være, da det følger det gamle videnskabsteori (det fastlagte)	2
+Hvor man i forskningen gemmer alt, fordi det kunne være, at man havde fundet noget helt nyt, som man ikke havde opdaget før.	2
+Problemet ved denne er, at man kan lave mange iagttagelser, men man er ikke sikker på om det passer.	2
+Hvis man ser en masse svaner, og de alle er hvide, og man så siger, at alle svaner er hvide, så vil det ikke længere være sandt, hvis man finder en sort svane.	2
+Jeg har i min kronik valgt at henvende mit primært til de generelle læsere, for at gøre dem opmærksomme på problematikken.	2
+Sekundært henvender jeg mig til medierne selv, da jeg føler det er vigtigt, at de også bliver gjort opmærksom på, hvordan det kan føles af befolk-ningen, når de udgiver nyheder med usandt indhold.	2
+Jeg vil have kronikken trykt i Politikken, da hensigten med den ikke blot er at informere, men derimod særligt at ophvirvle en debat om emnet, falske nyheder, og den påvirkning det har på samfundet, at der i dag bliver trykt flere af dem.	2
+Jeg argumenterer indirekte i kronikken ved brug begge kilder for, at medierne, på trods af det pres de ligger under, ikke kan lade fejlene komme igennem.	2
+De er en magthaver, og har der-med også et ansvar for, at det de står for, nemlig at komme med faktuelle nyheder, bliver le-vet op til.	2
+Jeg bruger Hendricks og Vestergaard og deres bog ”Fake News ­ når virkeligheden taber”, som en ekspertkilde på området.	2
+Dette gør jeg for at skabe troværdighed i min kronik (etos).	2
+Jeg analyserer deres argumentation, og vurderer dem til at være pålidelige.	2
+De bruger logos, da de nævner medierne som værende en magthaver, hvorfor de dermed har et ansvar.	2
+Jeg tilføjer noget mere logos i et eksempel med deres kartografiske beskrivelse af journalistik: ” Da det selvfølgelig er svært, hvis ikke umuligt, at navigere et kort, hvor mange af de indtegnede veje ikke findes.”	2
+Det moderne gennembrud Den litterære periode Det Moderne Gennembrud er 1870-1890.	2
+Betegnelsen anvendes især om litteraturen i Skandinavien, der nu fik sit gennembrud i Europa.	2
+Det indledes med Georg Brandes' forelæsninger på Københavns Universitet fra 1871 og fortsætter i hans Hovedstrømninger i det 19de Aarhundredes Litteratur.	2
+Jeg har i min kronik primært valgt at henvende mig til de generelle læsere.	2
+Jeg har ikke valgt at specialisere mig nærmere, siden mit budskab med kronikken ikke er at omvende eksempelvis det ekstremistiske ateistiske segment, men rettere at forsøge på at forene både unge, ældre, ateister og religiøse.	2
+På trods af dette mål har jeg som min sekundære målgruppe valgt at fokusere på den yngre generation.	2
+Det ses tydeligt, at jeg henvender mig til den yngre generation, siden jeg både omtaler dem direkte og berører områder, som ligger dem nært, netop at være fortabt i en moderne verden.	2
+Her er et eksempel på direkte omtale af de unge ”Det kan være svært som ung i dag at finde den indre ro.	2
+Det er i dag den yngre generation, som har flest spørgsmål til- og problemer med tilværelsen, hvorfor jeg med min kronik gerne ønsker at hjælpe dem med at finde roen i deres liv.	2
+Jeg har valgt at bringe min kronik på DRs nyhedshjemmeside.	2
+Siden det er en nyhedshjemmeside, har jeg valgt ikke at opdele kronikken i spalter, derudover har jeg også valgt en font, Arial, uden fødder, da kronikken skal læses på en skærm og ikke på et stykke papir.	2
+Jeg overvejede først at bringe den i Kristeligt Dagblad, men ombestemte mig, da mit primære segment af min målgruppe er generelle læsere, hvor Kristeligt Dagblads læsere i forvejen er farvede inden for religion.	2
+Jeg fravalgte også Politiken, da deres læsere oftere vil debattere emner, hvor jeg i dette tilfælde ønskede, at læserne reflekterede over emnet i stedet for.	2
+Da DRs læsere generelt medtager de fleste grupper, har jeg valgt at skrive kronikken i middelhøj stil, for at få flest mulige læsere til at kunne forstå, men samtidig for at kvaliteten af den ikke blev for lav og useriøs.	2
+Et eksempel på sprogets stil er: ”Desværre på trods af dette udsagns unægtelige ekstremisme”	2
+Desuden er der ikke brugt slang eller andre former for lavstilssprog, da det ikke ville være passende til emnet, tro og religion.	2
+Når man skriver om et så farvet emne som religion, kan man ikke undgå at bruge patos (følelser).	2
+Når hver mand har sit eget personlige forhold til religion, skal man træde varsomt.	2
+Dette er årsagen til, at jeg samtidig med, at jeg fortæller, at religion er godt til at finde ro, samtidig ikke nedværdiger ateisternes tro, om at verden udelukkende er ”masse og energi”	2
+I min argumentation bruger jeg også logos.	2
+Når jeg beskriver ateismen, forklarer jeg ved hjælp af logos, at ateisterne gerne vil have evidens for noget, før de tror på det, da det er logisk, at mennesker ikke bare tror på alt og alle, hvis ikke der er nogen form for beviser.	2
+”Ateistiske mennesker søger altså nogle konkrete og anerkendte beviser på påstande, for at de tør tro på dem.	2
+NOGEN FINDER ROEN, når de har noget almægtigt og uforklarligt, de kan tro på, om så det er en gud eller bare en ukendt højere magt, som holder hånden over dem.	2
+Andre finder roen ved brug af ritualer til at minde dem selv og deres nærmeste om, hvad det er, de lever for, og hvad de skal være taknemmelige for.	2
+En af sådanne mennesker er Karin Liltorp, som i sin artikel ”Ritualer er vigtige.	2
+Også for ikke-troende” forklarer, at ritualer som at bede en bordbøn, ikke er helt så meningsløse, som nogen ateister måske skulle tro.	2
+Hun bruger begravelsesceremonien som eksempel - hun forklarer, at man med sund fornuft godt kan forstå, at éns oldemor var gammel og skulle dø, men at vores følelser ikke altid kan følge vores fornuft.	2
+Derfor, understreger hun, er ritualer som begravelsesceremonier vigtige, da de hjælper vores følelser med at kunne forstå realiteten af de situationer vi står i.	2
+Brugen af ritualer f.eks.	2
+at bede en bordbøn eller blot at tage sig tid hver dag til at være taknemmelig over den tilværelse man har, kan altså hjælpe følelserne med at forstå og dermed give en indre ro.	2
+Til at argumentere bruger jeg de givne kilder som rygdækning til mine påstande.	2
+”En af sådanne mennesker er Karin Liltorp, som i sin artikel ”Ritualer er vigtige.	2
+Også for ikke-troende” forklarer…” Jeg bruger gendrivelse til at gøre mine senere påstande stærkere, når jeg nævner, at ateisternes påstande ikke kan modsiges direkte.	2
+”Desværre på trods af dette udsagns unægtelige ekstremisme, kan det ikke modsiges, da vi med nutidens videnskab ikke er 100% sikker på, hvordan mennesket og livet som helhed er kommet til.” Lige efter, at jeg har ”skudt min egen påstand ned”,     kommer jeg med et argument, som overgår dette modargument, hvilket får mit argument til at stå stærkere.	2
+Metonymi betyder egentlig navneombytning, hvor man erstatter et ord med et andet ord, der er befinder sig inden for samme område.	2
+Ofte er der tale om del for helhed eller helhed for del.	2
+Henrik Pontoppidans sprog i novellen er let skrevet, og som er let at forstå.	2
+Der er dog nogle enkelte steder i teksten, hvor der er brugt nogle ord som ikke er så kendte i vores moderne tid, og har derfor valgt at beskrive ordet, i fodnoterne.	2
+Et af disse ord er blandt andet ”tofte” på linje 14, som her betyder et tværsæde i en robåd.	2
+Et andet ord er ”mede” på linje 89, som betyder at fiske.	2
+Fortælleren i novellen er en tredje persons fortæller, med en indre synsvinkel.	2
+Den indre synsvinkel er med til at give informationer om selskabets følelser, og er med til at fortælle hvordan personerne i teksten har det.	2
+Dette kan ses i teksten på linje 19, hvor vi får fortalt at personerne er fortabte i deres drømme.	2
+Et andet sted er også ved linje 38-39, hvor læseren får fortalt at hele selskabet blev underligt til mode.	2
+Hans-peter er gået bort Nu er hele mit liv sort Familien står på spil Siden der ingen der vil Snydes for det dejlige papir Så de kan leve som en vesir.	2
+Romanen har en komposition i form af en ”hjemme-ude-hjemme” historie.	2
+Hjemme-ude-hjemme som der bliver brugt her i historien er ikke i starten af teksten.	2
+Det starter først når rumvæsnet lander på Winnies mave på Amager, linje 4-5.	2
+Her er vi hjemme i teksten, det er her selve epidemien starter og derefter kommer vi ud, hvor vi oplever hvordan det påvirker samfundet, som f.eks.	2
+på linje8 hvor vi ser hvordan befolkningen reagere.	2
+I slutningen af teksten, hvor vi er hjemme i Winnies lejlighed er vi så hjemme igen, da det handler om Winnies kæreste som er en del af Winnies liv.	2
+sin(x): y-koordinat til P cos(x): x-koordinat til P For både sin og cos gælder det at: Definitionsmængde = R (Reele tal) Værdimængde = [-1;1] Både sinus og cosinus er periodiske.	3
+Det vil sige at de gentager sig med et fast interval.	3
+sin(x) = sin(x + 2) = sin(x + 4) Perioden for sinus er altså 2 - Dvs.	3
+at den starter forfra hver gang 2 lægges til.	3
+Det samme gælder for cosinus, men ikke det samme for tan.	3
+For tangens gælder reglen tan(x)=sin(x)cos(x), cos(x) 0 Dm(tan) = R\{2+ p} Vm(tan) = R Definitionsmængden for tangens ser sådan ud fordi man undgår at cos(x) = 0: cos(x) = 0 => x =2+ p    ,    pZ I en tabel kan man se de forskellige tal hvis man skulle lav en graf: x 0 2 32 sin(x) 0 1 -1 0 cos(x) 1 0 -1 0 tan(x): sin(x)cos(x) Radiantal: En vinkels radiantal er længden af den bue på enhedscirklen, som vinklen spænder over.	3
+En sinussvingning eller harmonisk svingning kan opskrives som følgende funktion: f(x) = Asin(x + ) + k A = amplitude (Størsteværdi - middelværdi) = omega (Vinkelfrekvens) = fi (Fasekonstant) k (eller m) = Middelværdi eller midterlinien T = 2(perioden eller svingningstiden). 3Faseforskydning =- (Afstanden mellem grafen ved y=k og (0,k)) Størsteværdi: k + A Mindsteværdi: k - A Middelværdi: Størsteværdi - A eller Mindsteværdi + A.	3
+I ligningen er den ubekendte, som skal findes, ikke 𝑥, som det er i almindelige ligninger, hvor den ubekendte er et tal.	3
+Med differentialligninger er den ubekendte, man skal finde, en funktion, der opfylder ligningen for alle tal i en mængde.	3
+Til løsning af de to differentialligninger, der følger i forbindelse med modellerne for ”varmestrøm gennem homogen ydervæg under stationære forhold” (hvor inde og udetemperaturer ikke ændre sig) og ”temperaturændring over tid under ikkestationære forhold” anvendes metoden separation af de variable, hvorfor man med tanke for matematikkens tilgang bør bevise denne metode inden anvendelse af den.	3
+Herefter kan der divideres med 𝑔(𝑓(𝑥)) på begge sider af lighedstegnet (dette er grunden til kravet om 𝑔(𝑦) ≠ 0).	3
+Hvis man har en sammensat funktion, 𝑔(ℎ(𝑥)), hvor 𝑔 er den ydre- og ℎ er den indre funktion og differentierer den, så skal den ydre funktion differentieres, hvor den indre funktion er uberørt.	3
+Det skal så ganges med den indre funktion differentieret.	3
+𝑔(ℎ(𝑥)) ′ = 𝑔 ′ (ℎ(𝑥)) · ℎ ′ (𝑥) Derfor kan ligning (5.5) omskrives til.	3
+Når man har to funktioner, som er differentieret hver for sig, så kan man samle dem i en parentes, trække dem fra hinanden og differentiere derefter.	3
+(𝑔(𝑥) − ℎ(𝑥)) ′ = 𝑔 ′ (𝑥) − ℎ ′ (𝑥).	3
+Venstresiden af lighedstegnet kan derfor omskrives til.	3
+Ved at se på figur 4, antager jeg at h = 10.	3
+Differentialligningen som jeg skal opskrive følger formen.	3
+Først konstrueren trekanten inde i metallet med værktøjet polygon, ud fra at højden er 70 mm, og vinklerne er hhv. 90, 45 og 45 grader.	3
+Herefter kan der laves cirkler ud fra hjørnerne af trekanten med værktøjet cirkel ud fra centrum og radius, med en radius på 35.	3
+Nu er de runde kanter på figueren blevet skabt, og de lang sider kan blot skabet ved at bruge værktøjet linje, som lader en konstruere linjer.	3
+Disse linjer forbinder cirklernes periferier, og skaber punkterne der udspoænder de lange sider: I, I, H, C, F og E.	3
+Afstanden mellem disse puntker findes med værktøjet længde, og lægges de sammen har man findes omkredsen af figuren når de runde sider ikke er regnet med: Ouden cirkler 137.09 100.08 103.9 = 341.07 For at finde de udsnit af cirkelperiferien der udgør figuren, bruges værktøjet,cirkeludsnit, hvor der laves cirkeludsnit mellem hjørnet af trekanten, og skæringspunkter mellem linjerne der udgør figurens lange sider, og cirklernes periferier.	3
+Herefter kan værktøjet længde igen bruges til at finde længden af cirkelsektorerne k, p og q.	3
+Lægges disse sammen findes omkredsen af figuren udgjort af cirklerne.	3
+Lægges dette sammen med omkredsen udgjort af de lange sider, har man hele figurens omkreds: Omed cirkler 76.24 79.16 52.41 Omed cirkler Ofigur Ouden cirkler Omed cirkler Omkredsen af figuren er 548.88.	3
+Vi husker igen fra omskrivningerne af henholdsvis 𝑔(𝑦) og ℎ(𝑥), at stamfunktionen 𝐺(𝑦) kunne beskrives som ∫ 1 𝑔(𝑦) 𝑑𝑥, og stamfunktionen 𝐻(𝑥) kunne beskrives som ∫ ℎ(𝑥)𝑑x.	3
+Hvis der så indtegnes et andet punkt med afstanden h ud af x-aksen, så kan det ses, ta afstanden på y-aksen er funktionstilvæksten (dette og afstanden h er sat som numerisk værdi, fordi afstanden godt kan være negativ, men det kan ikke regnes som en afstand).	3
+En sekant tegnes (som står som S på tegningen), som har hældningen Δy/h i og med at man for at finde hældningen kan tage ændringen af y-værdi og dividere med ændringen af x-værdi (ved vi fra lineære funktioner).	3
+Dette er altså andet trin af tretrinsreglen.	3
+Heraf er det nu bevist, at formlen for volumen af et omdrejningslegeme ved rotation af en graf om x-aksen, når arealet under grafen danner en keglestubs form, er det samme som formlen for volumen af en keglestub.	3
+Hvis vi skal kunne sammenligne disse formler, skal vi have et fælles grundlag.	3
+Formlen for volumen af et omdrejningslegeme er generel og skal derfor specificeres til kun at udregne volumen af en keglestub.	3
+Dette gøres ved at bestemme, at funktionen skal være lineær og at hele funktionen ligger over x-aksen i et valgt interval.	3
+Når det er på plads, skal formlen for volumenet af et omdrejningslegeme omskrives, så den har en lineær funktion med, der er opskrevet med symbolerne fra formlen af volumenet af en keglestub, se figur 1.	3
+ Det bliver til.	3
+Jeg har brugt excel til at lave et histogram af de to dataset med de samme intervalinddelinger, ses herunder.	3
+Histogrammet er over de to datasets frekvens, siden de ikke har det samme antal observationer.	3
+Ud fra min illustration 3 ses det, at den øverste sidelængde, grøn, er den samme som grundlinjen for den indre trekant, 140 mm.	3
+Det ses også, at de to mindre sidelængder kan fides ved brug af cosinus i retvinklede trekanter, da de har længden af hyp (se illustration 3).	3
+Cirkelbuerne beregnes ved brug af formlen herunder, hvor vinklen v for de to største cirkelbuer er = 135° (se illistration 3).	3
+Den mindste af de tre cirkelbuer har en vinkel, w2, på 90°, siden de vinkler der ligger omkring alle tre (en i trekanten og to fra trekant langs den de stiblede linjer) alle er 90.	3
+Som man kan se på boksplottene er mindste værdien for de hvide kugler mindre end for de farvede, man kan dog ikke helt regne med om den er så meget mindre, som det ligner den er på boksplottene, da de hvide kugler jo er delt op i intervaller, og de kan derfor være at den ene hvide kugle som lå i intervallet ]600;800] ligger meget tæt på 800.	3
+til gengæld kan man tydeligt se at de farvede har nogle kugler som er tungere end de hvide har..	3
+Man skal dog ikke føle sig snydt hvis man bedst kan lide de hvide, da de midterste 50% ligger højere for de hvide end for de farvede1.	3
+Jeg skal vise at punktet A(2.1; -1.7; 0) ligger i planen.	3
+Jeg vil starte med at finde den afstand som punktet A har til planen Til det bruger jeg distanceformlen mellem et punkt og en plan.	3
+Hvis afstanden var 0, så ville punktet ligge på planen.	3
