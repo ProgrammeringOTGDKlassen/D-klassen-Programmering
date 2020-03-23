@@ -9,6 +9,8 @@ app = Flask(__name__)
 key = "very secret string"
 app.secret_key = key
 
+class_model = TextClassifierModel()
+
 with app.app_context():
     data = Database()
 
