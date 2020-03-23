@@ -131,6 +131,8 @@ class Database:
 
         try:
             c.execute("""DROP TABLE IF EXISTS userprofiles;""")
+            c.execute("""DROP TABLE IF EXISTS classes;""")
+            c.execute("""DROP TABLE IF EXISTS notes;""")
         except Exception as e:
             print(e)
         db.commit()
@@ -161,6 +163,19 @@ class Database:
         except Exception as e:
             print(e)
 
+        try:
+            c.execute(
+                """CREATE TABLE IF NOT EXISTS notes (
+                id INTEGER PRIMARY KEY,
+                user_id INT,
+                class_id INT,
+                subject TEXT, 
+                body TEXT,
+                timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);"""
+            )
+        except Exception as e:
+            print(e)
+
         db.commit()
 
         # Create testing profiles
@@ -183,6 +198,95 @@ class Database:
                 """,
                 (pass1,),
             )
+        except Exception as e:
+            print(e)
+
+        # Create testing classes
+        try:
+            c.execute(
+                """
+                INSERT INTO classes (classname, img_path) VALUES ("Dansk", "./static/Images/dansk.png");
+                """
+            )
+            c.execute(
+                """
+                INSERT INTO classes (classname, img_path) VALUES ("Matematik", "./static/Images/matematik.png");
+                """
+            )
+            c.execute(
+                """
+                INSERT INTO classes (classname, img_path) VALUES ("Byggeri & Energi", "./static/Images/byggeri & energi.png");
+                """
+            )
+        except Exception as e:
+            print(e)
+
+        # Create testing notes
+        try:
+            # ? Dansk
+            c.execute(
+                """
+                INSERT INTO notes (user_id, class_id, subject, body) VALUES (
+                    1, 
+                    1, 
+                    "Romantikken", 
+                    "Romantikkens afgørende dyder er Intuition(For at der rent faktisk er nogen, der går i gang med at finde ud af, hvordan det hele hænger sammen.) og Fantasi (For at kunne tænke ud af boksen og ud over den livskultur, som tidligere var.) Med “det væsentlige er usynligt for øjet” menes der, at man er nødt til at tænke på en anden måde for at kunne finde frem til det væsentlige, hvilket man altså ikke bare kan se med øjet. Det er en åndelig ting, man ikke kan se. Man kan opnå den romantiske universaloplevelse når de skriver/finder på tekster (Den oplevelse, når de sidder og finder på (digter eller andet) og får oplevelsen at være et med alt, i det man skriver). Det er ikke en nødvendighed, at digterne opnår denne universaloplevelse. Romantikken forholder sig også til organismetanken: “En organisme er en helhed, hvor delene kun kan forklares ud fra deres plads og funktion i helheden. Den såkaldte organicisme eller organismetanke går ud på, at ikke kun biologiske væsener, men også"
+                    );
+                """
+            )
+            c.execute(
+                """
+                INSERT INTO notes (user_id, class_id, subject, body) VALUES (
+                    1, 
+                    1, 
+                    "Romantikken", 
+                    "Den såkaldte organicisme eller organismetanke går ud på, at..."
+                    );
+                """
+            )
+            c.execute(
+                """
+                INSERT INTO notes (user_id, class_id, subject, body) VALUES (
+                    1, 
+                    1, 
+                    "Dokumentar", 
+                    "Dokumentaren handler om MKs barndom, hans forældre og..."
+                    );
+                """
+            )
+            # ? Matematik
+            c.execute(
+                """
+                INSERT INTO notes (user_id, class_id, subject, body) VALUES (
+                    1, 
+                    2, 
+                    "Differentialligninger", 
+                    "En eller anden tekst om differentialligninger"
+                    );
+                """
+            )
+            c.execute(
+                """
+                INSERT INTO notes (user_id, class_id, subject, body) VALUES (
+                    1, 
+                    2, 
+                    "Simpel matematik", 
+                    "2 + 2 er 4 minus 1 er 3 hurtig matematik 😎"
+                    );
+                """
+            )
+            # ? Byggeri & Energi
+            c.execute(
+                """
+                INSERT INTO notes (user_id, class_id, subject, body) VALUES (
+                    1,
+                    3, 
+                    "Dimensionering", 
+                    "Det er matematik men i byg"
+                    );
+                """
+            )
+
         except Exception as e:
             print(e)
 
