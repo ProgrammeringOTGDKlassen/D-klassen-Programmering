@@ -80,6 +80,36 @@ class Database:
             return False
         return self.verify_password(stored_password=db_pw, provided_password=password)
 
+    def get_class_info(self):
+        class_info_list = []
+        db = self._get_db()
+        c = db.cursor()
+        c.execute("SELECT * FROM classes")
+        r = c.fetchall()
+        for class_info in r:
+            class_id, class_name, class_img_path = class_info
+            class_info_dict = {
+                "class_id": class_id,
+                "class_name": class_name,
+                "class_img": class_img_path,
+            }
+            class_info_list.append(class_info_dict)
+
+        return class_info_list
+
+    def get_num_notes_in_class(self, user_id):
+        num_notes_in_class_dict = {}
+        db = self._get_db()
+        c = db.cursor()
+        for i in range(1, 4):
+            c.execute(
+                "SELECT COUNT(id) FROM notes WHERE user_id == ? AND class_id == ?", (user_id, i)
+            )
+            r = c.fetchone()
+            num, = r
+            num_notes_in_class_dict[f'{i}'] = int(num)
+        return num_notes_in_class_dict
+
     def check_existing_username(self, username):
         db = self._get_db()
         c = db.cursor()
@@ -210,12 +240,12 @@ class Database:
             )
             c.execute(
                 """
-                INSERT INTO classes (classname, img_path) VALUES ("Matematik", "./static/Images/matematik.png");
+                INSERT INTO classes (classname, img_path) VALUES ("Matematik", "./static/Images/matematik.jpg");
                 """
             )
             c.execute(
                 """
-                INSERT INTO classes (classname, img_path) VALUES ("Byggeri & Energi", "./static/Images/byggeri & energi.png");
+                INSERT INTO classes (classname, img_path) VALUES ("Byggeri & Energi", "./static/Images/byggeri & energi.jpg");
                 """
             )
         except Exception as e:

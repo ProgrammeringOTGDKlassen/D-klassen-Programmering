@@ -101,7 +101,20 @@ def signup_site():
 
 @app.route("/profile")
 def profile():
-    return my_render("user_main.html", title="Student", success=True)
+    # Get general class info
+    classes_info = data.get_class_info()
+    # Get amount of notes in each class for current user
+    num_notes_in_class_dict = data.get_num_notes_in_class(session["currentuser"])
+    for i, class_info in enumerate(classes_info):
+        i += 1
+        class_info["num_notes"] = num_notes_in_class_dict[f"{i}"]
+
+    return my_render(
+        "user_main.html",
+        title="Student",
+        success=True,
+        classes_info=classes_info,
+    )
 
 
 @app.route("/signup_profile", methods=["POST"])
