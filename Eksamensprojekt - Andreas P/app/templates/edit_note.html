@@ -1,5 +1,7 @@
 {% extends "header.html" %} {% block content %}
-<a href="/read_note?='1'" class="btn btn-light back-btn" type="button">Go back</a>
+<a href="/read_note?='1'" class="btn btn-light back-btn" type="button"
+	>Go back</a
+>
 <div class="container">
 	<h1 class="class-heading">Editing note</h1>
 	<form action="submit_note_edit" method="POST">
@@ -9,7 +11,7 @@
 				type="text"
 				class="form-control"
 				id="exampleFormControlInput1"
-				placeholder="Subject"
+				value="{{ note_info['subject'] }}"
 			/>
 		</div>
 		<div class="form-group">
@@ -17,12 +19,17 @@
 			<textarea
 				class="form-control"
 				id="exampleFormControlTextarea1"
-				rows="3"
-			></textarea>
+				rows="7"
+			>
+{{ note_info['body'] }}
+		</textarea
+			>
 		</div>
 		<!-- !<button type="button" class="btn btn-primary"></button> -->
 		<!-- Button trigger modal -->
-		<a href="/read_note?='1'" type="button" class="btn btn-secondary">Cancel</a>
+		<a href="/read_note?='1'" type="button" class="btn btn-secondary"
+			>Cancel</a
+		>
 		<button
 			type="button"
 			class="btn btn-primary"
@@ -31,7 +38,7 @@
 		>
 			Submit
 		</button>
-		<a href="/showclass?='1'" type="button" class="btn btn-danger">Trash</a>
+		<a href="/remove_note?='{{ note_info }}'" type="button" class="btn btn-danger">Trash</a>
 		<!-- Modal -->
 		<div
 			class="modal fade"

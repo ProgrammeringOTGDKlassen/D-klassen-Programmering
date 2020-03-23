@@ -165,6 +165,14 @@ class Database:
         }
         return note_dict
 
+    def remove_note(self, note_id, user_id):
+        db = self._get_db()
+        c = db.cursor()
+        c.execute(
+            "DELETE FROM notes WHERE id = ? AND user_id = ?", (note_id, user_id),
+        )
+        db.commit()
+
     def check_existing_username(self, username):
         db = self._get_db()
         c = db.cursor()

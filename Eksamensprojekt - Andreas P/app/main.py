@@ -139,12 +139,15 @@ def signup():
 
 @app.route("/edit_note")
 def edit_note():
-    return my_render("edit_note.html")
+    note_info = clean_dict_from_req_args(request.args)
+    return my_render("edit_note.html", note_info=note_info)
 
 
 @app.route("/remove_note")
 def remove_note():
-    return redirect("/showclass?='1'")
+    note_info = clean_dict_from_req_args(request.args)
+    data.remove_note(note_info["note_id"], session["currentuser"])
+    return redirect(f"/showclass?='{note_info['class_id']}'")
 
 
 @app.route("/showclass")
