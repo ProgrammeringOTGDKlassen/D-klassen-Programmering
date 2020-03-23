@@ -299,17 +299,17 @@ class Database:
         try:
             c.execute(
                 """
+                INSERT INTO classes (classname, img_path, class_description) VALUES ("Byggeri & Energi", "./static/Images/byggeri & energi.jpg", "Det er Byg og Hyg");
+                """
+            )
+            c.execute(
+                """
                 INSERT INTO classes (classname, img_path, class_description) VALUES ("Dansk", "./static/Images/dansk.png", "Det er dansk");
                 """
             )
             c.execute(
                 """
                 INSERT INTO classes (classname, img_path, class_description) VALUES ("Matematik", "./static/Images/matematik.jpg", "Det er mat");
-                """
-            )
-            c.execute(
-                """
-                INSERT INTO classes (classname, img_path, class_description) VALUES ("Byggeri & Energi", "./static/Images/byggeri & energi.jpg", "Det er Byg og Hyg");
                 """
             )
         except Exception as e:
@@ -322,7 +322,7 @@ class Database:
                 """
                 INSERT INTO notes (user_id, class_id, subject, body) VALUES (
                     1, 
-                    1, 
+                    2, 
                     "Romantikken", 
                     "Romantikkens afgørende dyder er Intuition(For at der rent faktisk er nogen, der går i gang med at finde ud af, hvordan det hele hænger sammen.) og Fantasi (For at kunne tænke ud af boksen og ud over den livskultur, som tidligere var.) Med “det væsentlige er usynligt for øjet” menes der, at man er nødt til at tænke på en anden måde for at kunne finde frem til det væsentlige, hvilket man altså ikke bare kan se med øjet. Det er en åndelig ting, man ikke kan se. Man kan opnå den romantiske universaloplevelse når de skriver/finder på tekster (Den oplevelse, når de sidder og finder på (digter eller andet) og får oplevelsen at være et med alt, i det man skriver). Det er ikke en nødvendighed, at digterne opnår denne universaloplevelse. Romantikken forholder sig også til organismetanken: “En organisme er en helhed, hvor delene kun kan forklares ud fra deres plads og funktion i helheden. Den såkaldte organicisme eller organismetanke går ud på, at ikke kun biologiske væsener, men også"
                     );
@@ -332,7 +332,7 @@ class Database:
                 """
                 INSERT INTO notes (user_id, class_id, subject, body) VALUES (
                     1, 
-                    1, 
+                    2, 
                     "Romantikken", 
                     "Den såkaldte organicisme eller organismetanke går ud på, at..."
                     );
@@ -342,7 +342,7 @@ class Database:
                 """
                 INSERT INTO notes (user_id, class_id, subject, body) VALUES (
                     1, 
-                    1, 
+                    2, 
                     "Dokumentar", 
                     "Dokumentaren handler om MKs barndom, hans forældre og..."
                     );
@@ -353,7 +353,7 @@ class Database:
                 """
                 INSERT INTO notes (user_id, class_id, subject, body) VALUES (
                     1, 
-                    2, 
+                    3, 
                     "Differentialligninger", 
                     "En eller anden tekst om differentialligninger"
                     );
@@ -363,7 +363,7 @@ class Database:
                 """
                 INSERT INTO notes (user_id, class_id, subject, body) VALUES (
                     1, 
-                    2, 
+                    3, 
                     "Simpel matematik", 
                     "2 + 2 er 4 minus 1 er 3 hurtig matematik 😎"
                     );
@@ -374,7 +374,7 @@ class Database:
                 """
                 INSERT INTO notes (user_id, class_id, subject, body) VALUES (
                     1,
-                    3, 
+                    1, 
                     "Dimensionering", 
                     "Det er matematik men i byg"
                     );

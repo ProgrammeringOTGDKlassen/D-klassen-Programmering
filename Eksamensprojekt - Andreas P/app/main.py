@@ -1,4 +1,5 @@
 from note_data import Database, User
+import API.test
 
 from flask import Flask, request, g, render_template, session, redirect, url_for
 from ast import literal_eval
