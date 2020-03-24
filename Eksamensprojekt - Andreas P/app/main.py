@@ -1,4 +1,5 @@
 from note_data import Database, User
+from API.class_classifier_model import TextClassifierModel
 
 from flask import Flask, request, g, render_template, session, redirect, url_for
 from ast import literal_eval
@@ -7,6 +8,8 @@ import os, random, string, json
 app = Flask(__name__)
 key = "very secret string"
 app.secret_key = key
+
+class_model = TextClassifierModel()
 
 with app.app_context():
     data = Database()
@@ -101,7 +104,17 @@ def signup_site():
 
 @app.route("/profile")
 def profile():
-    return my_render("user_main.html", title="Student", success=True)
+    # Get general class info
+    classes_info = data.get_classes_info()
+    # Get amount of notes in each class for current user
+    num_notes_in_class_dict = data.get_num_notes_in_class(session["currentuser"])
+    for i, class_info in enumerate(classes_info):
+        i += 1
+        class_info["num_notes"] = num_notes_in_class_dict[f"{i}"]
+
+    return my_render(
+        "user_main.html", title="Student", success=True, classes_info=classes_info,
+    )
 
 
 @app.route("/signup_profile", methods=["POST"])
@@ -129,18 +142,25 @@ def signup():
 
 @app.route("/edit_note")
 def edit_note():
-    return my_render("edit_note.html")
+    note_info = clean_dict_from_req_args(request.args)
+    return my_render("edit_note.html", note_info=note_info)
 
 
 @app.route("/remove_note")
 def remove_note():
-    return redirect("/showclass?='1'")
+    note_info = clean_dict_from_req_args(request.args)
+    data.remove_note(note_info["note_id"], session["currentuser"])
+    return redirect(f"/showclass?='{note_info['class_id']}'")
 
 
 @app.route("/showclass")
 def showclass():
-    print(clean_dict_from_req_args(request.args))
-    return my_render("class_page.html", success=True)
+    class_id = clean_dict_from_req_args(request.args)
+    class_info = data.get_class_info(class_id)
+    notes = data.get_notes_in_class(session["currentuser"], class_id)
+    return my_render(
+        "class_page.html", success=True, class_info=class_info, notes=notes
+    )
 
 
 @app.route("/take_notes")
@@ -148,8 +168,25 @@ def take_notes():
     return my_render("note_writer.html")
 
 
+@app.route("/get_class_prediction", methods=["GET"])
+def get_class_prediction():
+    cluttered_dict = request.args
+    body = cluttered_dict[""].replace("'", '"')
+    class_model.prepare_data(body)
+    prediction = class_model.predict_class()
+    class_name = data.get_class_name(prediction)
+    return class_name
+
+
 @app.route("/submit_note", methods=["POST"])
 def submit_note():
+    subject = request.form["subject"]
+    body = request.form["body"]
+    class_name = request.form["class_name"]
+    class_id = data.get_class_id_from_name(class_name)
+    print(f"Value of id: {class_id=}")
+    data.submit_note(session["currentuser"], class_id, subject, body)
+
     return redirect("/profile")
 
 
@@ -160,8 +197,12 @@ def submit_note_edit():
 
 @app.route("/read_note")
 def read_note():
-    print(clean_dict_from_req_args(request.args))
-    return my_render("read_note.html", success=True)
+    note_id = clean_dict_from_req_args(request.args)
+    note_info = data.get_note_info(note_id, session["currentuser"])
+    class_info = data.get_class_info(note_info["class_id"])
+    return my_render(
+        "read_note.html", success=True, note_info=note_info, class_info=class_info
+    )
 
 
 if __name__ == "__main__":

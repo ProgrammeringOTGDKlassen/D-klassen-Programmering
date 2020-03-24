@@ -80,6 +80,124 @@ class Database:
             return False
         return self.verify_password(stored_password=db_pw, provided_password=password)
 
+    def get_classes_info(self):
+        class_info_list = []
+        db = self._get_db()
+        c = db.cursor()
+        c.execute("SELECT * FROM classes")
+        r = c.fetchall()
+        for class_info in r:
+            class_id, class_name, class_img_path, description = class_info
+            class_info_dict = {
+                "class_id": class_id,
+                "class_name": class_name,
+                "class_img": class_img_path,
+                "description": description,
+            }
+            class_info_list.append(class_info_dict)
+        return class_info_list
+
+    def get_class_info(self, class_id):
+        db = self._get_db()
+        c = db.cursor()
+        c.execute("SELECT * FROM classes WHERE id = ?", (class_id,))
+        r = c.fetchone()
+        class_id, class_name, class_img_path, description = r
+        class_info_dict = {
+            "class_id": class_id,
+            "class_name": class_name,
+            "class_img": class_img_path,
+            "description": description,
+        }
+        return class_info_dict
+
+    def get_class_name(self, class_id):
+        db = self._get_db()
+        c = db.cursor()
+        c.execute("SELECT classname FROM classes WHERE id = ?", (int(class_id),))
+        r = c.fetchone()
+        class_name = r[0]
+        return class_name
+
+    def get_class_id_from_name(self, class_name):
+        db = self._get_db()
+        c = db.cursor()
+        c.execute("SELECT id FROM classes WHERE classname = ?", (str(class_name),))
+        r = c.fetchone()
+        class_id = r[0]
+        return class_id
+
+    def get_num_notes_in_class(self, user_id):
+        num_notes_in_class_dict = {}
+        db = self._get_db()
+        c = db.cursor()
+        for i in range(1, 4):
+            c.execute(
+                "SELECT COUNT(id) FROM notes WHERE user_id == ? AND class_id == ?",
+                (user_id, i),
+            )
+            r = c.fetchone()
+            (num,) = r
+            num_notes_in_class_dict[f"{i}"] = int(num)
+        return num_notes_in_class_dict
+
+    def get_notes_in_class(self, user_id, class_id):
+        notes = []
+        db = self._get_db()
+        c = db.cursor()
+        c.execute(
+            "SELECT * FROM notes WHERE user_id == ? AND class_id == ?",
+            (user_id, class_id),
+        )
+        r = c.fetchall()
+        for note in r:
+            note_id, user_id, class_id, subject, body, timestamp = note
+            note_dict = {
+                "note_id": note_id,
+                "user_id": user_id,
+                "class_id": class_id,
+                "subject": subject,
+                "body": body,
+                "timestamp": timestamp,
+            }
+            notes.append(note_dict)
+        return notes
+
+    def get_note_info(self, note_id, user_id):
+        db = self._get_db()
+        c = db.cursor()
+        c.execute(
+            "SELECT * FROM notes WHERE id == ? AND user_id == ?", (note_id, user_id),
+        )
+        r = c.fetchone()
+        note_id, user_id, class_id, subject, body, timestamp = r
+        note_dict = {
+            "note_id": note_id,
+            "user_id": user_id,
+            "class_id": class_id,
+            "subject": subject,
+            "body": body,
+            "timestamp": timestamp,
+        }
+        return note_dict
+
+    def remove_note(self, note_id, user_id):
+        db = self._get_db()
+        c = db.cursor()
+        c.execute(
+            "DELETE FROM notes WHERE id = ? AND user_id = ?", (note_id, user_id),
+        )
+        db.commit()
+
+    def submit_note(self, user_id, class_id, subject, body):
+        db = self._get_db()
+        c = db.cursor()
+        c.execute(
+            "INSERT INTO notes (user_id, class_id, subject, body) VALUES (?, ?, ?, ?)",
+            (user_id, class_id, subject, body),
+        )
+        db.commit()
+
     def check_existing_username(self, username):
         db = self._get_db()
         c = db.cursor()
@@ -131,6 +249,8 @@ class Database:
 
         try:
             c.execute("""DROP TABLE IF EXISTS userprofiles;""")
+            c.execute("""DROP TABLE IF EXISTS classes;""")
+            c.execute("""DROP TABLE IF EXISTS notes;""")
         except Exception as e:
             print(e)
         db.commit()
@@ -156,7 +276,21 @@ class Database:
                 """CREATE TABLE IF NOT EXISTS classes (
                 id INTEGER PRIMARY KEY, 
                 classname TEXT, 
-                img_path TEXT);"""
+                img_path TEXT,
+                class_description TEXT);"""
+            )
+        except Exception as e:
+            print(e)
+
+        try:
+            c.execute(
+                """CREATE TABLE IF NOT EXISTS notes (
+                id INTEGER PRIMARY KEY,
+                user_id INT,
+                class_id INT,
+                subject TEXT, 
+                body TEXT,
+                timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);"""
             )
         except Exception as e:
             print(e)
@@ -183,6 +317,95 @@ class Database:
                 """,
                 (pass1,),
             )
+        except Exception as e:
+            print(e)
+
+        # Create testing classes
+        try:
+            c.execute(
+                """
+                INSERT INTO classes (classname, img_path, class_description) VALUES ("Byggeri & Energi", "./static/Images/byggeri & energi.jpg", "Det er Byg og Hyg");
+                """
+            )
+            c.execute(
+                """
+                INSERT INTO classes (classname, img_path, class_description) VALUES ("Dansk", "./static/Images/dansk.png", "Det er dansk");
+                """
+            )
+            c.execute(
+                """
+                INSERT INTO classes (classname, img_path, class_description) VALUES ("Matematik", "./static/Images/matematik.jpg", "Det er mat");
+                """
+            )
+        except Exception as e:
+            print(e)
+
+        # Create testing notes
+        try:
+            # ? Dansk
+            c.execute(
+                """
+                INSERT INTO notes (user_id, class_id, subject, body) VALUES (
+                    1, 
+                    2, 
+                    "Romantikken", 
+                    "Romantikkens afgørende dyder er Intuition(For at der rent faktisk er nogen, der går i gang med at finde ud af, hvordan det hele hænger sammen.) og Fantasi (For at kunne tænke ud af boksen og ud over den livskultur, som tidligere var.) Med “det væsentlige er usynligt for øjet” menes der, at man er nødt til at tænke på en anden måde for at kunne finde frem til det væsentlige, hvilket man altså ikke bare kan se med øjet. Det er en åndelig ting, man ikke kan se. Man kan opnå den romantiske universaloplevelse når de skriver/finder på tekster (Den oplevelse, når de sidder og finder på (digter eller andet) og får oplevelsen at være et med alt, i det man skriver). Det er ikke en nødvendighed, at digterne opnår denne universaloplevelse. Romantikken forholder sig også til organismetanken: “En organisme er en helhed, hvor delene kun kan forklares ud fra deres plads og funktion i helheden. Den såkaldte organicisme eller organismetanke går ud på, at ikke kun biologiske væsener, men også"
+                    );
+                """
+            )
+            c.execute(
+                """
+                INSERT INTO notes (user_id, class_id, subject, body) VALUES (
+                    1, 
+                    2, 
+                    "Romantikken", 
+                    "Den såkaldte organicisme eller organismetanke går ud på, at..."
+                    );
+                """
+            )
+            c.execute(
+                """
+                INSERT INTO notes (user_id, class_id, subject, body) VALUES (
+                    1, 
+                    2, 
+                    "Dokumentar", 
+                    "Dokumentaren handler om MKs barndom, hans forældre og..."
+                    );
+                """
+            )
+            # ? Matematik
+            c.execute(
+                """
+                INSERT INTO notes (user_id, class_id, subject, body) VALUES (
+                    1, 
+                    3, 
+                    "Differentialligninger", 
+                    "En eller anden tekst om differentialligninger"
+                    );
+                """
+            )
+            c.execute(
+                """
+                INSERT INTO notes (user_id, class_id, subject, body) VALUES (
+                    1, 
+                    3, 
+                    "Simpel matematik", 
+                    "2 + 2 er 4 minus 1 er 3 hurtig matematik 😎"
+                    );
+                """
+            )
+            # ? Byggeri & Energi
+            c.execute(
+                """
+                INSERT INTO notes (user_id, class_id, subject, body) VALUES (
+                    1,
+                    1, 
+                    "Dimensionering", 
+                    "Det er matematik men i byg"
+                    );
+                """
+            )
+
         except Exception as e:
             print(e)
 

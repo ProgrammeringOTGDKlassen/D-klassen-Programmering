@@ -1,34 +1,34 @@
 {% extends "header.html" %} {% block content %}
-<a href="/showclass?='1'" class="btn btn-light back-btn" type="button">Go back</a>
+<a href="/showclass?='1'" class="btn btn-light back-btn" type="button"
+	>Go back</a
+>
 <div class="container">
-	<h1 class="class-heading">Dansk</h1>
+	<h1 class="class-heading">{{ class_info['class_name'] }}</h1>
 	<div class="row h-100">
 		<div class="col-sm-12 my-auto">
 			<div class="card card-block w-100">
-				<h1>Romantikken</h1>
+				<h1>{{ note_info['subject'] }}</h1>
 				<div class="scrollbar scrollbar-primary pre-scrollable">
-					Romantikkens afgørende dyder er Intuition(For at der rent
-					faktisk er nogen, der går i gang med at finde ud af, hvordan
-					det hele hænger sammen.) og Fantasi (For at kunne tænke ud
-					af boksen og ud over den livskultur, som tidligere var.) Med
-					“det væsentlige er usynligt for øjet” menes der, at man er
-					nødt til at tænke på en anden måde for at kunne finde frem
-					til det væsentlige, hvilket man altså ikke bare kan se med
-					øjet. Det er en åndelig ting, man ikke kan se. Man kan opnå
-					den romantiske universaloplevelse når de skriver/finder på
-					tekster (Den oplevelse, når de sidder og finder på (digter
-					eller andet) og får oplevelsen at være et med alt, i det man
-					skriver). Det er ikke en nødvendighed, at digterne opnår
-					denne universaloplevelse. Romantikken forholder sig også til
-					organismetanken: “En organisme er en helhed, hvor delene kun
-					kan forklares ud fra deres plads og funktion i helheden. Den
-					såkaldte organicisme eller organismetanke går ud på, at ikke
-					kun biologiske væsener, men også
+					{{ note_info['body'] }}
 				</div>
 			</div>
-			<br>
-			<a name="" id="" class="btn btn-primary" href="/edit_note?='1'" role="button">Edit</a>
-			<a name="" id="" class="btn btn-danger" href="/remove_note?='1'" role="button">Trash</a>
+			<br />
+			<a
+				name=""
+				id=""
+				class="btn btn-primary"
+				href="/edit_note?='{{ note_info }}'"
+				role="button"
+				>Edit</a
+			>
+			<a
+				name=""
+				id=""
+				class="btn btn-danger"
+				href="/remove_note?='{{ note_info }}'"
+				role="button"
+				>Trash</a
+			>
 		</div>
 	</div>
 </div>

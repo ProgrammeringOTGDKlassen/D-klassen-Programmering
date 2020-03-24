@@ -12,24 +12,24 @@
 		New note
 	</a>
 	<div class="card-deck" style="margin-top:1.5rem">
-		<a href="/showclass?='1'" class="card class-card">
+		{% for class_info in classes_info %}
+		<a
+			href="/showclass?='{{ class_info['class_id'] }}'"
+			class="card class-card"
+		>
 			<img
 				class="card-img-top"
-				src="../static/Images/dansk.png"
+				src="{{ class_info['class_img'] }}"
 				alt="Card image cap"
 			/>
 			<div class="card-body">
-				<h5 class="card-title">Dansk</h5>
+				<h5 class="card-title">{{ class_info['class_name'] }}</h5>
 				<div style="height: 60px">
-					<p class="card-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-						*Description here*
-						*Description here*
-						*Description here*
-						*Description here*
-						*Description here*
-						*Description here*
-						*Description here*
-						*Description here*
+					<p
+						class="card-text"
+						style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+					>
+						{{ class_info['description'] }}
 					</p>
 				</div>
 				<div class="card">
@@ -37,77 +37,14 @@
 						<h5>
 							Number of notes: <br /><span
 								class="badge badge-secondary"
-								>3</span
+								>{{ class_info['num_notes'] }}</span
 							>
 						</h5>
 					</div>
 				</div>
 			</div>
 		</a>
-		<a href="/showclass?='1'" class="card class-card">
-			<img
-				class="card-img-top"
-				src="../static/Images/matematik.jpg"
-				alt="Card image cap"
-			/>
-			<div class="card-body">
-				<h5 class="card-title">Matematik</h5>
-				<div style="height: 60px">
-					<p class="card-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-						*Description here*
-						*Description here*
-						*Description here*
-						*Description here*
-						*Description here*
-						*Description here*
-						*Description here*
-						*Description here*
-					</p>
-				</div>
-				<div class="card">
-					<div class="container" style="text-align: center;">
-						<h5>
-							Number of notes: <br /><span
-								class="badge badge-secondary"
-								>3</span
-							>
-						</h5>
-					</div>
-				</div>
-			</div>
-		</a>
-		<a href="/showclass?='1'" class="card class-card">
-			<img
-				class="card-img-top"
-				src="../static/Images/byggeri & energi.jpg"
-				alt="Card image cap"
-			/>
-			<div class="card-body">
-				<h5 class="card-title">Byggeri & Energi</h5>
-				<div style="height: 60px">
-					<p class="card-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-						*Description here*
-						*Description here*
-						*Description here*
-						*Description here*
-						*Description here*
-						*Description here*
-						*Description here*
-						*Description here*
-					</p>
-				</div>
-				<div class="card">
-					<div class="container" style="text-align: center;">
-						<h5>
-							Number of notes: <br /><span
-								class="badge badge-secondary"
-								>3</span
-							>
-						</h5>
-					</div>
-				</div>
-			</div>
-		</a>
+		{% endfor %}
 	</div>
 </div>
 
