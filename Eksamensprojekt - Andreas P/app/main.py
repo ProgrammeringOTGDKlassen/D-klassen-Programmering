@@ -168,8 +168,25 @@ def take_notes():
     return my_render("note_writer.html")
 
 
+@app.route("/get_class_prediction", methods=["GET"])
+def get_class_prediction():
+    cluttered_dict = request.args
+    body = cluttered_dict[""].replace("'", '"')
+    class_model.prepare_data(body)
+    prediction = class_model.predict_class()
+    class_name = data.get_class_name(prediction)
+    return class_name
+
+
 @app.route("/submit_note", methods=["POST"])
 def submit_note():
+    subject = request.form["subject"]
+    body = request.form["body"]
+    class_name = request.form["class_name"]
+    class_id = data.get_class_id_from_name(class_name)
+    print(f"Value of id: {class_id=}")
+    data.submit_note(session["currentuser"], class_id, subject, body)
+
     return redirect("/profile")
 
 

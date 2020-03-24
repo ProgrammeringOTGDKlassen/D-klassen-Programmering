@@ -111,6 +111,22 @@ class Database:
         }
         return class_info_dict
 
+    def get_class_name(self, class_id):
+        db = self._get_db()
+        c = db.cursor()
+        c.execute("SELECT classname FROM classes WHERE id = ?", (int(class_id),))
+        r = c.fetchone()
+        class_name = r[0]
+        return class_name
+
+    def get_class_id_from_name(self, class_name):
+        db = self._get_db()
+        c = db.cursor()
+        c.execute("SELECT id FROM classes WHERE classname = ?", (str(class_name),))
+        r = c.fetchone()
+        class_id = r[0]
+        return class_id
+
     def get_num_notes_in_class(self, user_id):
         num_notes_in_class_dict = {}
         db = self._get_db()
@@ -170,6 +186,15 @@ class Database:
         c = db.cursor()
         c.execute(
             "DELETE FROM notes WHERE id = ? AND user_id = ?", (note_id, user_id),
+        )
+        db.commit()
+
+    def submit_note(self, user_id, class_id, subject, body):
+        db = self._get_db()
+        c = db.cursor()
+        c.execute(
+            "INSERT INTO notes (user_id, class_id, subject, body) VALUES (?, ?, ?, ?)",
+            (user_id, class_id, subject, body),
         )
         db.commit()
 
