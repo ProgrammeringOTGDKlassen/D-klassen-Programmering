@@ -13,7 +13,10 @@
 	</a>
 	<div class="card-deck" style="margin-top:1.5rem">
 		{% for class_info in classes_info %}
-		<a href="/showclass?='{{ class_info['class_id'] }}'" class="card class-card">
+		<a
+			href="/showclass?='{{ class_info['class_id'] }}'"
+			class="card class-card"
+		>
 			<img
 				class="card-img-top"
 				src="{{ class_info['class_img'] }}"
@@ -22,7 +25,10 @@
 			<div class="card-body">
 				<h5 class="card-title">{{ class_info['class_name'] }}</h5>
 				<div style="height: 60px">
-					<p class="card-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+					<p
+						class="card-text"
+						style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+					>
 						{{ class_info['description'] }}
 					</p>
 				</div>
