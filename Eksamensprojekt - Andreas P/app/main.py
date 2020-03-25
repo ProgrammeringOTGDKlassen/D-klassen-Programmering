@@ -175,7 +175,13 @@ def get_class_prediction():
     class_model.prepare_data(body)
     prediction = class_model.predict_class()
     class_name = data.get_class_name(prediction)
-    return class_name
+    other_classes = data.get_other_class_names(class_name)
+    class_names = {
+        "class_name": class_name,
+        "other_classes1": other_classes[0],
+        "other_classes2": other_classes[1],
+    }
+    return class_names
 
 
 @app.route("/submit_note", methods=["POST"])
@@ -184,7 +190,6 @@ def submit_note():
     body = request.form["body"]
     class_name = request.form["class_name"]
     class_id = data.get_class_id_from_name(class_name)
-    print(f"Value of id: {class_id=}")
     data.submit_note(session["currentuser"], class_id, subject, body)
 
     return redirect("/profile")
@@ -192,7 +197,11 @@ def submit_note():
 
 @app.route("/submit_note_edit", methods=["POST"])
 def submit_note_edit():
-    return redirect("/profile")
+    subject = request.form["subject"]
+    body = request.form["body"]
+    note_id = request.form["note_id"]
+    data.edit_note(note_id, session["currentuser"], subject, body)
+    return redirect(f"/read_note?='{note_id}'")
 
 
 @app.route("/read_note")
