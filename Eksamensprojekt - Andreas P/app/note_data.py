@@ -198,6 +198,15 @@ class Database:
         )
         db.commit()
 
+    def edit_note(self, note_id, user_id, subject, body):
+        db = self._get_db()
+        c = db.cursor()
+        c.execute(
+            "UPDATE notes SET subject=?, body=? WHERE id = ? AND user_id=?",
+                (subject, body, note_id, user_id),
+        )
+        db.commit()
+
     def check_existing_username(self, username):
         db = self._get_db()
         c = db.cursor()

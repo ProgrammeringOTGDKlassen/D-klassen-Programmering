@@ -184,7 +184,6 @@ def submit_note():
     body = request.form["body"]
     class_name = request.form["class_name"]
     class_id = data.get_class_id_from_name(class_name)
-    print(f"Value of id: {class_id=}")
     data.submit_note(session["currentuser"], class_id, subject, body)
 
     return redirect("/profile")
@@ -192,7 +191,11 @@ def submit_note():
 
 @app.route("/submit_note_edit", methods=["POST"])
 def submit_note_edit():
-    return redirect("/profile")
+    subject = request.form["subject"]
+    body = request.form["body"]
+    note_id = request.form["note_id"]
+    data.edit_note(note_id, session["currentuser"], subject, body)
+    return redirect(f"/read_note?='{note_id}'")
 
 
 @app.route("/read_note")
