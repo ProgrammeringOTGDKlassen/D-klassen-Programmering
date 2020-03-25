@@ -119,6 +119,16 @@ class Database:
         class_name = r[0]
         return class_name
 
+    def get_other_class_names(self, class_name):
+        other_classes = []
+        db = self._get_db()
+        c = db.cursor()
+        c.execute("SELECT classname FROM classes WHERE NOT classname = ?", (class_name,))
+        r = c.fetchall()
+        for class_name in r:
+            other_classes.append(class_name)
+        return other_classes
+
     def get_class_id_from_name(self, class_name):
         db = self._get_db()
         c = db.cursor()
@@ -203,7 +213,7 @@ class Database:
         c = db.cursor()
         c.execute(
             "UPDATE notes SET subject=?, body=? WHERE id = ? AND user_id=?",
-                (subject, body, note_id, user_id),
+            (subject, body, note_id, user_id),
         )
         db.commit()
 

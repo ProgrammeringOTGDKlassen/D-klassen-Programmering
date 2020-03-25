@@ -44,14 +44,31 @@
 					type: 'GET',
 					success: function(data) {
 						console.log('shit works!' + data);
-						$("#correct-class").empty();
-						$("#correct-class").text(data);
+						let class_name = data['class_name'];
+						let wrong_class_name1 = data['other_classes1'];
+						let wrong_class_name2 = data['other_classes2'];
+						$('#correct-class').empty();
+						$('#correct-class').text(class_name);
+
+						$('#wrong-class-name1').empty();
+						$('#wrong-class-name1').text(wrong_class_name1);
+						$('#wrong-class-name2').empty();
+						$('#wrong-class-name2').text(wrong_class_name2);
+
+						let wrong_class_name1_inp = document.getElementById(
+							'wrong-class-name1-inp'
+						);
+						wrong_class_name1_inp.value = wrong_class_name1;
+
+						let wrong_class_name2_inp = document.getElementById(
+							'wrong-class-name2-inp'
+						);
+						wrong_class_name2_inp.value = wrong_class_name2;
 
 						let class_name_hidden = document.getElementById(
 							'correct-class-hidden'
 						);
-						class_name_hidden.value = data
-
+						class_name_hidden.value = class_name;
 					},
 					error: function(err) {}
 				});
@@ -90,7 +107,14 @@
 						>
 							Dansk
 						</div>
-						<input type="hidden" name="class_name" id="correct-class-hidden" value="Dansk">
+						<!-- !---------------------------------------------------- -->
+						<input
+							type="hidden"
+							name="class_name"
+							id="correct-class-hidden"
+							value="Dansk"
+						/>
+						<!-- !---------------------------------------------------- -->
 					</div>
 					<div class="modal-footer">
 						<button
@@ -125,6 +149,30 @@
 								}
 							}
 						</script>
+						<script>
+							function wrong_class_name1() {
+								let wcn = document.getElementById(
+									'wrong-class-name1-inp'
+								).value;
+								console.log(wcn);
+								let class_name_hidden = document.getElementById(
+									'correct-class-hidden'
+								);
+								class_name_hidden.value = wcn;
+							}
+						</script>
+						<script>
+							function wrong_class_name2() {
+								let wcn = document.getElementById(
+									'wrong-class-nam2-inp'
+								).value;
+
+								let class_name_hidden = document.getElementById(
+									'correct-class-hidden'
+								);
+								class_name_hidden.value = wcn;
+							}
+						</script>
 						<button type="submit" class="btn btn-primary">
 							Yes
 						</button>
@@ -149,13 +197,32 @@
 								class="dropdown-menu"
 								aria-labelledby="dropdownMenuButton"
 							>
-								<a class="dropdown-item" href="#">Action</a>
-								<a class="dropdown-item" href="#"
-									>Another action</a
+								<a
+									class="dropdown-item"
+									href="#"
+									id="wrong-class-name1"
+									onclick="wrong_class_name1()"
+									>Action</a
 								>
-								<a class="dropdown-item" href="#"
-									>Something else here</a
+								<input
+									type="hidden"
+									name="wrong_class_name1_inp_name"
+									id="wrong-class-name1-inp"
+									value="Action"
+								/>
+								<a
+									class="dropdown-item"
+									href="#"
+									id="wrong-class-name2"
+									onclick="wrong_class_name2()"
+									>Action</a
 								>
+								<input
+									type="hidden"
+									name="wrong_class_name2_inp_name"
+									id="wrong-class-name2-inp"
+									value="Action"
+								/>
 							</div>
 						</div>
 					</div>

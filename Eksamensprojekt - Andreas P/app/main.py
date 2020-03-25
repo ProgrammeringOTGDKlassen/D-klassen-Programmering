@@ -175,7 +175,13 @@ def get_class_prediction():
     class_model.prepare_data(body)
     prediction = class_model.predict_class()
     class_name = data.get_class_name(prediction)
-    return class_name
+    other_classes = data.get_other_class_names(class_name)
+    class_names = {
+        "class_name": class_name,
+        "other_classes1": other_classes[0],
+        "other_classes2": other_classes[1],
+    }
+    return class_names
 
 
 @app.route("/submit_note", methods=["POST"])
