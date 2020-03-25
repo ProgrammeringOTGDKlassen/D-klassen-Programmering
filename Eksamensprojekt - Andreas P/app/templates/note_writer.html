@@ -154,23 +154,27 @@
 								let wcn = document.getElementById(
 									'wrong-class-name1-inp'
 								).value;
-								console.log(wcn);
 								let class_name_hidden = document.getElementById(
 									'correct-class-hidden'
 								);
 								class_name_hidden.value = wcn;
+								$('#correct-class').empty();
+								$('#correct-class').text(wcn);
 							}
 						</script>
 						<script>
 							function wrong_class_name2() {
 								let wcn = document.getElementById(
-									'wrong-class-nam2-inp'
+									'wrong-class-name2-inp'
 								).value;
+								console.log(wcn)
 
 								let class_name_hidden = document.getElementById(
 									'correct-class-hidden'
 								);
 								class_name_hidden.value = wcn;
+								$('#correct-class').empty();
+								$('#correct-class').text(wcn);
 							}
 						</script>
 						<button type="submit" class="btn btn-primary">
