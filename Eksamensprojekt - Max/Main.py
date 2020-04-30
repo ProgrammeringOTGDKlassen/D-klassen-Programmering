@@ -2,7 +2,15 @@ from econodata import Economy_data
 import tkinter as tk
 import tkinter.ttk as ttk
 
-class Economy_GUI(ttk.Frame):
+class EconomyLoginGui(ttk.Frame):
+    pass
+
+
+class EconomySignupGui(ttk.Frame):
+    pass
+
+
+class EconomyMainGUI(ttk.Frame):
     def __init__(self, master = None):
         ttk.Frame.__init__(self, master)
         self.data = Economy_data()
@@ -10,6 +18,12 @@ class Economy_GUI(ttk.Frame):
     
     def build_GUI(self):
         self.data_panel = ttk.Frame(self)
+        self.statistics_panel = ttk.Frame(self)
+        self.button_panel = ttk.Frame(self)
+
+        self.button_panel.grid_columnconfigure()
+
+
 
 root = tk.Tk()
 root.geometry('1280x720')
