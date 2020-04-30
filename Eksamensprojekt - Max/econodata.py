@@ -24,7 +24,7 @@ class User():
         '''
 
 
-class Economy_data():
+class EconomyData():
     def __init__(self):
         self.db = sqlite3.connect('economy.db')
         # self.create_tables()
@@ -67,6 +67,11 @@ class Economy_data():
 
         return userID
 
+    def user_login(self, username: str, password: str):
+        c = self.db.cursor()
+        c.execute("""SELECT password FROM users WHERE username = ?);""", (username,))
+        c.fetchone() 
+        if self.check_password(password)
     def create_tables(self):
         c = self.db.cursor()
 
