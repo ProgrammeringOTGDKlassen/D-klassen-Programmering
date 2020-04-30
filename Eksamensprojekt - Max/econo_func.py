@@ -2,8 +2,8 @@ import datetime
 import math
 
 
-
-def get_date():
-    d = datetime.datetime.now()
-    date = d.strftime("%Y %B %d")
-    return date
+def check_same_password(password, re_password):
+    if password == re_password:
+        return True
+    else:
+        return False
