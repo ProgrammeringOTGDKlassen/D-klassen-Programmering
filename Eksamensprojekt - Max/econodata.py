@@ -1,5 +1,4 @@
 import sqlite3, hashlib, binascii, os
-import main
 
 class User():
     
