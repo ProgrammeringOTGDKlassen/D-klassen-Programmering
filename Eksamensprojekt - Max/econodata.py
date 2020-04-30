@@ -1,4 +1,5 @@
 import sqlite3, hashlib, binascii, os
+import main
 
 class User():
     
@@ -70,8 +71,13 @@ class EconomyData():
     def user_login(self, username: str, password: str):
         c = self.db.cursor()
         c.execute("""SELECT password FROM users WHERE username = ?);""", (username,))
-        c.fetchone() 
-        if self.check_password(password)
+        p = c.fetchone()
+        print(p)
+        if self.verify_password(password, p[0]):
+            main.mainGui()
+        else:
+            print("Fejl")
+
     def create_tables(self):
         c = self.db.cursor()
 

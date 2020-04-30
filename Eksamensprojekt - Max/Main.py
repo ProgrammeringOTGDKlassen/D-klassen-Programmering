@@ -1,6 +1,6 @@
-import EconomyGui
 import tkinter as tk
 import tkinter.ttk as ttk
+from EconomyGui
 
 def loginGui():
     root = tk.Tk()
@@ -12,9 +12,17 @@ def loginGui():
     y = int((screen_height/2) - (width/2))
     root.geometry(f'{width}x{height}+{x}+{y}')
 
-    app = EconomyGui.EconomyLoginGui(root)
+    app = EconomyLoginGui(root)
     app.master.title('Economy Login')
     app.mainloop()
 
+def mainGui():
+    EconomyLoginGui().master.destroy()
+    root = tk.Tk()
+    root.geometry('1920x1080')
+    root.state('zoomed')
+    app = EconomyMainGUI(root)
+    app.master.title('Economy logged in')
+    app.mainloop()
 
 loginGui()

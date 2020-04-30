@@ -11,7 +11,7 @@ class EconomyLoginGui(ttk.Frame):
     def login(self):
         username = self.entry_username.get()
         password = self.entry_password.get()
-        
+        data.userlogin(username, password)
     
     def sign_up(self):
         pass
