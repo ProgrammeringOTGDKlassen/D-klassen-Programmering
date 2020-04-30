@@ -27,12 +27,17 @@ class User():
 class Economy_data():
     def __init__(self):
         self.db = sqlite3.connect('economy.db')
-        self.create_tables()
+        # self.create_tables()
+
     def hash_password(self, password):
         # https://www.vitoshacademy.com/hashing-passwords-in-python/
         # Hash a password for storing.
         salt = hashlib.sha256(os.urandom(60)).hexdigest().encode("ascii")
-        pwdhash = hashlib.pbkdf2_hmac("sha512", password.encode("utf-8"), salt, 100000)
+        pwdhash = hashlib.pbkdf2_hmac(
+            "sha512", 
+            password.encode("utf-8"), 
+            salt, 
+            100000)
         pwdhash = binascii.hexlify(pwdhash)
         return (salt + pwdhash).decode("ascii")
 
