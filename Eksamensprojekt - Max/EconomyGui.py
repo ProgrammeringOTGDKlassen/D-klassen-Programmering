@@ -11,8 +11,12 @@ class EconomyLoginGui(ttk.Frame):
     def login(self):
         username = self.entry_username.get()
         password = self.entry_password.get()
-        data.userlogin(username, password)
-    
+        if self.data.user_login(username, password):
+            self.master.destroy()
+            mainGui()
+        else:
+            print("Du fik sgu corona")
+        
     def sign_up(self):
         pass
 
@@ -53,7 +57,31 @@ class EconomyMainGUI(ttk.Frame):
         self.button_panel.grid_columnconfigure()
 
 
+def loginGui():
+    root = tk.Tk()
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    width = int(screen_width/6)
+    height = int(screen_height/6)
+    x = int((screen_width/2) - (width/2))
+    y = int((screen_height/2) - (width/2))
+    root.geometry(f'{width}x{height}+{x}+{y}')
 
+    app = EconomyLoginGui(root)
+    app.master.title('Economy Login')
+    app.mainloop()
+
+def mainGui():
+    EconomyLoginGui().master.destroy()
+    root = tk.Tk()
+    root.geometry('1920x1080')
+    root.state('zoomed')
+    app = EconomyMainGUI(root)
+    app.master.title('Economy logged in')
+    app.mainloop()
+
+
+loginGui()
 # root = tk.Tk()
 # root.geometry('1280x720')
 # root.state('zoomed')

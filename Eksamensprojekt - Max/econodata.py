@@ -70,14 +70,15 @@ class EconomyData():
 
     def user_login(self, username: str, password: str):
         c = self.db.cursor()
-        c.execute("""SELECT password FROM users WHERE username = ?);""", (username,))
+        c.execute("""SELECT password FROM users WHERE username = ?;""", (username,))
         p = c.fetchone()
-        print(p)
-        if self.verify_password(password, p[0]):
-            main.mainGui()
+        print(p[0])
+        if self.verify_password(p[0], password):
+            return True
         else:
-            print("Fejl")
+            return False
 
+        
     def create_tables(self):
         c = self.db.cursor()
 
