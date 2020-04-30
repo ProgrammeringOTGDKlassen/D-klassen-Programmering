@@ -1,34 +1,20 @@
-from econodata import Economy_data
+import EconomyGui
 import tkinter as tk
 import tkinter.ttk as ttk
 
-class EconomyLoginGui(ttk.Frame):
-    pass
+def loginGui():
+    root = tk.Tk()
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    width = int(screen_width/6)
+    height = int(screen_height/6)
+    x = int((screen_width/2) - (width/2))
+    y = int((screen_height/2) - (width/2))
+    root.geometry(f'{width}x{height}+{x}+{y}')
+
+    app = EconomyGui.EconomyLoginGui(root)
+    app.master.title('Economy Login')
+    app.mainloop()
 
 
-class EconomySignupGui(ttk.Frame):
-    pass
-
-
-class EconomyMainGUI(ttk.Frame):
-    def __init__(self, master = None):
-        ttk.Frame.__init__(self, master)
-        self.data = Economy_data()
-        self.build_GUI()
-    
-    def build_GUI(self):
-        self.data_panel = ttk.Frame(self)
-        self.statistics_panel = ttk.Frame(self)
-        self.button_panel = ttk.Frame(self)
-
-        self.button_panel.grid_columnconfigure()
-
-
-
-root = tk.Tk()
-root.geometry('1280x720')
-root.state('zoomed')
-
-app = Economy_GUI(root)
-app.master.title('Economy')
-app.mainloop()
+loginGui()
