@@ -160,13 +160,6 @@ class EconomyMainGUI(ttk.Frame):
                 self.label_money_optained.config(foreground = 'black')
             else:
                 catagoryID = self.data.get_cat_id(catagory)
-                print(f"""
-                Money optained: {money_optained}
-                Money optained type: {type(money_optained)}
-                Catagory: {catagory}
-                CatagoryID: {catagoryID}
-                CatagoryID type: {type(catagoryID)}
-                """)
                 if type(money_optained) == str:
                     self.entry_money_optained.delete(0, tk.END)
                 else:
@@ -191,13 +184,6 @@ class EconomyMainGUI(ttk.Frame):
                 self.label_money_used.config(foreground = 'black')
             else:
                 catagoryID = self.data.get_cat_id(catagory)
-                print(f"""
-                Money used: {money_used}
-                Money used type: {type(money_used)}
-                Catagory: {catagory}
-                CatagoryID: {catagoryID}
-                CatagoryID type: {type(catagoryID)}
-                """)
                 if type(money_used) == str:
                     self.entry_money_used.delete(0, tk.END)
                 else:
