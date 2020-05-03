@@ -1,0 +1,67 @@
+{% extends "adminlayout.html" %} {% block content %}
+<form action="opretklassefag" method="POST">
+    <div class="form-group">
+        <label for="subject">
+			Faget
+		</label>
+        <select class="form-control" name="subject" id="subject">
+			{% for id,subject in utils.Subject.SUBJECTS.items() %}
+				<option value="{{ id }}">{{ subject }}</option>
+			{% endfor %}
+		</select>
+    </div>
+
+    <div class="form-group">
+        <label for="level">
+			Fagets niveau
+		</label>
+        <select class="form-control" name="level" id="level">
+			{% for id,level in utils.SubjectLevel.SUBJECTLEVELS.items() %}
+				<option value="{{ id }}">{{ level }}</option>
+			{% endfor %}
+		</select>
+    </div>
+
+    <div class="form-group">
+        <label for="courseHours">
+			Fagets varighed (i timer)
+		</label>
+        <input type="number" class="form-control" value="75" name="courseHours" id="courseHours">
+    </div>
+
+    <div class="form-group">
+        <label for="class">Klasse</label>
+        <select class="form-control" name="class" id="class">
+            <option value="0">Ingen klasse</option>
+			{% for class in data.getClasses() %}
+				<option value="{{ class['id'] }}">{{ utils.formatGraduationYear(class['year']) }}. {{ class['name'] }}</option>
+			{% endfor %}
+		</select>
+    </div>
+
+    <div class="form-group">
+        <label for="startDate">Start dato</label>
+        <input class="form-control" type="date" value="2020-04-11" name="startDate" id="startDate">
+    </div>
+
+    <div class="form-group">
+        <label for="endDate">Slut dato</label>
+        <input class="form-control" type="date" value="2020-04-11" name="endDate" id="endDate">
+    </div>
+
+    <button name="OPRET_KLASSEFAG" type="submit" class="btn btn-primary">Opret Klassefag</button>
+
+    <!-- This will happen after an admin has added a class -->
+    {% if status=="SUCCESS" %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 1rem;">
+        <strong>Klassefag oprettet!</strong> Klassefaget er blevet oprettet i databasen.
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+    </div>
+    {% endif %}
+
+</form>
+
+{% endblock content %}

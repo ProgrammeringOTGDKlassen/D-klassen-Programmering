@@ -1,0 +1,448 @@
+{% extends "teacherlayout.html" %} 
+{% block content %}
+	<div class="form-group">
+		<label for="subject">
+			Vælg et klassefag
+		</label>
+		{% set types = utils.TaskType.TASKTYPES %}
+		<select color="#FFF;" class="form-control selectpicker" name="subject" id="subject" data-live-search="true" onchange="updateTasks()">
+			{% set subjects = user['subjects'] %}
+			{% for subject in subjects %}
+				{% set class=data.getClass(subject['class']) %}
+				<option data-tokens="{{ utils.formatGraduationYear(class['year']) }}. {{ class['name'] }} - {{ subject['subject'] }} {{ subject['level'] }}" value="{{ subject['id'] }}">{{ utils.formatGraduationYear(class['year']) }}. {{ class['name'] }} - {{ subject['subject'] }} {{ subject['level'] }}</option>
+			{% endfor %}
+		</select>
+	</div>
+
+	<!-- Create new topic modal -->
+	<!-- New topic modal -->
+	<div class="modal fade" id="modal-topic" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Opret et nyt emne</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="recipient-name" class="col-form-label">Navn:</label>
+						<input type="text" class="form-control" name="topic-name" id="topic-name">
+					</div>
+					<div class="form-group">
+						<label for="message-text" class="col-form-label">Beskrivelse:</label>
+						<textarea class="form-control" name="topic-description" id="topic-description"></textarea>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button name="OPRET_EMNE" type="submit" class="btn btn-primary">Opret emne</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-topic">Nyt emne</button>
+
+	<!-- List of all topics for the class subject-->
+	<div id="topic-wrapper">
+		{% set topics = data.getUserTopics(user['id']) %}
+		{% for topic in topics %}
+			{% if topic['subject'] != subjects[0]['id'] %}
+				{% continue %}
+			{% endif %}
+
+			{% set name = topic['name'] %}
+			{% set description = topic['description'] %}
+			{% set tasks = topic['tasks'] %}
+			<button type="button" id="colactivebutton" class="collapsible">{{ name }}</button>
+			<div class="content row" style="margin-top: .5rem;">
+				<div class="title-wrapper">
+					
+					<!-- Create task modal -->
+					<div class="modal fade" id="modal-create{{ topic['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-lg" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Opret en opgave</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<form action="afleveringer" method="POST">
+										<div class="form-group">
+											<input type="text" class="form-control" value="{{ topic['subject'] }}" name="subject" id="subject" style="display: none;">
+											<input type="text" class="form-control" value="{{ topic['id'] }}" name="task-topic" id="task-topic" style="display: none;">
+										</div>
+										<div class="form-group">
+											<label for="recipient-name" class="col-form-label">Navn:</label>
+											<input type="text" class="form-control" name="task-name" id="task-name">
+										</div>
+										<div class="form-group">
+											<label for="message-text" class="col-form-label">Beskrivelse:</label>
+											<textarea class="form-control" name="task-description" id="task-description"></textarea>
+										</div>
+										<div class="form-group">
+											<label for="task-hours" class="col-form-label">Elevtimer (sæt til 0 hvis det ikke er en aflevering):</label>
+											<input type="number" min="0" value="0" class="form-control" name="task-hours" id="task-hours"></input>
+										</div>
+										<div class="form-group">
+											<label for="type" class="col-form-label">Opgavetype:</label>
+											<select class="form-control" name="task-type" id="task-type">
+												{% for id,type in types.items() %}
+													<option value="{{ id }}" selected>{{ type }}</option>
+												{% endfor %}
+											</select>
+										</div>
+										<div class="form-group">
+											<label for="task-date" class="col-form-label">Opgavefrist:</label>
+											<input class="form-control" type="datetime-local" name="task-date" id="task-date">
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+											<button name="OPRET_OPGAVE" type="submit" class="btn btn-primary">Opret opgave</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Topic display title -->
+					<h2>{{ name }}<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-create{{ topic['id'] }}">Ny opgave</button></h2>
+					<span> {{ description }}</span>
+				</div>
+				<br>
+				<br>
+				<div class="afleveringer col-md-12" style="margin-top: 1rem;">
+					<!-- Task display title -->
+					<h3>Afleveringer</h3>
+					
+					{% for task in tasks %}
+						{% set taskName = task['name'] %}
+						{% set taskDesc = task['description'] %}
+						{% set taskDate = task['date'] %}
+						{% set taskType = task['type'] %}
+						{% set taskHours = task['workHours'] %}
+						<button type="button" id="colactivebutton" class="collapsible">{{ taskName }} ({{ taskDate }})</button>
+						<div class="content row" style="margin-top: .5rem; clear: both;">
+							<div class="col-md-12">
+								<!-- Modal edit popup -->
+								<div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-lg" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">Redigering af opgave</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<form>
+													<div class="form-group">
+														<label for="recipient-name" class="col-form-label">Navn:</label>
+														<input type="text" class="form-control" id="recipient-name" value="{{ taskName }}">
+													</div>
+													<div class="form-group">
+														<label for="message-text" class="col-form-label">Beskrivelse:</label>
+														<textarea class="form-control" id="message-text">{{ taskDesc }}</textarea>
+													</div>
+													<div class="form-group">
+														<label for="taskhours" class="col-form-label">Elevtimer:</label>
+														<input type="number" min="0" value="{{ taskHours }}" class="form-control" id="taskhours"></input>
+													</div>
+													<div class="form-group">
+														<label for="task-hours" class="col-form-label">Opgavetype:</label>
+														<select class="form-control" name="" id="">
+															{% for id,type in types.items() %}
+																{% if id == taskType %}
+																	<option value="{{ id }}" selected>{{ type }}</option>
+																{% else %}
+																	<option value="{{ id }}">{{ type }}</option>
+																{% endif %}
+															{% endfor %}
+														</select>
+													</div>
+													<div class="form-group">
+														<label for="task-hours" class="col-form-label">Opgavefrist:</label>
+														<input class="form-control" type="datetime-local" name="" id="" value="{{ taskDate }}">
+													</div>
+												</form>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+												<button type="button" class="btn btn-primary">Gem ændringer</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<h4>{{ taskName }} <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-edit">Rediger</button></h4>
+								<ul style="list-style-type: none;">
+									<li><span>Beskrivelse: {{ taskDesc }}</span></li>
+									<li><span>Elevtimer sat til {{ taskHours }} timer.</span></li>
+									<li><span>Opgavetype: {{ utils.TaskType.name(taskType) }}.</span></li>
+									<li><span>Afleveres til {{ taskDate }}.</span></li>
+								</ul>
+							</div>
+						</div>
+						
+					{% endfor %}
+				</div>
+				
+			</div>
+			
+		{% endfor %}
+	</div>
+
+	<!-- This will happen after an admin has added a class -->
+	{% if status=="SUCCESS" %}
+	<div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 1rem;">
+		<strong>Gemt!</strong> Ændringerne er blevet oprettet i databasen.
+
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	{% endif %}
+
+<style>
+	.filter-option-inner-inner {
+		color: #212529;
+	}
+</style>
+
+<link rel="stylesheet" href="../../static/css/style.css">
+
+<script>
+
+	var subjects = {{ subjects|tojson }};
+	var topics = {{ topics|tojson }};
+	var types = {{ types|tojson }};
+
+	function convertDate(str) {
+		var date = new Date(str),
+			mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+			day = ("0" + date.getDate()).slice(-2);
+		return [date.getFullYear(), mnth, day].join("-");
+	}
+
+	function updateCollapsibles() {
+		var coll = document.getElementsByClassName("collapsible");
+		var i;
+
+		for (i = 0; i < coll.length; i++) {
+			coll[i].addEventListener("click", function () {
+				this.classList.toggle("colactive");
+				var content = this.nextElementSibling;
+				var parent = content.parentElement;
+				var parentparent = content.parentElement.parentElement;
+				if (content.style.maxHeight) {
+					content.style.maxHeight = null;
+				} else {
+					if (parentparent.id != "form") {
+						parentparent.style.maxHeight = (parentparent.scrollHeight + parent.scrollHeight + content.scrollHeight + 65) + "px";
+					}
+					if (parent.id != "form") {
+						parent.style.maxHeight = (parent.scrollHeight + content.scrollHeight + 65) + "px";
+					}
+					if (content.id != "form") {
+						content.style.maxHeight = (content.scrollHeight + 65) + "px";
+					}
+
+				}
+			});
+		}
+	}
+	
+	function updateTasks() {
+		subjectid = parseInt(document.getElementById("subject").value)
+		console.log("Subject id: " + subjectid);
+		
+		// Obtain the new subject data
+		var subject;
+		for(var i = 0; i < subjects.length; i++) {
+			subj = subjects[i];
+			if (subj.id = subjectid) {
+				subject = subj;
+			}
+		}
+
+		content = ""; // The new topic content
+
+		for(var i = 0; i < topics.length; i++) {
+			topic = topics[i];
+			if(topic.subject != subject.id) {
+				continue;
+			}
+
+			// Get topic variables
+			var id = topic.id;
+			var name = topic.name;
+			var desc = topic.description;
+			var tasks = topic.tasks;
+
+			console.log(i);
+			
+			selectStr = "";
+			for(typeid in types) {
+				type = types[typeid];
+				selectStr += `<option value="${typeid}" selected>${type}</option>`
+			}
+			
+			taskStr = "";
+			for(var j = 0; j < tasks.length; j++) {
+				task = tasks[j];
+
+				taskName = task.name;
+				taskDesc = task.description;
+				taskDate = task.date;
+				taskType = task.type;
+				taskHours = task.workHours;
+
+				taskSelectStr = "";
+				selectedType = "";
+				for (typeid in types) {
+					type = types[typeid];
+					if (typeid == taskType) {
+						taskSelectStr += `<option value="${typeid}" selected>${type}</option>`
+						selectedType = type;
+					} else {
+						taskSelectStr += `<option value="${typeid}">${type}</option>`
+					}
+				}
+				taskStr += `
+				<button type="button" id="colactivebutton" class="collapsible">${taskName} (${taskDate})</button>
+					<div class="content row" style="margin-top: .5rem; clear: both;">
+						<div class="col-md-12">
+							<!-- Modal edit popup -->
+							<div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog modal-lg" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Redigering af opgave</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<form>
+												<div class="form-group">
+													<label for="recipient-name" class="col-form-label">Navn:</label>
+													<input type="text" class="form-control" id="recipient-name" value="${taskName}">
+												</div>
+												<div class="form-group">
+													<label for="message-text" class="col-form-label">Beskrivelse:</label>
+													<textarea class="form-control" id="message-text">${taskDesc}</textarea>
+												</div>
+												<div class="form-group">
+													<label for="taskhours" class="col-form-label">Elevtimer:</label>
+													<input type="number" min="0" value="${taskHours}" class="form-control" id="taskhours"></input>
+												</div>
+												<div class="form-group">
+													<label for="task-hours" class="col-form-label">Opgavetype:</label>
+													<select class="form-control" name="" id="">
+														${taskSelectStr}
+													</select>
+												</div>
+												<div class="form-group">
+													<label for="task-hours" class="col-form-label">Opgavefrist:</label>
+													<input class="form-control" type="datetime-local" name="" id="" value="${taskDate}">
+												</div>
+											</form>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+											<button type="button" class="btn btn-primary">Gem ændringer</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<h4>{{ taskName }} <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-edit">Rediger</button></h4>
+							<ul style="list-style-type: none;">
+								<li><span>Beskrivelse: ${taskDesc}</span></li>
+								<li><span>Elevtimer sat til ${taskHours} timer.</span></li>
+								<li><span>Opgavetype: ${selectedType}.</span></li>
+								<li><span>Afleveres til ${taskDate}.</span></li>
+							</ul>
+						</div>
+					</div>
+				`;
+			}
+
+			content += `
+			<button type="button" id="colactivebutton" class="collapsible">${name}</button>\n
+			<div class="content row" style="margin-top: .5rem;">
+				<div class="title-wrapper">
+					<div class="modal fade" id="modal-create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-lg" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Opret en opgave</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<form>
+										<div class="form-group">
+											<input type="text" class="form-control" value="${id}" name="task-topic" id="task-topic" style="display: none;">
+										</div>
+										<div class="form-group">
+											<label for="recipient-name" class="col-form-label">Navn:</label>
+											<input type="text" class="form-control" name="task-name" id="task-name">
+										</div>
+										<div class="form-group">
+											<label for="message-text" class="col-form-label">Beskrivelse:</label>
+											<textarea class="form-control" name="task-description" id="task-description"></textarea>
+										</div>
+										<div class="form-group">
+											<label for="task-hours" class="col-form-label">Elevtimer (sæt til 0 hvis det ikke er en aflevering):</label>
+											<input type="number" min="0" value="0" class="form-control" name="task-hours" id="task-hours"></input>
+										</div>
+										<div class="form-group">
+											<label for="type" class="col-form-label">Opgavetype:</label>
+											<select class="form-control" name="task-type" id="task-type">
+												${selectStr}
+											</select>
+										</div>
+										<div class="form-group">
+											<label for="task-date" class="col-form-label">Opgavefrist:</label>
+											<input class="form-control" type="datetime-local" name="task-date" id="task-date">
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+											<button name="OPRET_OPGAVE" type="submit" class="btn btn-primary">Opret opgave</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<h2>${name}<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-create">Ny opgave</button></h2>
+					<span> ${desc}</span>
+				</div>
+				<br>
+				<br>
+				<div class="afleveringer col-md-12" style="margin-top: 1rem;">
+					<h3>Afleveringer</h3>
+					${taskStr}
+				</div>
+			</div>
+			`;
+			
+		}
+		console.log("Final content");
+		console.log(content);
+
+		document.getElementById("topic-wrapper").innerHTML = content;
+		updateCollapsibles();
+	}
+	updateCollapsibles();
+
+
+</script>
+
+{% endblock content %}

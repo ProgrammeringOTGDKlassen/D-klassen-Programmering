@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTG Intra | {{ subpage }}</title>
+
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/admin.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-select.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/bootstrap-select.js"></script>
+</head>
+
+<body style="background-color: #EEE;">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-left" style="background-color: rgb(1, 121, 138); padding: 0;">
+        <a class="navbar-brand text-center" href="#" style="width: 100%; padding: 8px 16px; margin: 0; background-color: rgb(0, 101, 114);"><img src="/static/img/logo_small.png" alt="" style="max-width: 128px;"> <br>OTG Panel</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/teacher">Hjem</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/teacher/skema">Skema</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/teacher/fag">Fag</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/teacher/afleveringer">Afleveringer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/teacher/fravær">Fravær</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/teacher/karakterer">Karakterer</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-title" style="width: 100%; background-color: #FFF; padding: 1.25rem 0;">
+        <h1 style="margin-left: 1.5rem; font-weight: 300;">
+            {{ subpage }}
+        </h1>
+    </div>
+
+    <div class="content-wrapper" style="padding: 2rem; background-color: #FFF; margin-top: 5rem; margin-left: 2.5%; width: 95%; border-top:rgb(1, 121, 138) 4px solid; border-radius: 4px;">
+        {% block content %} {% endblock %}
+    </div>
+
+</body>
+
+</html>

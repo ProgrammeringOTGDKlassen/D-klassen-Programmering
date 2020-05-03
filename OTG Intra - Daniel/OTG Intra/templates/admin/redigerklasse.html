@@ -1,0 +1,103 @@
+{% extends "adminlayout.html" %} {% block content %}
+<form action="redigerklasse" method="POST">
+	<div class="form-group">
+		<label for="klasse">
+			Vælg en klasse
+		</label>
+		<select color="#FFF;" class="form-control selectpicker" name="class" id="class" data-live-search="true" onchange="updateUser()">
+			{% set classes = data.getClasses() %}
+			{% for class in classes %}
+
+			<option data-tokens="{{ class['id'] }} {{ class['name'] }} {{ class['year'] }} {{ utils.formatGraduationYear(class['year']) }} {{ utils.StudyLine.name(class['study']) }}'" value="{{ class['id'] }}">{{ utils.formatGraduationYear(class['year']) }}. {{ class['name'] }} ({{ utils.StudyLine.name(class['study']) }})</option>
+			{% endfor %}
+		</select>
+	</div>
+
+	<table class="table">
+		<thead class="thead-light">
+			<tr class="text-center">
+				<th>id</th>
+				<th>name</th>
+				<th>year (dimissionsår)</th>
+				<th>line_of_study</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-center">
+				<td id="classid" name="classid">{{ classes[0]['id'] }}</td>
+				<td><input type="text" name="name" id="name" value="{{ classes[0]['name'] }}"></td>
+				<td><input type="number" name="year" id="year" value="{{ classes[0]['year'] }}"></td>
+				<td>
+					<select name="study" id="study">
+						{% set types = utils.StudyLine.STUDYLINES %}
+						{% for id,study in types.items() %}
+							{% if id == classes[0]['study'] %}
+								<option value="{{ id }}" selected>{{ study }}</option>
+							{% else %}
+								<option value="{{ id }}">{{ study }}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<button name="REDIGER_KLASSE" type="submit" class="btn btn-primary">Gem ændringer</button>
+
+	<!-- This will happen after an admin has added a class -->
+	{% if status=="SUCCESS" %}
+	<div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 1rem;">
+		<strong>Gemt!</strong> Ændringerne er blevet oprettet i databasen.
+
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	{% endif %}
+
+</form>
+
+<style>
+	.filter-option-inner-inner {
+		color: #212529;
+	}
+</style>
+
+<script>
+
+	function convertDate(str) {
+		var date = new Date(str),
+			mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+			day = ("0" + date.getDate()).slice(-2);
+		return [date.getFullYear(), mnth, day].join("-");
+	}
+
+	// Ignore these errors, the IDE thinks that Jinja can't be passed to JavaScript when it can.
+	var classes = {{ classes| tojson }};
+	var types = {{ types| tojson }};
+
+	function updateUser() {
+		id = parseInt(document.getElementById("class").value) - 1;
+		clazz = classes[id];
+
+		// Update fields
+		document.getElementById("classid").innerHTML = clazz['id'];
+		document.getElementById("name").value = clazz['name'];
+		document.getElementById("year").value = clazz['year'];
+
+		typeOptions = "";
+		for (typeid in types) {
+			type = types[typeid];
+			if (typeid == clazz.study) {
+				typeOptions += `<option value="` + typeid + `" selected>` + type + `</option>`;
+			} else {
+				typeOptions += `<option value="` + typeid + `">` + type + `</option>`;
+			}
+		}
+		document.getElementById("study").innerHTML = typeOptions;
+	}
+
+</script>
+
+{% endblock content %}

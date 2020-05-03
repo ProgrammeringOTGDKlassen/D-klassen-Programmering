@@ -1,0 +1,426 @@
+{% extends "layout.html" %} {% block content %}
+
+<body onload="startTime()" class="preload">
+
+    <!-- Navbar is set up in layout.html -->
+
+    <div class="wrapper container-fluid" style="width: 100%;">
+        <div class="row">
+
+            <!-- Skema og fag -->
+            <div class="col-4 schedule-box semibox scrollbar">
+
+                <!-- Skema & fag -->
+                <div class="row" style="margin-top: 1.5vh;">
+
+                    <!-- Skema modul -->
+                    <div class="col-md-12 scrollbar" style="margin-top: 0 !important;">
+                        <h2 class="text-center">Skema & Fag</h2>
+                        <hr class="separator" style="width: 80%">
+                        <div id="calendar" class="scrollbar"></div>
+                    </div>
+
+
+
+                    <!-- Fag forneden -->
+                    <div class="fag col-md-12" style="margin-top: 1.5vh;">
+                        <button id="colactivebutton" class="collapsible">Aktive fag</button>
+                        <div class="content row">
+
+                            <!-- Div to show that user copies something to clipboard -->
+                            <div id="copysnackbar">Copied to clipboard</div>
+
+                            <!-- All subjects -->
+                            {% set subjects = data.getSubjects() %}
+
+                            <!-- Active subjects for the user -->
+                            {% set usersubjects = userdata['subjects'] %}
+                            {% if usersubjects|length > 0 %}
+                                {% set count = [0] %}
+                                {% for subject in usersubjects %}
+                                    {% if count.append(count.pop() + 1) %}{% endif %} 
+                                    {% if subject['active'] %}
+                                        {% set teacher = data.getSubjectTeacher(subject['id']) %}
+                                        <div class="col-md-4 card fag-card" style="padding: 0;">
+                                            <div class="mb-3 mp-3">
+                                                <div class="card-body text-center" style="padding: 0; padding-top: 1rem; padding-bottom: 1rem;">
+                                                    <a class="subject-anchor" href="/subject/{{ subject['id'] }}">
+                                                        <h4 class="card-title">{{ subject['subject'] }} {{ subject['level'] }}</h4>
+                                                    </a>
+                                                    <p class="card-text">{{ teacher[0] }}</p>
+                                                    <a href="#" class="copy-mail" data-tooltip-text-copied="Copied!" data-email="{{ teacher[1] }}">{{ teacher[1] }} &#128203;</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if count == [0] %} 
+                                    Du har ingen aktive fag.
+                                {% endif %}
+                            {% else %} 
+                                Du har ingen aktive fag.
+                            {% endif %}
+                        </div>
+
+                        <!-- Inactive subjects -->
+                        <button class="collapsible" style="margin-top: 1.5vh;">Inaktive fag</button>
+                        <div class="content row">
+                            {% if usersubjects|length > 0 %} 
+                                {% set count = [0] %} 
+                                {% for subject in usersubjects %} 
+                                    {% if not subject['active'] %}
+                                        {% if count.append(count.pop() + 1) %}{% endif %}
+                                        {% set teacher = data.getSubjectTeacher(subject['id']) %}
+                                        <div class="col-md-4 card fag-card" style="padding: 0;">
+                                            <div class="mb-3 mp-3">
+                                                <div class="card-body text-center" style="padding: 0; padding-top: 1rem; padding-bottom: 1rem;">
+                                                    <a class="subject-anchor" href="/subject?id={{ subject['id'] }}">
+                                                        <h4 class="card-title">{{ subject['subject'] }} {{ subject['level'] }}</h4>
+                                                    </a>
+                                                    <p class="card-text">{{ teacher[0] }}</p>
+                                                    <a href="#" class="copy-mail" data-tooltip-text-copied="Copied!" data-email="{{ teacher[1] }}">{{ teacher[1] }} &#128203;</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if count == [0] %}
+                                    Du har ingen inaktive fag.
+                                {% endif %}
+                            {% else %} 
+                                Du har ingen inaktive fag. 
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Opgaver -->
+            <div class="col-4 task-box semibox scrollbar">
+                <div class="header" style="margin-top: 1.5vh;">
+                    <h2 class="text-center">Mine Opgaver</h2>
+                    <hr class="separator" style="width: 80%">
+
+                    <div class="assignment-wrapper row">
+                        <!-- Info om ens afleveringer -->
+                        <div class="task-stats col">
+							{% set tasks = data.getUserTasks(user) %} 
+							{% set lateTasks = data.getUserLateAssignments(user) %} 
+							{% set submittedTasks = data.getUserSubmittedAssignments(user) %} 
+							{% set tasksWithHours = data.getUserScheduledAssignments(user, utils.TaskType.SUBMISSION, True) %} 
+                            {% set tasksWithoutHours = data.getUserScheduledAssignments(user, utils.TaskType.SUBMISSION, False) %} 
+                            {% set lateSubmissions = data.getUserLateSubmissions(user) %}
+                            {% set tasksReading = data.getUserReadingTasks(user) %}
+                            <table class="table" style="margin-top: 1.5rem;">
+                                <thead class="thead-light">
+                                    <tr class="text-center">
+                                        <th class="col" style=>Mangler</th>
+                                        <th class="col">Total</th>
+                                        <th class="col">Afleveringer m. elevtid</th>
+                                        <th class="col">Afleveringer u. elevtid</th>
+                                        <th class="col">For sent</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="text-center">
+                                        <!-- Missing assignments -->
+                                        {% if lateTasks|length == 0 %}
+                                            <td style="background-color: #36a832">{{ lateTasks|length }}</td>
+                                        {% else %}
+                                            <td style="background-color: #BC3232">{{ lateTasks|length }}</td>
+                                        {% endif %}
+
+                                        <!-- Total submissions-->
+                                        <td>{{ submittedTasks|length }}</td>
+
+                                        <!-- Scheduled submissions with work hours -->
+                                        <td>{{ tasksWithHours|length }}</td>
+
+                                        <!-- Scheduled submissions without work hours -->
+                                        <td>{{ tasksWithoutHours|length }}</td>
+
+                                        <!-- Late submissions -->
+                                        <td>{{ lateSubmissions|length }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <hr class="separator" style="width: 100%; margin-bottom: 1rem;">
+
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Manglende afleveringer</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if lateTasks|length > 0 %} 
+                                        {% for task in lateTasks %} 
+                                            {% set subject = subjects[task['subject']-1] %}
+                                            <tr>
+                                                <td>
+                                                    <b>{{ subject['subject'] }} {{ subject['level'] }}</b>, {{ task['name'] }} (Deadline: {{ task['date'] }}) Elevtid: {{ task['workHours'] }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %} 
+                                    {% else %}
+                                        <tr>
+                                            <td>Ingen manglende afleveringer.</td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Afleveringer med elevtid</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if tasksWithHours|length > 0 %} 
+                                        {% for task in tasksWithHours %} 
+                                            {% set subject = subjects[task['subject']-1] %}
+                                            <tr>
+                                                <td>
+                                                    <b>{{ subject['subject'] }} {{ subject['level'] }}</b>, {{ task['name'] }} (Deadline: {{ task['date'] }}) Elevtid: {{ task['workHours'] }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %} 
+                                    {% else %}
+                                        <tr>
+                                            <td>Ingen manglende afleveringer.</td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Afleveringer uden elevtid</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if tasksWithoutHours|length > 0 %} 
+                                        {% for task in tasksWithoutHours %} 
+                                            {% set subject = subjects[task['subject']-1] %}
+                                            <tr>
+                                                <td>
+                                                    <b>{{ subject['subject'] }} {{ subject['level'] }}</b>, {{ task['name'] }} (Deadline: {{ task['date'] }}) Elevtid: {{ task['workHours'] }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %} 
+                                    {% else %}
+                                        <tr>
+                                            <td>Ingen manglende afleveringer.</td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Læseopgaver & Andet</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if tasksReading|length > 0 %}
+                                        {% for task in tasksReading %}
+                                            {% set subject = subjects[task['subject']-1] %}
+                                            <tr>
+                                                <td>
+                                                    <b>{{ subject['subject'] }} {{ subject['level'] }}</b>, {{ task['name'] }} (Deadline: {{ task['date'] }})
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td>Ingen lektier.</td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <!-- Læselektier -->
+                        <div class="future-reading-tasks">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Beskeder-->
+            <div class="col-4 message-box semibox scrollbar">
+                <div class="header" style="margin-top: 1.5vh;">
+                    <h2 class="text-center">Beskeder fra OTG</h2>
+                    <hr class="separator" style="width: 80%">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <style>
+        .semibox {
+            border: 1px solid #000;
+            height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .col {
+            width: 20% !important;
+        }
+    </style>
+
+    <!-- Import stuff for the schedule -->
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.0.6/css/all.css'>
+
+    <link rel="stylesheet" href="../static/css/schedule/core.css">
+    <link rel="stylesheet" href="../static/css/schedule/timegrid.css">
+    <link rel="stylesheet" href="../static/css/schedule/daygrid.css">
+    <link rel="stylesheet" href="../static/css/schedule/bootstrap.css">
+    <link rel="stylesheet" href="../static/css/schedule/fullcalendar-custom.css">
+
+    <script src="../static/js/schedule/core.js"></script>
+    <script src="../static/js/schedule/daygrid.js"></script>
+    <script src="../static/js/schedule/timegrid.js"></script>
+    <script src="../static/js/schedule/bootstrap.js"></script>
+    <script src="../static/js/schedule/da.js"></script>
+
+    <!-- Initializing calendar -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar;
+
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['bootstrap', 'timeGrid'],
+                themeSystem: 'bootstrap',
+                header: {
+                    left: 'title',
+                    center: '',
+                    right: "prev,next",
+                },
+                defaultDate: new Date(),
+                allDaySlot: false,
+                weekNumbers: true,
+                locale: 'da',
+                weekends: false,
+                editable: false,
+                minTime: '07:00:00',
+                maxTime: '21:00:00',
+                displayEventTime: true,
+                events: [{
+                    title: 'Meeting',
+                    start: '2020-02-12T10:30:00',
+                    end: '2020-02-12T12:30:00'
+                }, {
+                    title: 'Lunch',
+                    start: '2020-02-12T12:05:00',
+                    end: "2020-02-12T13:15:00"
+                }, {
+                    title: 'Meeting',
+                    start: '2020-02-12T14:30:00'
+                }, {
+                    title: 'Happy Hour',
+                    start: '2020-02-12T17:30:00'
+                }, {
+                    title: 'Dinner',
+                    start: '2020-02-12T20:00:00'
+                }, {
+                    title: 'Birthday Party',
+                    start: '2020-02-13T07:00:00'
+                }, {
+                    title: 'Click for Google',
+                    url: 'http://google.com/',
+                    start: '2020-02-15'
+                }]
+            });
+            calendar.render();
+
+        });
+    </script>
+
+    <!-- Clock -->
+    <script>
+        function startTime() {
+            var today = new Date();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            m = checkTime(m);
+            s = checkTime(s);
+            document.getElementById('clock').innerHTML =
+                h + ":" + m + ":" + s;
+            var t = setTimeout(startTime, 500);
+        }
+
+        function checkTime(i) {
+            if (i < 10) {
+                i = "0" + i
+            }; // add zero in front of numbers < 10
+            return i;
+        }
+    </script>
+
+    <!-- Collapsible subjects -->
+    <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+                this.classList.toggle("colactive");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = (content.scrollHeight + 25) + "px";
+                }
+            });
+        }
+    </script>
+
+    <!-- On page load stuff; show active subjects and fix transitions on load -->
+    <script>
+        document.getElementById('colactivebutton').click();
+
+        $(document).ready(function() {
+            $("body").removeClass("preload");
+        });
+    </script>
+
+    <!-- Copy the email of teacher functionality -->
+    <script>
+        $('.copy-mail').click(function(e) {
+            e.preventDefault();
+            var copyText = $(this).attr('data-email');
+
+            document.addEventListener('copy', function(e) {
+                e.clipboardData.setData('text/plain', copyText);
+                e.preventDefault();
+            }, true);
+
+            document.execCommand('copy');
+
+            // Indicate to user that mail has been copied
+            var x = document.getElementById("copysnackbar");
+
+            x.className = "show";
+
+            setTimeout(function() {
+                x.className = x.className.replace("show", "");
+            }, 1000);
+        });
+    </script>
+
+</body>
+
+
+{% endblock content %}

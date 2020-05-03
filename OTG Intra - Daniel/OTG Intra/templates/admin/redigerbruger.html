@@ -1,0 +1,139 @@
+{% extends "adminlayout.html" %} {% block content %}
+<form action="redigerbruger" method="POST">
+	<div class="form-group">
+		<label for="bruger">
+			Vælg en bruger
+		</label>
+		<select color="#FFF;" class="form-control selectpicker" name="bruger" id="bruger" data-live-search="true" onchange="updateUser()">
+			{% set users = data.getUsers() %}
+			{% for user in users %}
+			
+				<option data-tokens="{{ user['firstname'] }} {{ user['surnames'] }} {{ user['username'] }}" value="{{ user['id'] }}">{{ user['firstname'] }} {{ user['surnames'] }} ({{ user['username'] }})</option>
+			{% endfor %}
+		</select>
+	</div>
+
+	<table class="table">
+		<thead class="thead-light">
+			<tr class="text-center">
+				<th>id</th>
+				<th>username</th>
+				<th>first_name</th>
+				<th>surnames</th>
+				<th>email</th>
+				<th>birthdate</th>
+				<th>class</th>
+				<th>type</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-center">
+				<td id="userid">{{ users[0]['id'] }}</td>
+				<td><input type="text" name="username" id="username" value="{{ users[0]['username'] }}"></td>
+				<td><input type="text" name="firstname" id="firstname" value="{{ users[0]['firstname'] }}"></td>
+				<td><input type="text" name="surnames" id="surnames" value="{{ users[0]['surnames'] }}"></td>
+				<td><input type="text" name="email" id="email" value="{{ users[0]['email'] }}"></td>
+				<td><input type="date" name="birthdate" id="birthdate" value="{{ users[0]['birthdate'] }}"></td>
+				<td><select name="class" id="class">
+					{% set classes = data.getClasses() %}
+					{% for class in classes %}
+						{% if class['id'] == users[0]['class'] %}
+							<option value="{{ class['id'] }}" selected>{{ utils.formatGraduationYear(class['year']) }}. {{ class['name'] }}</option>
+						{% else %}
+							<option value="{{ class['id'] }}">{{ utils.formatGraduationYear(class['year']) }}. {{ class['name'] }}</option>
+						{% endif %}
+					{% endfor %}
+				</select></td>
+				<td><select name="type" id="type">
+					{% set types = utils.UserType.USERTYPES %}
+					{% for id,type in types.items() %}
+						{% if id == users[0]['type'] %}
+							<option value="{{ id }}" selected>{{ type }}</option>
+						{% else %}
+							<option value="{{ id }}">{{ type }}</option>
+						{% endif %}
+					{% endfor %}
+				</select></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<button name="REDIGER_BRUGER" type="submit" class="btn btn-primary">Gem ændringer</button>
+
+	<!-- This will happen after an admin has added a class -->
+	{% if status=="SUCCESS" %}
+	<div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 1rem;">
+		<strong>Gemt!</strong> Ændringerne er blevet oprettet i databasen.
+
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	{% endif %}
+
+</form>
+
+<style>
+	.filter-option-inner-inner {
+		color: #212529;
+	}
+</style>
+
+<script>
+
+	function convertDate(str) {
+		var date = new Date(str),
+			mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+			day = ("0" + date.getDate()).slice(-2);
+		return [date.getFullYear(), mnth, day].join("-");
+	}
+
+	// Ignore these errors, the IDE thinks that Jinja can't be passed to JavaScript when it can.
+	var users = {{ users|tojson }};
+	var classes = {{ classes|tojson }};
+	var types = {{ types|tojson }};
+
+	function updateUser() {
+		id = parseInt(document.getElementById("bruger").value) - 1;
+		user = users[id];
+		
+		// Update fields
+		document.getElementById("userid").innerHTML = user['id'];
+		document.getElementById("username").value = user['username'];
+		document.getElementById("firstname").value = user['firstname'];
+		document.getElementById("surnames").value = user['surnames'];
+		document.getElementById("email").value = user['email'];
+		document.getElementById("birthdate").value = convertDate(user['birthdate']);
+
+		classOptions = "";
+		for(clazz in classes) {
+			clazz = classes[clazz];
+			formattedYear = new Date().getFullYear() - clazz.year + 3;
+			if (clazz.id == user.class) {
+				classOptions += `<option value="` + clazz.id + `" selected>` + formattedYear + `. ` + clazz.name + `</option>`;
+			} else {
+				classOptions += `<option value="` + clazz.id + `">` + formattedYear + `. ` + clazz.name + `</option>`;
+			}
+		}
+		if (user.class == 0) {
+			classOptions += `<option value="0" selected>Ingen</option>`;
+		} else {
+			classOptions += `<option value="0">Ingen</option>`;
+		}
+		document.getElementById("class").innerHTML = classOptions;
+
+		typeOptions = "";
+		for(typeid in types) {
+			type = types[typeid];
+			if (typeid == user.type) {
+				typeOptions += `<option value="` + typeid + `" selected>` + type + `</option>`;
+			} else {
+				typeOptions += `<option value="` + typeid + `">` + type + `</option>`;
+			}
+		}
+		document.getElementById("type").innerHTML = typeOptions;
+	}
+
+</script>
+
+{% endblock content %}
