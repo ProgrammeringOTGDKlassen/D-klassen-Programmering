@@ -145,34 +145,34 @@ class EconomyMainGUI(ttk.Frame):
         except ValueError:
             return False
 
-    def money_optained(self):
-        money_optained = self.entry_money_optained.get()
-        money_optained = self.is_float(money_optained)
-        if money_optained == False:
+    def money_obtained(self):
+        money_obtained = self.entry_money_obtained.get()
+        money_obtained = self.is_float(money_obtained)
+        if money_obtained == False:
             self.label_error.config(text = 'Please make sure you only used numbers!')
-            self.label_money_optained.config(foreground = 'red')
+            self.label_money_obtained.config(foreground = 'red')
             self.label_sel_cat.config(foreground = 'black')
         else:
             catagory = self.combo_sel_cat.get()
             if catagory == "":
                 self.label_error.config(text = 'Please select a catagory!')
                 self.label_sel_cat.config(foreground = 'red')
-                self.label_money_optained.config(foreground = 'black')
+                self.label_money_obtained.config(foreground = 'black')
             else:
                 catagoryID = self.data.get_cat_id(catagory)
-                if type(money_optained) == str:
-                    self.entry_money_optained.delete(0, tk.END)
+                if type(money_obtained) == str:
+                    self.entry_money_obtained.delete(0, tk.END)
                 else:
-                    if self.data.add_money_optained(self.userID, catagoryID, money_optained):
-                        self.entry_money_optained.delete(0, tk.END)
+                    if self.data.add_money_obtained(self.userID, catagoryID, money_obtained):
+                        self.entry_money_obtained.delete(0, tk.END)
                         self.combo_sel_cat.set('')
-                        self.label_money_optained.config(foreground = 'black')
+                        self.label_money_obtained.config(foreground = 'black')
                         self.label_sel_cat.config(foreground = 'black')
 
     def money_used(self):
         money_used = self.entry_money_used.get()
         money_used = self.is_float(money_used)
-        if money_optained == False:
+        if money_obtained == False:
             self.label_error.config(text = 'Please make sure you only used numbers!')
             self.label_money_used.config(foreground = 'red')
             self.label_sel_cat.config(foreground = 'black')
@@ -199,21 +199,20 @@ class EconomyMainGUI(ttk.Frame):
         self.data_panel = ttk.Frame(self)
         self.statistics_panel = ttk.Frame(self)
         catagories = self.data.get_cat_list()
-        print(catagories)
         self.button_panel.grid_columnconfigure(0, minsize = 200)
         self.button_panel.grid_columnconfigure(1, minsize = 200)
         #Button_panel
         self.label_add_cat = ttk.Label(self.button_panel, text = 'Add a new catagory')
         self.entry_add_cat = ttk.Entry(self.button_panel, width = 23)
-        self.button_add_cat = ttk.Button(self.button_panel, text = 'Add catagory', command = self.add_cat)
-        self.label_sel_cat = ttk.Label(self.button_panel, text = 'Select catagory for optained/used money')
+        self.button_add_cat = ttk.Button(self.button_panel, text = 'Add catagory', command = self.add_cat, width = 23)
+        self.label_sel_cat = ttk.Label(self.button_panel, text = 'Select catagory for obtained/used money')
         self.combo_sel_cat = ttk.Combobox(self.button_panel, values = catagories, state = 'readonly', width = 20)
-        self.label_money_optained = ttk.Label(self.button_panel, text = 'Money optained')
-        self.entry_money_optained = ttk.Entry(self.button_panel, width = 23)
-        self.button_money_optained = ttk.Button(self.button_panel, text = 'Add money optained', command = self.money_optained)
+        self.label_money_obtained = ttk.Label(self.button_panel, text = 'Money obtained')
+        self.entry_money_obtained = ttk.Entry(self.button_panel, width = 23)
+        self.button_money_obtained = ttk.Button(self.button_panel, text = 'Add money obtained', command = self.money_obtained, width = 23)
         self.label_money_used = ttk.Label(self.button_panel, text = 'Money used')
         self.entry_money_used = ttk.Entry(self.button_panel, width = 23)
-        self.button_money_used = ttk.Button(self.button_panel, text = 'Add money used', command = self.money_used)
+        self.button_money_used = ttk.Button(self.button_panel, text = 'Add money used', command = self.money_used, width = 23)
         self.label_error = ttk.Label(self.button_panel, text = "", foreground = "red")
 
         self.label_add_cat.grid(row = 1, column = 0, padx = (113,0))
@@ -221,22 +220,22 @@ class EconomyMainGUI(ttk.Frame):
         self.button_add_cat.grid(row = 1, column = 2)
         self.label_sel_cat.grid(row = 2, column = 0)
         self.combo_sel_cat.grid(row = 2, column = 1)
-        self.label_money_optained.grid(row = 3, column = 0)
-        self.entry_money_optained.grid(row = 3, column = 1)
-        self.button_money_optained.grid(row = 3, column = 2)
-        self.label_money_used.grid(row = 4, column = 0)
+        self.label_money_obtained.grid(row = 3, column = 0, padx = (132,0))
+        self.entry_money_obtained.grid(row = 3, column = 1)
+        self.button_money_obtained.grid(row = 3, column = 2)
+        self.label_money_used.grid(row = 4, column = 0, padx = (154,0))
         self.entry_money_used.grid(row = 4, column = 1)
         self.button_money_used.grid(row = 4, column = 2)
         self.label_error.grid(row = 0, column = 1)
 
         #Data_panel
         self.data_panel.grid_columnconfigure(3, minsize = 200)
-        self.optained_v = self.data.get_optained(self.userID)
-        self.label_optained = ttk.Label(self.data_panel, text = f'test {self.optained_v}')
-        self.used_v = self.data.get_optained(self.userID)
+        self.obtained_v = self.data.get_obtained(self.userID)
+        self.label_obtained = ttk.Label(self.data_panel, text = f'test {self.obtained_v}')
+        self.used_v = self.data.get_obtained(self.userID)
         self.label_used = ttk.Label(self.data_panel, text = f'Used economy: {self.used_v}')
         self.label_test = ttk.Label(self.statistics_panel, text = "æprt")
-        self.label_optained.grid(row = 1, column = 0)
+        self.label_obtained.grid(row = 1, column = 0)
         self.label_test.grid(row = 1, column = 0)
         self.label_used.grid(row = 2, column = 0)
 

@@ -78,12 +78,12 @@ class EconomyData():
         c.execute("""INSERT INTO catagory (catagory) VALUES (?);""", (catagory,))
         self.db.commit()
 
-    def add_money_optained(self, userID: str, catagoryID: int, money_optained: float):
+    def add_money_obtained(self, userID: str, catagoryID: int, money_obtained: float):
         userID = userID
         catagoryID = catagoryID
-        money_optained = money_optained
+        money_obtained = money_obtained
         c = self.db.cursor()
-        c.execute("""INSERT INTO optained_economy (user_id, catagory, money_optained) VALUES (?, ?, ?);""", (userID, catagoryID, money_optained))
+        c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained) VALUES (?, ?, ?);""", (userID, catagoryID, money_obtained))
         self.db.commit()
         return True
 
@@ -116,21 +116,21 @@ class EconomyData():
         date = datetime.split()
         return date[0]
 
-    def get_optained(self, userID):
+    def get_obtained(self, userID):
         userID = userID
         c = self.db.cursor()
-        c.execute("""SELECT money_optained, date FROM optained_economy WHERE user_id = ?;""", (userID,))
-        optained = c.fetchall()
-        optained_money = 0
-        optained_money_date_dict = {}
-        for i in range(0, len(optained)):
-            optained_money = optained[i][0]
-            date = self.remove_time(optained[i][1])
-            if not date in optained_money_date_dict:
-                optained_money_date_dict[date] = optained_money
+        c.execute("""SELECT money_obtained, date FROM obtained_economy WHERE user_id = ?;""", (userID,))
+        obtained = c.fetchall()
+        obtained_money = 0
+        obtained_money_date_dict = {}
+        for i in range(0, len(obtained)):
+            obtained_money = obtained[i][0]
+            date = self.remove_time(obtained[i][1])
+            if not date in obtained_money_date_dict:
+                obtained_money_date_dict[date] = obtained_money
             else:
-                optained_money_date_dict[date] += optained_money
-        return optained_money_date_dict
+                obtained_money_date_dict[date] += obtained_money
+        return obtained_money_date_dict
     
     def get_used(self, userID):
         userID = userID
@@ -169,7 +169,7 @@ class EconomyData():
         try:
             c.execute("""DROP TABLE IF EXISTS users;""")
             c.execute("""DROP TABLE IF EXISTS used_economy;""")
-            c.execute("""DROP TABLE IF EXISTS optained_economy;""")
+            c.execute("""DROP TABLE IF EXISTS obtained_economy;""")
             c.execute("""DROP TABLE IF EXISTS catagory;""")
             c.execute("""DROP TABLE IF EXISTS job;""")
         except Exception as e:
@@ -192,11 +192,11 @@ class EconomyData():
                 money_spent INTEGER,
                 date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);""")
             
-            c.execute("""CREATE TABLE IF NOT EXISTS optained_economy (
+            c.execute("""CREATE TABLE IF NOT EXISTS obtained_economy (
                 id INTEGER PRIMARY KEY,
                 user_id INTEGER,
                 catagory INTEGER,
-                money_optained FLOAT,
+                money_obtained FLOAT,
                 date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);""")
 
             c.execute("""CREATE TABLE IF NOT EXISTS catagory (
@@ -220,11 +220,11 @@ class EconomyData():
         test_password2 = self.hash_password(test_password2)
         c.execute("""INSERT INTO users (username, first_name, last_name, email, password) VALUES ('Tester1', 'Jens', 'Tester','jenstester@gmail.com',?);""", (test_password1,))
         c.execute("""INSERT INTO users (username, first_name, last_name, email, password) VALUES ('Tester2', 'Tester', 'Jens','testerjens@gmail.com',?);""", (test_password2,))
-        c.execute("""INSERT INTO optained_economy (user_id, catagory, money_optained) VALUES (1, 1, 2000);""")
-        c.execute("""INSERT INTO optained_economy (user_id, catagory, money_optained) VALUES (1, 1, 3000);""")
-        c.execute("""INSERT INTO optained_economy (user_id, catagory, money_optained, date) VALUES (1, 1, 3000, '2020-05-02 17:43:04');""")
-        c.execute("""INSERT INTO optained_economy (user_id, catagory, money_optained, date) VALUES (1, 1, 4000, '2020-05-02 17:43:04');""")
-        c.execute("""INSERT INTO optained_economy (user_id, catagory, money_optained, date) VALUES (1, 1, 500, '2020-05-01 17:43:04');""")
+        c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained) VALUES (1, 1, 2000);""")
+        c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained) VALUES (1, 1, 3000);""")
+        c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained, date) VALUES (1, 1, 3000, '2020-05-02 17:43:04');""")
+        c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained, date) VALUES (1, 1, 4000, '2020-05-02 17:43:04');""")
+        c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained, date) VALUES (1, 1, 500, '2020-05-01 17:43:04');""")
         c.execute("""INSERT INTO catagory (catagory) VALUES ('TEST');""")
         c.execute("""INSERT INTO catagory (catagory) VALUES ('HEJ');""")
         c.execute("""INSERT INTO used_economy (user_id, catagory, money_spent) VALUES (1, 1, 1000);""")
