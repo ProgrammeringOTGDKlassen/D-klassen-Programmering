@@ -110,8 +110,6 @@ class EconomyData():
             print(money_date)
             money_date_list.append(money_date)
             print(money_date_list)
-        
-        
         return money_date_list
 
     def create_tables(self):
