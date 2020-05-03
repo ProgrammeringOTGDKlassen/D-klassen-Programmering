@@ -95,10 +95,11 @@ class EconomyData():
         c.execute("""SELECT money_optained FROM optained_economy WHERE user_id = ?;""", (userID,))
         optained = c.fetchall()
         print(optained)
+        p = 0
         for i in range(0, len(optained)):
-            p = optained[i][0]
-            print(p)
-        return optained[0][0]
+            p += optained[i][0]
+            
+        return p
 
     def create_tables(self):
         c = self.db.cursor()
