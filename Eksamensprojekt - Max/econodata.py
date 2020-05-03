@@ -25,7 +25,7 @@ class User():
 class EconomyData():
     def __init__(self):
         self.db = sqlite3.connect('economy.db')
-        #self.create_tables()
+        self.create_tables()
     
     def check_username(self, username: str):
         c = self.db.cursor()
@@ -72,22 +72,34 @@ class EconomyData():
             last_name, 
             email, 
             password) VALUES (?, ?, ?, ?, ?);""", (user.username, user.first_name, user.last_name, user.email, hashed_password))
-        userID = c.lastrowid
         self.db.commit()
 
-        return userID
+    def get_userID(self, username: str):
+        c = self.db.cursor()
+        c.execute("""SELECT id FROM users WHERE username = ?; """, (username,))
+        ui = c.fetchone()
+        return ui[0]
 
     def user_login(self, username: str, password: str):
         c = self.db.cursor()
         c.execute("""SELECT password FROM users WHERE username = ?;""", (username,))
         p = c.fetchone()
-        print(p[0])
         if self.verify_password(p[0], password):
             return True
         else:
             return False
 
-        
+    def get_optained(self, userID):
+        userID = userID
+        c = self.db.cursor()
+        c.execute("""SELECT money_optained FROM optained_economy WHERE user_id = ?;""", (userID,))
+        optained = c.fetchall()
+        print(optained)
+        for i in range(0, len(optained)):
+            p = optained[i][0]
+            print(p)
+        return optained[0][0]
+
     def create_tables(self):
         c = self.db.cursor()
 
@@ -138,12 +150,16 @@ class EconomyData():
         except Exception as e:
             print(f'Error when creating tables: {e}')
 
-        test_password1 = "DinMor"
-        test_password2 = "DinFar"
+        test_password1 = "1234"
+        test_password2 = "4321"
         test_password1 = self.hash_password(test_password1)
         test_password2 = self.hash_password(test_password2)
         c.execute("""INSERT INTO users (username, first_name, last_name, email, password) VALUES ('Tester1', 'Jens', 'Tester','jenstester@gmail.com',?);""", (test_password1,))
         c.execute("""INSERT INTO users (username, first_name, last_name, email, password) VALUES ('Tester2', 'Tester', 'Jens','testerjens@gmail.com',?);""", (test_password2,))
+        c.execute("""INSERT INTO optained_economy (user_id, catagory, money_optained) VALUES (1, 1, 2000);""")
+        c.execute("""INSERT INTO optained_economy (user_id, catagory, money_optained) VALUES (1, 1, 3000);""")
+        c.execute("""INSERT INTO catagory (catagory) VALUES ('TEST');""")
+        c.execute("""INSERT INTO used_economy (user_id, catagory, money_spent) VALUES (1, 1, 1000);""")
 
         self.db.commit()
 

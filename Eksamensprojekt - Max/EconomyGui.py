@@ -1,4 +1,5 @@
 from econodata import EconomyData, User
+import econo_func as ef
 import tkinter as tk
 import tkinter.ttk as ttk
 
@@ -12,8 +13,9 @@ class EconomyLoginGui(ttk.Frame):
         username = self.entry_username.get()
         password = self.entry_password.get()
         if self.data.user_login(username, password):
+            userID = self.data.get_userID(username)
             self.master.destroy()
-            mainGui()
+            mainGui(userID)
         else:
             print("Du fik sgu corona")
         
@@ -126,15 +128,21 @@ class EconomySignupGui(ttk.Frame):
         self.pack()
 
 class EconomyMainGUI(ttk.Frame):
-    def __init__(self, master = None):
+    def __init__(self, userID, master = None):
         ttk.Frame.__init__(self, master)
         self.data = EconomyData()
+        self.userID = userID
         self.build_GUI()
     
     def build_GUI(self):
         self.data_panel = ttk.Frame(self)
         self.statistics_panel = ttk.Frame(self)
         self.button_panel = ttk.Frame(self)
+        self.optained_v = self.data.get_optained(self.userID)
+        self.optained = ttk.Label(self, text = f'test {self.optained_v}')
+
+        self.optained.grid(row = 1, column = 0)
+        self.pack()
 
 
 def loginGui():
@@ -165,12 +173,11 @@ def signUpGui():
     app.master.title('Economy Signup')
     app.mainloop()
 
-def mainGui():
-    EconomyLoginGui().master.destroy()
+def mainGui(userID: str):
     root = tk.Tk()
     root.geometry('1920x1080')
     root.state('zoomed')
-    app = EconomyMainGUI(root)
+    app = EconomyMainGUI(userID, root)
     app.master.title('Economy logged in')
     app.mainloop()
 
