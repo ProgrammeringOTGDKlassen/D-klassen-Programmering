@@ -89,17 +89,30 @@ class EconomyData():
         else:
             return False
 
+    def remove_time(self, datetime):
+        datetime = datetime
+        date = datetime.split()
+        return date[0]
+
     def get_optained(self, userID):
         userID = userID
         c = self.db.cursor()
-        c.execute("""SELECT money_optained FROM optained_economy WHERE user_id = ?;""", (userID,))
+        c.execute("""SELECT money_optained, date FROM optained_economy WHERE user_id = ?;""", (userID,))
         optained = c.fetchall()
         print(optained)
-        p = 0
+        money = 0
+        money_date_list = []
+        testmoney = 0
         for i in range(0, len(optained)):
-            p += optained[i][0]
-            
-        return p
+            money = optained[i][0]
+            date = self.remove_time(optained[i][1])
+            money_date = (money, date)
+            print(money_date)
+            money_date_list.append(money_date)
+            print(money_date_list)
+        
+        
+        return money_date_list
 
     def create_tables(self):
         c = self.db.cursor()

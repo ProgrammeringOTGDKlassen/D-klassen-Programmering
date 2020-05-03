@@ -139,9 +139,12 @@ class EconomyMainGUI(ttk.Frame):
         self.statistics_panel = ttk.Frame(self)
         self.button_panel = ttk.Frame(self)
         self.optained_v = self.data.get_optained(self.userID)
-        self.optained = ttk.Label(self, text = f'test {self.optained_v}')
-
+        self.optained = ttk.Label(self.data_panel, text = f'test {self.optained_v}')
+        self.label_test = ttk.Label(self.statistics_panel, text = "æprt")
         self.optained.grid(row = 1, column = 0)
+        self.label_test.grid(row = 1, column = 0)
+        self.data_panel.pack(side = tk.LEFT)
+        self.statistics_panel.pack(side = tk.LEFT)
         self.pack()
 
 
