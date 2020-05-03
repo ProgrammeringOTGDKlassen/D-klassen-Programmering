@@ -31,9 +31,7 @@ class EconomyData():
         c = self.db.cursor()
         c.execute("""SELECT username FROM users;""")
         usernames = c.fetchall()
-        print(f'Usernames: {usernames}')
         for u in usernames:
-            print(f'U: {u}\n Usernames: {usernames}')
             if username == u[0]:
                 return False
             else:
@@ -76,10 +74,27 @@ class EconomyData():
     
     def add_cat(self, catagory: str):
         catagory = catagory
-        print(catagory)
         c = self.db.cursor()
         c.execute("""INSERT INTO catagory (catagory) VALUES (?);""", (catagory,))
         self.db.commit()
+
+    def add_money_optained(self, userID: str, catagoryID: int, money_optained: float):
+        userID = userID
+        catagoryID = catagoryID
+        money_optained = money_optained
+        c = self.db.cursor()
+        c.execute("""INSERT INTO optained_economy (user_id, catagory, money_optained) VALUES (?, ?, ?);""", (userID, catagoryID, money_optained))
+        self.db.commit()
+        return True
+
+    def add_money_used(self, userID: str, catagoryID: int, money_used: float):
+        userID = userID
+        catagoryID = catagoryID
+        money_used = money_used
+        c = self.db.cursor()
+        c.execute("""INSERT INTO used_economy (user_id, catagory, money_spent) VALUES (?, ?, ?);""", (userID, catagoryID, money_used))
+        self.db.commit()
+        return True
 
     def get_userID(self, username: str):
         c = self.db.cursor()
@@ -98,7 +113,6 @@ class EconomyData():
 
     def remove_time(self, datetime):
         datetime = datetime
-        print(datetime)
         date = datetime.split()
         return date[0]
 
@@ -142,6 +156,12 @@ class EconomyData():
             cat_list.append(cat[0])
         return cat_list
 
+    def get_cat_id(self, catagory: str):
+        catagory = catagory
+        c = self.db.cursor()
+        c.execute("""SELECT id FROM catagory WHERE catagory = ?;""", (catagory,))
+        p = c.fetchone()
+        return p[0]
 
     def create_tables(self):
         c = self.db.cursor()
@@ -186,6 +206,7 @@ class EconomyData():
             c.execute("""CREATE TABLE IF NOT EXISTS job (
                 id INTEGER PRIMARY KEY,
                 user_id INTEGER,
+                job_name TEXT,
                 salary FLOAT,
                 payday TEXT );""")
             
@@ -205,6 +226,7 @@ class EconomyData():
         c.execute("""INSERT INTO optained_economy (user_id, catagory, money_optained, date) VALUES (1, 1, 4000, '2020-05-02 17:43:04');""")
         c.execute("""INSERT INTO optained_economy (user_id, catagory, money_optained, date) VALUES (1, 1, 500, '2020-05-01 17:43:04');""")
         c.execute("""INSERT INTO catagory (catagory) VALUES ('TEST');""")
+        c.execute("""INSERT INTO catagory (catagory) VALUES ('HEJ');""")
         c.execute("""INSERT INTO used_economy (user_id, catagory, money_spent) VALUES (1, 1, 1000);""")
 
         self.db.commit()

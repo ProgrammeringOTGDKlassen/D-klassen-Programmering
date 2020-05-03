@@ -75,7 +75,7 @@ class Energy_drink_gui(ttk.Frame):
         self.data_panel = ttk.Frame(self)
         self.button_panel = ttk.Frame(self)
 
-        *
+        self.button_panel.grid_columnconfigure(3, minsize = 200)
         self.drinks_label = ttk.Label(self.button_panel, text = 'Der er {} registrede energidrikke i databasen'.format(None))
         self.drinks_label.grid(row = 0, column = 0)
         self.button_update = ttk.Button(self.button_panel, text = 'Opdater', command = self.update_label)

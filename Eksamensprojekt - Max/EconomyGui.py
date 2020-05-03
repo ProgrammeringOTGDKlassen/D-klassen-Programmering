@@ -138,25 +138,85 @@ class EconomyMainGUI(ttk.Frame):
         catagory = self.entry_add_cat.get()
         self.data.add_cat(catagory)
 
+    def is_float(self, money):
+        try:
+            money = float(money)
+            return money
+        except ValueError:
+            return False
+
+    def money_optained(self):
+        money_optained = self.entry_money_optained.get()
+        money_optained = self.is_float(money_optained)
+        catagory = self.combo_sel_cat.get()
+        catagoryID = self.data.get_cat_id(catagory)
+        print(f"""
+        Money optained: {money_optained}
+        Money optained type: {type(money_optained)}
+        Catagory: {catagory}
+        CatagoryID: {catagoryID}
+        CatagoryID type: {type(catagoryID)}
+        """)
+        if type(money_optained) == str:
+            self.entry_money_optained.delete(0, tk.END)
+        else:
+            if self.data.add_money_optained(self.userID, catagoryID, money_optained):
+                self.entry_money_optained.delete(0, tk.END)
+                self.combo_sel_cat.set('')
+
+    def money_used(self):
+        money_used = self.entry_money_used.get()
+        money_used = self.is_float(money_used)
+        catagory = self.combo_sel_cat.get()
+        catagoryID = self.data.get_cat_id(catagory)
+        print(f"""
+        Money used: {money_used}
+        Money used type: {type(money_used)}
+        Catagory: {catagory}
+        CatagoryID: {catagoryID}
+        CatagoryID type: {type(catagoryID)}
+        """)
+        if type(money_used) == str:
+            self.entry_money_used.delete(0, tk.END)
+        else:
+            if self.data.add_money_used(self.userID, catagoryID, money_used):
+                self.entry_money_used.delete(0, tk.END)
+                self.combo_sel_cat.set('')
+
     def build_GUI(self):
         #Different variables etc
         self.button_panel = ttk.Frame(self)
         self.data_panel = ttk.Frame(self)
         self.statistics_panel = ttk.Frame(self)
         catagories = self.data.get_cat_list()
-
+        print(catagories)
+        self.button_panel.grid_columnconfigure(0, minsize = 200)
+        self.button_panel.grid_columnconfigure(1, minsize = 200)
+        
         #Button_panel
         self.label_add_cat = ttk.Label(self.button_panel, text = 'Add a new catagory')
-        self.entry_add_cat = ttk.Entry(self.button_panel)
+        self.entry_add_cat = ttk.Entry(self.button_panel, width = 23)
         self.button_add_cat = ttk.Button(self.button_panel, text = 'Add catagory', command = self.add_cat)
         self.label_sel_cat = ttk.Label(self.button_panel, text = 'Select catagory for optained/used money')
-        self.combo_sel_cat = ttk.Combobox(self.button_panel, values = catagories, state = 'readonly')
-        
-        self.label_add_cat.grid(row = 1, column = 0, columnspread)
+        self.combo_sel_cat = ttk.Combobox(self.button_panel, values = catagories, state = 'readonly', width = 20)
+        self.label_money_optained = ttk.Label(self.button_panel, text = 'Money optained')
+        self.entry_money_optained = ttk.Entry(self.button_panel, width = 23)
+        self.button_money_optained = ttk.Button(self.button_panel, text = 'Add money optained', command = self.money_optained)
+        self.label_money_used = ttk.Label(self.button_panel, text = 'Money used')
+        self.entry_money_used = ttk.Entry(self.button_panel, width = 23)
+        self.button_money_used = ttk.Button(self.button_panel, text = 'Add money used', command = self.money_used)
+
+        self.label_add_cat.grid(row = 1, column = 0, padx = (113,0))
         self.entry_add_cat.grid(row = 1, column = 1)
         self.button_add_cat.grid(row = 1, column = 2)
         self.label_sel_cat.grid(row = 2, column = 0)
         self.combo_sel_cat.grid(row = 2, column = 1)
+        self.label_money_optained.grid(row = 3, column = 0)
+        self.entry_money_optained.grid(row = 3, column = 1)
+        self.button_money_optained.grid(row = 3, column = 2)
+        self.label_money_used.grid(row = 4, column = 0)
+        self.entry_money_used.grid(row = 4, column = 1)
+        self.button_money_used.grid(row = 4, column = 2)
 
         #Data_panel
         self.data_panel.grid_columnconfigure(3, minsize = 200)
