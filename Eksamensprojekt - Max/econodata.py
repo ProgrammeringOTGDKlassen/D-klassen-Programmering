@@ -2,13 +2,12 @@ import sqlite3, hashlib, binascii, os
 
 class User():
     
-    def __init__(selv, first_name: str, last_name: str, username: str, password: str, email: str, last_login: str):
+    def __init__(self, first_name: str, last_name: str, username: str, email: str, password: str):
         self.first_name = first_name
         self.last_name = last_name
         self.username = username
         self.password = password
         self.email = email
-        self.last_login = last_login
 
     def set_id(self, id):
         self.id = id
@@ -18,16 +17,27 @@ class User():
         Fist name: {self.first_name}
         Last name: {self.last_name}
         Username: {self.username}
-        Password: {self.password}
         Email: {self.email}
-        Last time logged in: {self.last_login}
+        Password: {self.password}
         '''
 
 
 class EconomyData():
     def __init__(self):
         self.db = sqlite3.connect('economy.db')
-        # self.create_tables()
+        #self.create_tables()
+    
+    def check_username(self, username: str):
+        c = self.db.cursor()
+        c.execute("""SELECT username FROM users;""")
+        usernames = c.fetchall()
+        print(f'Usernames: {usernames}')
+        for u in usernames:
+            print(f'U: {u}\n Usernames: {usernames}')
+            if username == u[0]:
+                return False
+            else:
+                return True
 
     def hash_password(self, password):
         # https://www.vitoshacademy.com/hashing-passwords-in-python/
@@ -61,7 +71,7 @@ class EconomyData():
             first_name, 
             last_name, 
             email, 
-            password) VALUES (?, ?, ?, ?, ?);""", user.username, user.first_name, user.last_name, user.email, user.password)
+            password) VALUES (?, ?, ?, ?, ?);""", (user.username, user.first_name, user.last_name, user.email, hashed_password))
         userID = c.lastrowid
         self.db.commit()
 
@@ -132,8 +142,6 @@ class EconomyData():
         test_password2 = "DinFar"
         test_password1 = self.hash_password(test_password1)
         test_password2 = self.hash_password(test_password2)
-        print(test_password1)
-        print(len(test_password2))
         c.execute("""INSERT INTO users (username, first_name, last_name, email, password) VALUES ('Tester1', 'Jens', 'Tester','jenstester@gmail.com',?);""", (test_password1,))
         c.execute("""INSERT INTO users (username, first_name, last_name, email, password) VALUES ('Tester2', 'Tester', 'Jens','testerjens@gmail.com',?);""", (test_password2,))
 
