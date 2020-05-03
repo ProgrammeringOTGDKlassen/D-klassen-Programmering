@@ -148,40 +148,64 @@ class EconomyMainGUI(ttk.Frame):
     def money_optained(self):
         money_optained = self.entry_money_optained.get()
         money_optained = self.is_float(money_optained)
-        catagory = self.combo_sel_cat.get()
-        catagoryID = self.data.get_cat_id(catagory)
-        print(f"""
-        Money optained: {money_optained}
-        Money optained type: {type(money_optained)}
-        Catagory: {catagory}
-        CatagoryID: {catagoryID}
-        CatagoryID type: {type(catagoryID)}
-        """)
-        if type(money_optained) == str:
-            self.entry_money_optained.delete(0, tk.END)
+        if money_optained == False:
+            self.label_error.config(text = 'Please make sure you only used numbers!')
+            self.label_money_optained.config(foreground = 'red')
+            self.label_sel_cat.config(foreground = 'black')
         else:
-            if self.data.add_money_optained(self.userID, catagoryID, money_optained):
-                self.entry_money_optained.delete(0, tk.END)
-                self.combo_sel_cat.set('')
+            catagory = self.combo_sel_cat.get()
+            if catagory == "":
+                self.label_error.config(text = 'Please select a catagory!')
+                self.label_sel_cat.config(foreground = 'red')
+                self.label_money_optained.config(foreground = 'black')
+            else:
+                catagoryID = self.data.get_cat_id(catagory)
+                print(f"""
+                Money optained: {money_optained}
+                Money optained type: {type(money_optained)}
+                Catagory: {catagory}
+                CatagoryID: {catagoryID}
+                CatagoryID type: {type(catagoryID)}
+                """)
+                if type(money_optained) == str:
+                    self.entry_money_optained.delete(0, tk.END)
+                else:
+                    if self.data.add_money_optained(self.userID, catagoryID, money_optained):
+                        self.entry_money_optained.delete(0, tk.END)
+                        self.combo_sel_cat.set('')
+                        self.label_money_optained.config(foreground = 'black')
+                        self.label_sel_cat.config(foreground = 'black')
 
     def money_used(self):
         money_used = self.entry_money_used.get()
         money_used = self.is_float(money_used)
-        catagory = self.combo_sel_cat.get()
-        catagoryID = self.data.get_cat_id(catagory)
-        print(f"""
-        Money used: {money_used}
-        Money used type: {type(money_used)}
-        Catagory: {catagory}
-        CatagoryID: {catagoryID}
-        CatagoryID type: {type(catagoryID)}
-        """)
-        if type(money_used) == str:
-            self.entry_money_used.delete(0, tk.END)
+        if money_optained == False:
+            self.label_error.config(text = 'Please make sure you only used numbers!')
+            self.label_money_used.config(foreground = 'red')
+            self.label_sel_cat.config(foreground = 'black')
         else:
-            if self.data.add_money_used(self.userID, catagoryID, money_used):
-                self.entry_money_used.delete(0, tk.END)
-                self.combo_sel_cat.set('')
+            catagory = self.combo_sel_cat.get()
+            if catagory == "":
+                self.label_error.config(text = 'Please select a catagory!')
+                self.label_sel_cat.config(foreground = 'red')
+                self.label_money_used.config(foreground = 'black')
+            else:
+                catagoryID = self.data.get_cat_id(catagory)
+                print(f"""
+                Money used: {money_used}
+                Money used type: {type(money_used)}
+                Catagory: {catagory}
+                CatagoryID: {catagoryID}
+                CatagoryID type: {type(catagoryID)}
+                """)
+                if type(money_used) == str:
+                    self.entry_money_used.delete(0, tk.END)
+                else:
+                    if self.data.add_money_used(self.userID, catagoryID, money_used):
+                        self.entry_money_used.delete(0, tk.END)
+                        self.combo_sel_cat.set('')
+                        self.label_money_used.config(foreground = 'black')
+                        self.label_sel_cat.config(foreground = 'black')
 
     def build_GUI(self):
         #Different variables etc
@@ -192,7 +216,6 @@ class EconomyMainGUI(ttk.Frame):
         print(catagories)
         self.button_panel.grid_columnconfigure(0, minsize = 200)
         self.button_panel.grid_columnconfigure(1, minsize = 200)
-        
         #Button_panel
         self.label_add_cat = ttk.Label(self.button_panel, text = 'Add a new catagory')
         self.entry_add_cat = ttk.Entry(self.button_panel, width = 23)
@@ -205,6 +228,7 @@ class EconomyMainGUI(ttk.Frame):
         self.label_money_used = ttk.Label(self.button_panel, text = 'Money used')
         self.entry_money_used = ttk.Entry(self.button_panel, width = 23)
         self.button_money_used = ttk.Button(self.button_panel, text = 'Add money used', command = self.money_used)
+        self.label_error = ttk.Label(self.button_panel, text = "", foreground = "red")
 
         self.label_add_cat.grid(row = 1, column = 0, padx = (113,0))
         self.entry_add_cat.grid(row = 1, column = 1)
@@ -217,6 +241,7 @@ class EconomyMainGUI(ttk.Frame):
         self.label_money_used.grid(row = 4, column = 0)
         self.entry_money_used.grid(row = 4, column = 1)
         self.button_money_used.grid(row = 4, column = 2)
+        self.label_error.grid(row = 0, column = 1)
 
         #Data_panel
         self.data_panel.grid_columnconfigure(3, minsize = 200)
