@@ -91,6 +91,7 @@ class EconomyData():
 
     def remove_time(self, datetime):
         datetime = datetime
+        print(datetime)
         date = datetime.split()
         return date[0]
 
@@ -99,18 +100,32 @@ class EconomyData():
         c = self.db.cursor()
         c.execute("""SELECT money_optained, date FROM optained_economy WHERE user_id = ?;""", (userID,))
         optained = c.fetchall()
-        print(optained)
-        money = 0
-        money_date_list = []
-        testmoney = 0
+        optained_money = 0
+        optained_money_date_dict = {}
         for i in range(0, len(optained)):
-            money = optained[i][0]
+            optained_money = optained[i][0]
             date = self.remove_time(optained[i][1])
-            money_date = (money, date)
-            print(money_date)
-            money_date_list.append(money_date)
-            print(money_date_list)
-        return money_date_list
+            if not date in optained_money_date_dict:
+                optained_money_date_dict[date] = optained_money
+            else:
+                optained_money_date_dict[date] += optained_money
+        return optained_money_date_dict
+    
+    def get_used(self, userID):
+        userID = userID
+        c = self.db.cursor()
+        c.execute("""SELECT money_spent, date FROM used_economy WHERE user_id = ?;""", (userID,))
+        used = c.fetchall()
+        used_money = 0
+        used_money_date_dict = {}
+        for i in range(0, len(used)):
+            used_money = used[i][0]
+            date = self.remove_time(used[i][1])
+            if not date in used_money_date_dict:
+                used_money_date_dict[date] = used_money
+            else:
+                used_money_date_dict[date] += used_money
+        return used_money_date_dict
 
     def create_tables(self):
         c = self.db.cursor()
@@ -170,6 +185,9 @@ class EconomyData():
         c.execute("""INSERT INTO users (username, first_name, last_name, email, password) VALUES ('Tester2', 'Tester', 'Jens','testerjens@gmail.com',?);""", (test_password2,))
         c.execute("""INSERT INTO optained_economy (user_id, catagory, money_optained) VALUES (1, 1, 2000);""")
         c.execute("""INSERT INTO optained_economy (user_id, catagory, money_optained) VALUES (1, 1, 3000);""")
+        c.execute("""INSERT INTO optained_economy (user_id, catagory, money_optained, date) VALUES (1, 1, 3000, '2020-05-02 17:43:04');""")
+        c.execute("""INSERT INTO optained_economy (user_id, catagory, money_optained, date) VALUES (1, 1, 4000, '2020-05-02 17:43:04');""")
+        c.execute("""INSERT INTO optained_economy (user_id, catagory, money_optained, date) VALUES (1, 1, 500, '2020-05-01 17:43:04');""")
         c.execute("""INSERT INTO catagory (catagory) VALUES ('TEST');""")
         c.execute("""INSERT INTO used_economy (user_id, catagory, money_spent) VALUES (1, 1, 1000);""")
 
