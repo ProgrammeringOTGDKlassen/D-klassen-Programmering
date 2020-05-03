@@ -73,6 +73,13 @@ class EconomyData():
             email, 
             password) VALUES (?, ?, ?, ?, ?);""", (user.username, user.first_name, user.last_name, user.email, hashed_password))
         self.db.commit()
+    
+    def add_cat(self, catagory: str):
+        catagory = catagory
+        print(catagory)
+        c = self.db.cursor()
+        c.execute("""INSERT INTO catagory (catagory) VALUES (?);""", (catagory,))
+        self.db.commit()
 
     def get_userID(self, username: str):
         c = self.db.cursor()
@@ -126,6 +133,15 @@ class EconomyData():
             else:
                 used_money_date_dict[date] += used_money
         return used_money_date_dict
+
+    def get_cat_list(self):
+        c = self.db.cursor()
+        c.execute("""SELECT catagory FROM catagory;""")
+        cat_list = []
+        for cat in c:
+            cat_list.append(cat[0])
+        return cat_list
+
 
     def create_tables(self):
         c = self.db.cursor()

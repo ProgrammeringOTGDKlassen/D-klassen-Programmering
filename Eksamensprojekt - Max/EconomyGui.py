@@ -134,10 +134,31 @@ class EconomyMainGUI(ttk.Frame):
         self.userID = userID
         self.build_GUI()
     
+    def add_cat(self):
+        catagory = self.entry_add_cat.get()
+        self.data.add_cat(catagory)
+
     def build_GUI(self):
+        #Different variables etc
+        self.button_panel = ttk.Frame(self)
         self.data_panel = ttk.Frame(self)
         self.statistics_panel = ttk.Frame(self)
-        self.button_panel = ttk.Frame(self)
+        catagories = self.data.get_cat_list()
+
+        #Button_panel
+        self.label_add_cat = ttk.Label(self.button_panel, text = 'Add a new catagory')
+        self.entry_add_cat = ttk.Entry(self.button_panel)
+        self.button_add_cat = ttk.Button(self.button_panel, text = 'Add catagory', command = self.add_cat)
+        self.label_sel_cat = ttk.Label(self.button_panel, text = 'Select catagory for optained/used money')
+        self.combo_sel_cat = ttk.Combobox(self.button_panel, values = catagories, state = 'readonly')
+        
+        self.label_add_cat.grid(row = 1, column = 0, columnspread)
+        self.entry_add_cat.grid(row = 1, column = 1)
+        self.button_add_cat.grid(row = 1, column = 2)
+        self.label_sel_cat.grid(row = 2, column = 0)
+        self.combo_sel_cat.grid(row = 2, column = 1)
+
+        #Data_panel
         self.data_panel.grid_columnconfigure(3, minsize = 200)
         self.optained_v = self.data.get_optained(self.userID)
         self.label_optained = ttk.Label(self.data_panel, text = f'test {self.optained_v}')
@@ -147,8 +168,11 @@ class EconomyMainGUI(ttk.Frame):
         self.label_optained.grid(row = 1, column = 0)
         self.label_test.grid(row = 1, column = 0)
         self.label_used.grid(row = 2, column = 0)
-        self.data_panel.pack(side = tk.LEFT)
-        self.statistics_panel.pack(side = tk.LEFT)
+
+        #Statisics_panel
+
+        #Packing
+        self.button_panel.pack(side = tk.TOP)
         self.pack()
 
 
