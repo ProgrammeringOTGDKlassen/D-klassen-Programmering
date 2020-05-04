@@ -177,10 +177,11 @@ class EconomyMainGUI(ttk.Frame):
                     self.entry_job_salary.delete(0, tk.END)
                     self.entry_job_payday.delete(0, tk.END)
                     self.label_job_salary.config(foreground = 'black')
-                    self.update_label1()
+                    self.update_job_labels1()
+                    
     def remove_job(self):
         self.data.remove_job(self.userID)
-        self.update_label2()
+        self.update_job_labels2()
 
     def money_obtained(self):
         money_obtained = self.entry_money_obtained.get()
@@ -224,7 +225,7 @@ class EconomyMainGUI(ttk.Frame):
                     self.label_money_used.config(foreground = 'black')
                     self.label_sel_cat.config(foreground = 'black')
 
-    def update_label1(self):
+    def update_job_labels1(self):
         job = self.data.get_job(self.userID)
         self.label_djob_name = ttk.Label(self.data_panel, text = 'Current job name:')
         self.label_djob_name_v = ttk.Label(self.data_panel, text = f'{job[0]}') 
@@ -245,7 +246,7 @@ class EconomyMainGUI(ttk.Frame):
         self.label_djob_nextpayment_v.grid(row = 4, column = 1)
         self.button_djob_remove.grid(row = 5, column = 0, columnspan = 2)
     
-    def update_label2(self):
+    def update_job_labels2(self):
         self.label_djob_name_v.config(text = '') 
         self.label_djob_salary_v.config(text = '')
         self.label_djob_payday_v.config(text = '')

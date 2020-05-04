@@ -25,7 +25,7 @@ class User():
 class EconomyData():
     def __init__(self):
         self.db = sqlite3.connect('economy.db')
-        self.create_tables()
+        # self.create_tables()
     
     def check_username(self, username: str):
         c = self.db.cursor()
@@ -206,11 +206,19 @@ class EconomyData():
         else: 
             return True
 
+    def update_date(self, username: str):
+        current_date = datetime.date.today()
+        userID = self.get_userID(username)
+        c = self.db.cursor()
+        c.execute("""UPDATE users SET last_login = ? WHERE id = ?;""", (current_date, userID))
+        self.db.commit()
+
     def user_login(self, username: str, password: str):
         c = self.db.cursor()
         c.execute("""SELECT password FROM users WHERE username = ?;""", (username,))
         p = c.fetchone()
         if self.verify_password(p[0], password):
+            self.update_date(username)
             return True
         else:
             return False
