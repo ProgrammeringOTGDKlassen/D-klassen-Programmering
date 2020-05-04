@@ -228,6 +228,7 @@ class EconomyMainGUI(ttk.Frame):
 
     def update_job_labels1(self):
         job = self.data.get_job(self.userID)
+        self.data.calc_days_for_payday(self.userID)
         self.label_djob_name = ttk.Label(self.data_panel, text = 'Current job name:')
         self.label_djob_name_v = ttk.Label(self.data_panel, text = f'{job[0]}') 
         self.label_djob_salary = ttk.Label(self.data_panel, text = 'Current salary:')
@@ -246,7 +247,6 @@ class EconomyMainGUI(ttk.Frame):
         self.label_djob_nextpayment.grid(row = 4, column = 0)
         self.label_djob_nextpayment_v.grid(row = 4, column = 1)
         self.button_djob_remove.grid(row = 5, column = 0, columnspan = 2)
-        self.data.calc_days_for_payday(self.userID)
     
     def update_job_labels2(self):
         self.label_djob_name_v.config(text = '') 
@@ -308,6 +308,7 @@ class EconomyMainGUI(ttk.Frame):
         if self.data.has_job(self.userID):
             print(self.userID)
             job = self.data.get_job(self.userID)
+            self.data.calc_days_for_payday(self.userID)
             self.label_djob_name = ttk.Label(self.data_panel, text = 'Current job name:')
             self.label_djob_name_v = ttk.Label(self.data_panel, text = f'{job[0]}') 
             self.label_djob_salary = ttk.Label(self.data_panel, text = 'Current salary:')
@@ -326,7 +327,6 @@ class EconomyMainGUI(ttk.Frame):
             self.label_djob_nextpayment.grid(row = 4, column = 0)
             self.label_djob_nextpayment_v.grid(row = 4, column = 1)
             self.button_djob_remove.grid(row = 5, column = 0, columnspan = 1)
-            self.data.calc_days_for_payday(self.userID)
 
         balance_v = self.data.calc_current_balance(self.userID)
         self.label_dbalance = ttk.Label(self.data_panel, text = 'Account balance:')
