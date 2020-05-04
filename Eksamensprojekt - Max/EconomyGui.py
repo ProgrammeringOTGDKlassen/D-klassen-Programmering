@@ -178,7 +178,7 @@ class EconomyMainGUI(ttk.Frame):
                     self.entry_job_payday.delete(0, tk.END)
                     self.label_job_salary.config(foreground = 'black')
                     self.update_job_labels1()
-                    
+
     def remove_job(self):
         self.data.remove_job(self.userID)
         self.update_job_labels2()
@@ -245,6 +245,7 @@ class EconomyMainGUI(ttk.Frame):
         self.label_djob_nextpayment.grid(row = 4, column = 0)
         self.label_djob_nextpayment_v.grid(row = 4, column = 1)
         self.button_djob_remove.grid(row = 5, column = 0, columnspan = 2)
+        self.data.calc_days_for_payday(self.userID)
     
     def update_job_labels2(self):
         self.label_djob_name_v.config(text = '') 
@@ -253,7 +254,6 @@ class EconomyMainGUI(ttk.Frame):
         self.label_djob_nextpayment_v.config(text = '')
 
     def build_GUI(self):
-        self.data.calc_optained(self.userID)
         #Different variables etc
         self.button_panel = ttk.Frame(self)
         self.data_panel = ttk.Frame(self)
@@ -314,16 +314,17 @@ class EconomyMainGUI(ttk.Frame):
             self.label_djob_payday_v = ttk.Label(self.data_panel, text = f'{job[2]} days')
             self.label_djob_nextpayment = ttk.Label(self.data_panel, text = 'Next payment:')
             self.label_djob_nextpayment_v = ttk.Label(self.data_panel, text = f'{job[3]}')
-            self.button_job_remove = ttk.Button(self.data_panel, text = 'Remove job', command = self.remove_job, width = 23)
+            self.button_djob_remove = ttk.Button(self.data_panel, text = 'Remove job', command = self.remove_job, width = 23)
             self.label_djob_name.grid(row = 1, column = 0)
             self.label_djob_name_v.grid(row = 1, column = 1)
             self.label_djob_salary.grid(row = 2, column = 0)
             self.label_djob_salary_v.grid(row = 2, column = 1)
             self.label_djob_payday.grid(row = 3, column = 0)
-            self.label_djob_payday_V.grid(row = 3, column = 1)
+            self.label_djob_payday_v.grid(row = 3, column = 1)
             self.label_djob_nextpayment.grid(row = 4, column = 0)
             self.label_djob_nextpayment_v.grid(row = 4, column = 1)
             self.button_djob_remove.grid(row = 5, column = 0, columnspan = 1)
+            self.data.calc_days_for_payday(self.userID)
 
         #Statisics_panel
 

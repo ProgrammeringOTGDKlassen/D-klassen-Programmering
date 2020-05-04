@@ -25,7 +25,7 @@ class User():
 class EconomyData():
     def __init__(self):
         self.db = sqlite3.connect('economy.db')
-        # self.create_tables()
+        self.create_tables()
     
     def check_username(self, username: str):
         c = self.db.cursor()
@@ -85,6 +85,8 @@ class EconomyData():
         c = self.db.cursor()
         c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained) VALUES (?, ?, ?);""", (userID, catagoryID, money_obtained))
         self.db.commit()
+        k = self.calc_current_balance(userID)
+        print(f'Balance: {k}')
         return True
 
     def add_money_used(self, userID: str, catagoryID: int, money_used: float):
@@ -108,18 +110,30 @@ class EconomyData():
         self.db.commit()
         return True
 
+    def calc_days_for_payday(self, userID):
+        c = self.db.cursor()
+        c.execute("""SELECT last_login FROM users WHERE id = ?;""", (userID,))
+        l = c.fetchone()
+        ll = self.convert_str_to_date(l[0])
+        c.execute("""SELECT salary, next_payment FROM job WHERE user_id = ?;""", (userID,))
+        k = c.fetchone()
+        kk = self.convert_str_to_date(k[1])
+        if kk <= ll:
+            self.add_money_obtained(userID, 3, k[0])
+        else:
+            print('dumma mand')
+
     def calc_optained(self, userID: int):
         userID = userID
         m = self.get_obtained(userID)
         optained = 0
         for date in m:
             optained += m[date]
-        
         return optained
 
     def calc_used(self, userID: int):
         userID = userID
-        m = self.get_obtained(userID)
+        m = self.get_used(userID)
         used = 0
         for date in m:
             used += m[date]
@@ -128,8 +142,11 @@ class EconomyData():
     
     def calc_current_balance(self, userID):
         optained = self.calc_optained(userID)
+        print(optained)
         used = self.calc_used(userID)
+        print(used)
         balance = optained - used
+        print(balance)
 
         return balance
         
@@ -254,7 +271,7 @@ class EconomyData():
                 last_name TEXT,
                 email TEXT,
                 password TEXT,
-                last_login DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);""")
+                last_login DATETIME NOT NULL DEFAULT CURRENT_DATE);""")
             
             c.execute("""CREATE TABLE IF NOT EXISTS used_economy (
                 id INTEGER PRIMARY KEY,
@@ -301,6 +318,8 @@ class EconomyData():
         c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained, date) VALUES (1, 1, 500, '2020-05-01 17:43:04');""")
         c.execute("""INSERT INTO catagory (catagory) VALUES ('TEST');""")
         c.execute("""INSERT INTO catagory (catagory) VALUES ('HEJ');""")
+        c.execute("""INSERT INTO catagory (catagory) VALUES ('Salary');""")
+        c.execute("""INSERT INTO job (user_id, job_name, salary, payday, next_payment) VALUES (1, 'spurgt', 200, 1, '2020-05-01');""")
         c.execute("""INSERT INTO used_economy (user_id, catagory, money_spent) VALUES (1, 1, 1000);""")
         self.db.commit()
 
