@@ -153,25 +153,34 @@ class EconomyMainGUI(ttk.Frame):
         self.data.add_cat(catagory)
     
     def add_job(self):
-        job_name = self.entry_job_name.get()
-        job_salary = self.entry_job_salary.get()
-        job_payday = self.entry_job_payday.get()
-        job_payday = self.is_int(job_payday)
-        job_salary = self.is_float(job_salary)
-        if job_salary == False:
-            self.label_error.config(text = 'Please make sure you only used numbers!')
-            self.label_job_salay.config(foreground = 'red')
-        elif job_payday == False:
-            self.label_error.config(text = 'Please make sure you only used numbers!')
-            self.label_job_payday.config(foreground = 'red')
-            self.label_job_salay.config(foreground = 'black')
+        if self.data.has_job(self.userID):
+            self.label_error.config(text = 'You already have a job. Delete that first.')
+            self.entry_job_name.delete(0, tk.END)
+            self.entry_job_salary.delete(0, tk.END)
+            self.entry_job_payday.delete(0, tk.END)
         else:
-            if self.data.add_job(self.userID, job_name, job_salary, job_payday):
-                self.entry_job_name.delete(0, tk.END)
-                self.entry_job_salary.delete(0, tk.END)
-                self.entry_job_payday.delete(0, tk.END)
+            job_name = self.entry_job_name.get()
+            job_salary = self.entry_job_salary.get()
+            job_payday = self.entry_job_payday.get()
+            job_payday = self.is_int(job_payday)
+            job_salary = self.is_float(job_salary)
+            if job_salary == False:
+                self.label_error.config(text = 'Please make sure you only used numbers!')
+                self.label_job_salary.config(foreground = 'red')
+            elif job_payday == False:
+                self.label_error.config(text = 'Please make sure you only used numbers!')
+                self.label_job_payday.config(foreground = 'red')
                 self.label_job_salary.config(foreground = 'black')
-                self.update_label()
+            else:
+                if self.data.add_job(self.userID, job_name, job_salary, job_payday):
+                    self.entry_job_name.delete(0, tk.END)
+                    self.entry_job_salary.delete(0, tk.END)
+                    self.entry_job_payday.delete(0, tk.END)
+                    self.label_job_salary.config(foreground = 'black')
+                    self.update_label1()
+    def remove_job(self):
+        self.data.remove_job(self.userID)
+        self.update_label2()
 
     def money_obtained(self):
         money_obtained = self.entry_money_obtained.get()
@@ -215,7 +224,7 @@ class EconomyMainGUI(ttk.Frame):
                     self.label_money_used.config(foreground = 'black')
                     self.label_sel_cat.config(foreground = 'black')
 
-    def update_label(self):
+    def update_label1(self):
         job = self.data.get_job(self.userID)
         self.label_djob_name = ttk.Label(self.data_panel, text = 'Current job name:')
         self.label_djob_name_v = ttk.Label(self.data_panel, text = f'{job[0]}') 
@@ -225,6 +234,7 @@ class EconomyMainGUI(ttk.Frame):
         self.label_djob_payday_v = ttk.Label(self.data_panel, text = f'{job[2]} days')
         self.label_djob_nextpayment = ttk.Label(self.data_panel, text = 'Next payment:')
         self.label_djob_nextpayment_v = ttk.Label(self.data_panel, text = f'{job[3]}')
+        self.button_djob_remove = ttk.Button(self.data_panel, text = 'Remove job', command = self.remove_job, width = 23)
         self.label_djob_name.grid(row = 1, column = 0)
         self.label_djob_name_v.grid(row = 1, column = 1)
         self.label_djob_salary.grid(row = 2, column = 0)
@@ -233,8 +243,16 @@ class EconomyMainGUI(ttk.Frame):
         self.label_djob_payday_v.grid(row = 3, column = 1)
         self.label_djob_nextpayment.grid(row = 4, column = 0)
         self.label_djob_nextpayment_v.grid(row = 4, column = 1)
+        self.button_djob_remove.grid(row = 5, column = 0, columnspan = 2)
         # self.data_panel.pack(side = tk.BOTTOM)
-        
+    
+    def update_label2(self):
+        self.label_djob_name_v.config(text = '') 
+        self.label_djob_salary_v.config(text = '')
+        self.label_djob_payday_v.config(text = '')
+        self.label_djob_nextpayment_v.config(text = '')
+        # self.data_panel.pack(side = tk.BOTTOM)
+
     def build_GUI(self):
         #Different variables etc
         self.button_panel = ttk.Frame(self)
@@ -284,7 +302,7 @@ class EconomyMainGUI(ttk.Frame):
         self.label_job_payday.grid(row = 7, column = 0, padx = (91,0), pady = 2)
         self.entry_job_payday.grid(row = 7, column = 1, pady = 2)
         self.button_add_job.grid(row = 9, column = 1, pady = 2)
-
+        
         #Data_panel
         if self.data.has_job(self.userID):
             job = self.data.get_job(self.userID)
@@ -296,6 +314,7 @@ class EconomyMainGUI(ttk.Frame):
             self.label_djob_payday_v = ttk.Label(self.data_panel, text = f'{job[2]} days')
             self.label_djob_nextpayment = ttk.Label(self.data_panel, text = 'Next payment:')
             self.label_djob_nextpayment_v = ttk.Label(self.data_panel, text = f'{job[3]}')
+            self.button_job_remove = ttk.Button(self.data_panel, text = 'Remove job', command = self.remove_job, width = 23)
             self.label_djob_name.grid(row = 1, column = 0)
             self.label_djob_name_v.grid(row = 1, column = 1)
             self.label_djob_salary.grid(row = 2, column = 0)
@@ -304,6 +323,7 @@ class EconomyMainGUI(ttk.Frame):
             self.label_djob_payday_V.grid(row = 3, column = 1)
             self.label_djob_nextpayment.grid(row = 4, column = 0)
             self.label_djob_nextpayment_v.grid(row = 4, column = 1)
+            self.button_djob_remove.grid(row = 5, column = 0, columnspan = 1)
 
         #Statisics_panel
 

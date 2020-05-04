@@ -194,6 +194,12 @@ class EconomyData():
         p = c.fetchone()
         return p[0]
 
+    def remove_job(self, userID):
+        userID = userID
+        c = self.db.cursor()
+        c.execute("""DELETE FROM job WHERE user_id = ?;""",(userID,))
+        self.db.commit()
+
     def create_tables(self):
         c = self.db.cursor()
 
