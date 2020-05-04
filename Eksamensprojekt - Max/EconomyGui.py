@@ -7,7 +7,7 @@ class EconomyLoginGui(ttk.Frame):
     def __init__(self, master = None):
         ttk.Frame.__init__(self, master)
         self.data = EconomyData()
-        self.data.create_tables()
+        # self.data.create_tables()
         self.build_GUI()
     
     def login(self):
@@ -306,6 +306,7 @@ class EconomyMainGUI(ttk.Frame):
         
         #Data_panel
         if self.data.has_job(self.userID):
+            print(self.userID)
             job = self.data.get_job(self.userID)
             self.label_djob_name = ttk.Label(self.data_panel, text = 'Current job name:')
             self.label_djob_name_v = ttk.Label(self.data_panel, text = f'{job[0]}') 

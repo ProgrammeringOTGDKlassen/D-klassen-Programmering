@@ -62,8 +62,13 @@ class EconomyData():
 
     def add_user(self, user: User):
         c = self.db.cursor()
+        print(user.username)
         hashed_password = self.hash_password(user.password)
         c.execute("""INSERT INTO users (username, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?);""", (user.username, user.first_name, user.last_name, user.email, hashed_password))
+        userID = c.lastrowid
+        self.db.commit()
+        c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained) VALUES (?, 1, 0);""", (userID,))
+        c.execute("""INSERT INTO used_economy (user_id, catagory, money_spent) VALUES (?, 1, 0);""", (userID,))
         self.db.commit()
     
     def add_cat(self, catagory: str):
@@ -240,7 +245,8 @@ class EconomyData():
         p = c.fetchone()
         if self.verify_password(p[0], password):
             self.update_date(username)
-            self.calc_days_for_payday(self.get_userID(username))
+            if self.has_job(self.get_userID(username)):
+                self.calc_days_for_payday(self.get_userID(username))
             return True
         else:
             return False
@@ -321,7 +327,7 @@ class EconomyData():
         c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained, date) VALUES (1, 1, 3000, '2020-05-02 17:43:04');""")
         c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained, date) VALUES (1, 1, 4000, '2020-05-02 17:43:04');""")
         c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained, date) VALUES (1, 1, 500, '2020-05-01 17:43:04');""")
-        c.execute("""INSERT INTO catagory (catagory) VALUES ('TEST');""")
+        c.execute("""INSERT INTO catagory (catagory) VALUES ('init');""")
         c.execute("""INSERT INTO catagory (catagory) VALUES ('HEJ');""")
         c.execute("""INSERT INTO catagory (catagory) VALUES ('Salary');""")
         c.execute("""INSERT INTO job (user_id, job_name, salary, payday, next_payment) VALUES (1, 'spurgt', 200, 1, '2020-05-01');""")
