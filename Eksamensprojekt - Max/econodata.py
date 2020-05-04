@@ -1,4 +1,5 @@
 import sqlite3, hashlib, binascii, os, datetime
+import numpy as np
 from datetime import datetime as dt
 from collections import OrderedDict
 
@@ -186,7 +187,13 @@ class EconomyData():
             balance_dict[balance] += start_money
             # opdater saldoen for dagen, for at kunne regne videre for næste dato
             start_money = balance_dict[balance]
-        return balance_dict
+            # OrderedDict([('2020-05-01', 500.0), ('2020-05-02', 7500.0), ('2020-05-03', 6500.0), ('2020-05-04', 11300.0)])
+        x = []
+        y = []
+        for bal in balance_dict:
+            x.append(bal)
+            y.append(balance_dict[bal])
+        return x,y
 
     def convert_str_to_date(self, string: str):
         return datetime.datetime.strptime(string, "%Y-%m-%d").date()

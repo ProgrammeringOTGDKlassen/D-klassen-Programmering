@@ -1,5 +1,9 @@
 from econodata import EconomyData, User
 import econo_func as ef
+import matplotlib
+matplotlib.use("TkAgg")
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
 import tkinter as tk
 import tkinter.ttk as ttk
 
@@ -277,6 +281,7 @@ class EconomyMainGUI(ttk.Frame):
         catagories = self.data.get_cat_list()
         self.button_panel.grid_columnconfigure(0, minsize = 200)
         self.button_panel.grid_columnconfigure(1, minsize = 200)
+        self.button_panel.grid_columnconfigure(1, minsize = 200)
 
         #Button_panel
         self.label_add_cat = ttk.Label(self.button_panel, text = 'Add a new category')
@@ -323,7 +328,6 @@ class EconomyMainGUI(ttk.Frame):
         if self.data.has_job(self.userID):
             job = self.data.get_job(self.userID)
             self.data.calc_days_for_payday(self.userID)
-            self.data.calc_date_balance(self.userID,0)
             self.label_djob_name = ttk.Label(self.data_panel, text = 'Current job name:')
             self.label_djob_name_v = ttk.Label(self.data_panel, text = f'{job[0]}') 
             self.label_djob_salary = ttk.Label(self.data_panel, text = 'Current salary:')
@@ -350,10 +354,24 @@ class EconomyMainGUI(ttk.Frame):
         self.label_dbalance_v.grid(row = 6, column = 1)
         
         #Statisics_panel
+        x, y = self.data.calc_date_balance(self.userID,0)
+        f = Figure(figsize=(5,5), dpi=100)
+        a = f.add_subplot(111)
+        a.plot(x,y)
 
+        
+
+        canvas = FigureCanvasTkAgg(f, self.statistics_panel)
+        # canvas.show()
+        canvas.get_tk_widget().pack(side=tk.RIGHT, expand=True)
+
+        # toolbar = NavigationToolbar2TkAgg(canvas, self)
+        # toolbar.update()
+        canvas._tkcanvas.pack(side=tk.RIGHT, expand=True)
         #Packing
-        self.button_panel.pack(side = tk.TOP)
+        self.statistics_panel.pack(side = tk.RIGHT)
         self.data_panel.pack(side = tk.BOTTOM)
+        self.button_panel.pack(side = tk.LEFT)
         self.pack()
 
 
