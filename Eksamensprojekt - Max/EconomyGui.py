@@ -204,11 +204,12 @@ class EconomyMainGUI(ttk.Frame):
                     self.combo_sel_cat.set('')
                     self.label_money_obtained.config(foreground = 'black')
                     self.label_sel_cat.config(foreground = 'black')
+                    self.update_money_labels()
 
     def money_used(self):
         money_used = self.entry_money_used.get()
         money_used = self.is_float(money_used)
-        if money_obtained == False:
+        if money_used == False:
             self.label_error.config(text = 'Please make sure you only used numbers!')
             self.label_money_used.config(foreground = 'red')
             self.label_sel_cat.config(foreground = 'black')
@@ -225,6 +226,7 @@ class EconomyMainGUI(ttk.Frame):
                     self.combo_sel_cat.set('')
                     self.label_money_used.config(foreground = 'black')
                     self.label_sel_cat.config(foreground = 'black')
+                    self.update_money_labels()
 
     def update_job_labels1(self):
         job = self.data.get_job(self.userID)
@@ -253,6 +255,19 @@ class EconomyMainGUI(ttk.Frame):
         self.label_djob_salary_v.config(text = '')
         self.label_djob_payday_v.config(text = '')
         self.label_djob_nextpayment_v.config(text = '')
+
+    def update_money_labels(self):
+        catagories = self.data.get_cat_list()
+        self.label_add_cat = ttk.Label(self.button_panel, text = 'Add a new category')
+        self.label_sel_cat = ttk.Label(self.button_panel, text = 'Select category for obtained/used money')
+        self.label_money_obtained = ttk.Label(self.button_panel, text = 'Money obtained')
+        self.label_money_used = ttk.Label(self.button_panel, text = 'Money used')
+        self.label_error = ttk.Label(self.button_panel, text = "", foreground = "red")
+        self.label_job_name = ttk.Label(self.button_panel, text = "Add job name")
+        self.label_job_salary = ttk.Label(self.button_panel, text = "Add job salary")
+        self.label_job_payday = ttk.Label(self.button_panel, text = "Days between payments")
+        balance_v = self.data.calc_current_balance(self.userID)
+        self.label_dbalance_v.config(text = f'{balance_v}')
 
     def build_GUI(self):
         #Different variables etc
@@ -306,7 +321,6 @@ class EconomyMainGUI(ttk.Frame):
         
         #Data_panel
         if self.data.has_job(self.userID):
-            print(self.userID)
             job = self.data.get_job(self.userID)
             self.data.calc_days_for_payday(self.userID)
             self.label_djob_name = ttk.Label(self.data_panel, text = 'Current job name:')
