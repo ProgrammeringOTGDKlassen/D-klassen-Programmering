@@ -272,6 +272,11 @@ class EconomyMainGUI(ttk.Frame):
         self.label_job_payday = ttk.Label(self.button_panel, text = "Days between payments")
         balance_v = self.data.calc_current_balance(self.userID)
         self.label_dbalance_v.config(text = f'{balance_v}')
+        
+        self.statistics_panel.destroy()
+        self.button_panel.destroy()
+        self.data_panel.destroy()
+        self.build_GUI()
 
     def build_GUI(self):
         #Different variables etc
@@ -281,7 +286,7 @@ class EconomyMainGUI(ttk.Frame):
         catagories = self.data.get_cat_list()
         self.button_panel.grid_columnconfigure(0, minsize = 200)
         self.button_panel.grid_columnconfigure(1, minsize = 200)
-        self.button_panel.grid_columnconfigure(1, minsize = 200)
+        self.button_panel.grid_columnconfigure(2, minsize = 400)
 
         #Button_panel
         self.label_add_cat = ttk.Label(self.button_panel, text = 'Add a new category')
@@ -354,14 +359,14 @@ class EconomyMainGUI(ttk.Frame):
         self.label_dbalance_v.grid(row = 6, column = 1)
         
         #Statisics_panel
-        x, y = self.data.calc_date_balance(self.userID,0)
-        f = Figure(figsize=(5,5), dpi=100)
-        a = f.add_subplot(111)
-        a.plot(x,y)
+        self.x, self.y = self.data.calc_date_balance(self.userID,0)
+        self.f = Figure(figsize=(10,5), dpi=100)
+        self.a = self.f.add_subplot(111)
+        self.a.plot(self.x, self.y)
 
         
 
-        canvas = FigureCanvasTkAgg(f, self.statistics_panel)
+        canvas = FigureCanvasTkAgg(self.f, self.statistics_panel)
         # canvas.show()
         canvas.get_tk_widget().pack(side=tk.RIGHT, expand=True)
 
