@@ -244,16 +244,15 @@ class EconomyMainGUI(ttk.Frame):
         self.label_djob_nextpayment.grid(row = 4, column = 0)
         self.label_djob_nextpayment_v.grid(row = 4, column = 1)
         self.button_djob_remove.grid(row = 5, column = 0, columnspan = 2)
-        # self.data_panel.pack(side = tk.BOTTOM)
     
     def update_label2(self):
         self.label_djob_name_v.config(text = '') 
         self.label_djob_salary_v.config(text = '')
         self.label_djob_payday_v.config(text = '')
         self.label_djob_nextpayment_v.config(text = '')
-        # self.data_panel.pack(side = tk.BOTTOM)
 
     def build_GUI(self):
+        self.data.calc_optained(self.userID)
         #Different variables etc
         self.button_panel = ttk.Frame(self)
         self.data_panel = ttk.Frame(self)

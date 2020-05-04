@@ -108,44 +108,33 @@ class EconomyData():
         self.db.commit()
         return True
 
+    def calc_optained(self, userID: int):
+        userID = userID
+        m = self.get_obtained(userID)
+        optained = 0
+        for date in m:
+            optained += m[date]
+        
+        return optained
+
+    def calc_used(self, userID: int):
+        userID = userID
+        m = self.get_obtained(userID)
+        used = 0
+        for date in m:
+            used += m[date]
+        
+        return used
+    
+    def calc_current_balance(self, userID):
+        optained = self.calc_optained(userID)
+        used = self.calc_used(userID)
+        balance = optained - used
+
+        return balance
+        
     def convert_str_to_date(self, string: str):
         return datetime.datetime.strptime(string, "%Y-%m-%d").date()
-
-    def get_userID(self, username: str):
-        c = self.db.cursor()
-        c.execute("""SELECT id FROM users WHERE username = ?; """, (username,))
-        ui = c.fetchone()
-        return ui[0]
-
-    def get_job(self, userID: int):
-        userID = userID
-        c = self.db.cursor()
-        c.execute("""SELECT job_name, salary, payday, next_payment FROM job WHERE user_id = ?;""", (userID,))
-        j = c.fetchone()
-        return j
-
-    def has_job(self, userID: int):
-        userID = userID
-        c = self.db.cursor()
-        c.execute("""SELECT * FROM job WHERE user_id = ?;""", (userID,))
-        if len(c.fetchall()) < 1:
-            return False
-        else: 
-            return True
-
-    def user_login(self, username: str, password: str):
-        c = self.db.cursor()
-        c.execute("""SELECT password FROM users WHERE username = ?;""", (username,))
-        p = c.fetchone()
-        if self.verify_password(p[0], password):
-            return True
-        else:
-            return False
-
-    def remove_time(self, datetime):
-        datetime = datetime
-        date = datetime.split()
-        return date[0]
 
     def get_obtained(self, userID):
         userID = userID
@@ -193,6 +182,43 @@ class EconomyData():
         c.execute("""SELECT id FROM catagory WHERE catagory = ?;""", (catagory,))
         p = c.fetchone()
         return p[0]
+
+
+    def get_userID(self, username: str):
+        c = self.db.cursor()
+        c.execute("""SELECT id FROM users WHERE username = ?; """, (username,))
+        ui = c.fetchone()
+        return ui[0]
+
+    def get_job(self, userID: int):
+        userID = userID
+        c = self.db.cursor()
+        c.execute("""SELECT job_name, salary, payday, next_payment FROM job WHERE user_id = ?;""", (userID,))
+        j = c.fetchone()
+        return j
+
+    def has_job(self, userID: int):
+        userID = userID
+        c = self.db.cursor()
+        c.execute("""SELECT * FROM job WHERE user_id = ?;""", (userID,))
+        if len(c.fetchall()) < 1:
+            return False
+        else: 
+            return True
+
+    def user_login(self, username: str, password: str):
+        c = self.db.cursor()
+        c.execute("""SELECT password FROM users WHERE username = ?;""", (username,))
+        p = c.fetchone()
+        if self.verify_password(p[0], password):
+            return True
+        else:
+            return False
+
+    def remove_time(self, datetime):
+        datetime = datetime
+        date = datetime.split()
+        return date[0]
 
     def remove_job(self, userID):
         userID = userID
