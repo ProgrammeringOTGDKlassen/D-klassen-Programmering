@@ -67,32 +67,32 @@ class EconomyData():
         c.execute("""INSERT INTO users (username, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?);""", (user.username, user.first_name, user.last_name, user.email, hashed_password))
         userID = c.lastrowid
         self.db.commit()
-        c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained) VALUES (?, 1, 0);""", (userID,))
-        c.execute("""INSERT INTO used_economy (user_id, catagory, money_spent) VALUES (?, 1, 0);""", (userID,))
+        c.execute("""INSERT INTO obtained_economy (user_id, category, money_obtained) VALUES (?, 1, 0);""", (userID,))
+        c.execute("""INSERT INTO used_economy (user_id, category, money_spent) VALUES (?, 1, 0);""", (userID,))
         self.db.commit()
     
-    def add_cat(self, catagory: str):
-        catagory = catagory
+    def add_cat(self, category: str):
+        category = category
         c = self.db.cursor()
-        c.execute("""INSERT INTO catagory (catagory) VALUES (?);""", (catagory,))
+        c.execute("""INSERT INTO category (category) VALUES (?);""", (category,))
         self.db.commit()
 
-    def add_money_obtained(self, userID: str, catagoryID: int, money_obtained: float):
+    def add_money_obtained(self, userID: str, categoryID: int, money_obtained: float):
         userID = userID
-        catagoryID = catagoryID
+        categoryID = categoryID
         money_obtained = money_obtained
         c = self.db.cursor()
-        c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained) VALUES (?, ?, ?);""", (userID, catagoryID, money_obtained))
+        c.execute("""INSERT INTO obtained_economy (user_id, category, money_obtained) VALUES (?, ?, ?);""", (userID, categoryID, money_obtained))
         self.db.commit()
         k = self.calc_current_balance(userID)
         return True
 
-    def add_money_used(self, userID: str, catagoryID: int, money_used: float):
+    def add_money_used(self, userID: str, categoryID: int, money_used: float):
         userID = userID
-        catagoryID = catagoryID
+        categoryID = categoryID
         money_used = money_used
         c = self.db.cursor()
-        c.execute("""INSERT INTO used_economy (user_id, catagory, money_spent) VALUES (?, ?, ?);""", (userID, catagoryID, money_used))
+        c.execute("""INSERT INTO used_economy (user_id, category, money_spent) VALUES (?, ?, ?);""", (userID, categoryID, money_used))
         self.db.commit()
         return True
 
@@ -196,16 +196,17 @@ class EconomyData():
 
     def get_cat_list(self):
         c = self.db.cursor()
-        c.execute("""SELECT catagory FROM catagory;""")
+        c.execute("""SELECT category FROM category WHERE NOT category='init';""")
         cat_list = []
         for cat in c:
             cat_list.append(cat[0])
+            print(cat)
         return cat_list
 
-    def get_cat_id(self, catagory: str):
-        catagory = catagory
+    def get_cat_id(self, category: str):
+        category = category
         c = self.db.cursor()
-        c.execute("""SELECT id FROM catagory WHERE catagory = ?;""", (catagory,))
+        c.execute("""SELECT id FROM category WHERE category = ?;""", (category,))
         p = c.fetchone()
         return p[0]
 
@@ -269,7 +270,7 @@ class EconomyData():
             c.execute("""DROP TABLE IF EXISTS users;""")
             c.execute("""DROP TABLE IF EXISTS used_economy;""")
             c.execute("""DROP TABLE IF EXISTS obtained_economy;""")
-            c.execute("""DROP TABLE IF EXISTS catagory;""")
+            c.execute("""DROP TABLE IF EXISTS category;""")
             c.execute("""DROP TABLE IF EXISTS job;""")
         except Exception as e:
             print(f'Din mor fejlede i at fjerne tabellerne: {e}')
@@ -287,20 +288,20 @@ class EconomyData():
             c.execute("""CREATE TABLE IF NOT EXISTS used_economy (
                 id INTEGER PRIMARY KEY,
                 user_id INTEGER,
-                catagory INTEGER,
+                category INTEGER,
                 money_spent INTEGER,
                 date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);""")
             
             c.execute("""CREATE TABLE IF NOT EXISTS obtained_economy (
                 id INTEGER PRIMARY KEY,
                 user_id INTEGER,
-                catagory INTEGER,
+                category INTEGER,
                 money_obtained FLOAT,
                 date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);""")
 
-            c.execute("""CREATE TABLE IF NOT EXISTS catagory (
+            c.execute("""CREATE TABLE IF NOT EXISTS category (
                 id INTEGER PRIMARY KEY,
-                catagory TEXT);""")
+                category TEXT);""")
             
             c.execute("""CREATE TABLE IF NOT EXISTS job (
                 id INTEGER PRIMARY KEY,
@@ -322,15 +323,15 @@ class EconomyData():
         test_password2 = self.hash_password(test_password2)
         c.execute("""INSERT INTO users (username, first_name, last_name, email, password) VALUES ('Tester1', 'Jens', 'Tester','jenstester@gmail.com',?);""", (test_password1,))
         c.execute("""INSERT INTO users (username, first_name, last_name, email, password) VALUES ('Tester2', 'Tester', 'Jens','testerjens@gmail.com',?);""", (test_password2,))
-        c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained) VALUES (1, 1, 2000);""")
-        c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained) VALUES (1, 1, 3000);""")
-        c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained, date) VALUES (1, 1, 3000, '2020-05-02 17:43:04');""")
-        c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained, date) VALUES (1, 1, 4000, '2020-05-02 17:43:04');""")
-        c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained, date) VALUES (1, 1, 500, '2020-05-01 17:43:04');""")
-        c.execute("""INSERT INTO catagory (catagory) VALUES ('init');""")
-        c.execute("""INSERT INTO catagory (catagory) VALUES ('HEJ');""")
-        c.execute("""INSERT INTO catagory (catagory) VALUES ('Salary');""")
+        c.execute("""INSERT INTO obtained_economy (user_id, category, money_obtained) VALUES (1, 1, 2000);""")
+        c.execute("""INSERT INTO obtained_economy (user_id, category, money_obtained) VALUES (1, 1, 3000);""")
+        c.execute("""INSERT INTO obtained_economy (user_id, category, money_obtained, date) VALUES (1, 1, 3000, '2020-05-02 17:43:04');""")
+        c.execute("""INSERT INTO obtained_economy (user_id, category, money_obtained, date) VALUES (1, 1, 4000, '2020-05-02 17:43:04');""")
+        c.execute("""INSERT INTO obtained_economy (user_id, category, money_obtained, date) VALUES (1, 1, 500, '2020-05-01 17:43:04');""")
+        c.execute("""INSERT INTO category (category) VALUES ('init');""")
+        c.execute("""INSERT INTO category (category) VALUES ('HEJ');""")
+        c.execute("""INSERT INTO category (category) VALUES ('Salary');""")
         c.execute("""INSERT INTO job (user_id, job_name, salary, payday, next_payment) VALUES (1, 'spurgt', 200, 1, '2020-05-01');""")
-        c.execute("""INSERT INTO used_economy (user_id, catagory, money_spent) VALUES (1, 1, 1000);""")
+        c.execute("""INSERT INTO used_economy (user_id, category, money_spent) VALUES (1, 1, 1000);""")
         self.db.commit()
 

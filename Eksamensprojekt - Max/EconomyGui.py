@@ -150,8 +150,8 @@ class EconomyMainGUI(ttk.Frame):
             return False
 
     def add_cat(self):
-        catagory = self.entry_add_cat.get()
-        self.data.add_cat(catagory)
+        category = self.entry_add_cat.get()
+        self.data.add_cat(category)
     
     def add_job(self):
         if self.data.has_job(self.userID):
@@ -192,14 +192,14 @@ class EconomyMainGUI(ttk.Frame):
             self.label_money_obtained.config(foreground = 'red')
             self.label_sel_cat.config(foreground = 'black')
         else:
-            catagory = self.combo_sel_cat.get()
-            if catagory == "":
-                self.label_error.config(text = 'Please select a catagory!')
+            category = self.combo_sel_cat.get()
+            if category == "":
+                self.label_error.config(text = 'Please select a category!')
                 self.label_sel_cat.config(foreground = 'red')
                 self.label_money_obtained.config(foreground = 'black')
             else:
-                catagoryID = self.data.get_cat_id(catagory)
-                if self.data.add_money_obtained(self.userID, catagoryID, money_obtained):
+                categoryID = self.data.get_cat_id(category)
+                if self.data.add_money_obtained(self.userID, categoryID, money_obtained):
                     self.entry_money_obtained.delete(0, tk.END)
                     self.combo_sel_cat.set('')
                     self.label_money_obtained.config(foreground = 'black')
@@ -213,14 +213,14 @@ class EconomyMainGUI(ttk.Frame):
             self.label_money_used.config(foreground = 'red')
             self.label_sel_cat.config(foreground = 'black')
         else:
-            catagory = self.combo_sel_cat.get()
-            if catagory == "":
-                self.label_error.config(text = 'Please select a catagory!')
+            category = self.combo_sel_cat.get()
+            if category == "":
+                self.label_error.config(text = 'Please select a category!')
                 self.label_sel_cat.config(foreground = 'red')
                 self.label_money_used.config(foreground = 'black')
             else:
-                catagoryID = self.data.get_cat_id(catagory)
-                if self.data.add_money_used(self.userID, catagoryID, money_used):
+                categoryID = self.data.get_cat_id(category)
+                if self.data.add_money_used(self.userID, categoryID, money_used):
                     self.entry_money_used.delete(0, tk.END)
                     self.combo_sel_cat.set('')
                     self.label_money_used.config(foreground = 'black')
@@ -264,10 +264,10 @@ class EconomyMainGUI(ttk.Frame):
         self.button_panel.grid_columnconfigure(1, minsize = 200)
 
         #Button_panel
-        self.label_add_cat = ttk.Label(self.button_panel, text = 'Add a new catagory')
+        self.label_add_cat = ttk.Label(self.button_panel, text = 'Add a new category')
         self.entry_add_cat = ttk.Entry(self.button_panel, width = 23)
-        self.button_add_cat = ttk.Button(self.button_panel, text = 'Add catagory', command = self.add_cat, width = 23)
-        self.label_sel_cat = ttk.Label(self.button_panel, text = 'Select catagory for obtained/used money')
+        self.button_add_cat = ttk.Button(self.button_panel, text = 'Add category', command = self.add_cat, width = 23)
+        self.label_sel_cat = ttk.Label(self.button_panel, text = 'Select category for obtained/used money')
         self.combo_sel_cat = ttk.Combobox(self.button_panel, values = catagories, state = 'readonly', width = 20)
         self.label_money_obtained = ttk.Label(self.button_panel, text = 'Money obtained')
         self.entry_money_obtained = ttk.Entry(self.button_panel, width = 23)
@@ -328,6 +328,12 @@ class EconomyMainGUI(ttk.Frame):
             self.button_djob_remove.grid(row = 5, column = 0, columnspan = 1)
             self.data.calc_days_for_payday(self.userID)
 
+        balance_v = self.data.calc_current_balance(self.userID)
+        self.label_dbalance = ttk.Label(self.data_panel, text = 'Account balance:')
+        self.label_dbalance_v = ttk.Label(self.data_panel, text = f'{balance_v}')
+        self.label_dbalance.grid(row = 6, column = 0)
+        self.label_dbalance_v.grid(row = 6, column = 1)
+        
         #Statisics_panel
 
         #Packing
