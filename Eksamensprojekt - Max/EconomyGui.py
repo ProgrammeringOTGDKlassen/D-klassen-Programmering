@@ -323,6 +323,7 @@ class EconomyMainGUI(ttk.Frame):
         if self.data.has_job(self.userID):
             job = self.data.get_job(self.userID)
             self.data.calc_days_for_payday(self.userID)
+            self.data.calc_date_balance(self.userID,0)
             self.label_djob_name = ttk.Label(self.data_panel, text = 'Current job name:')
             self.label_djob_name_v = ttk.Label(self.data_panel, text = f'{job[0]}') 
             self.label_djob_salary = ttk.Label(self.data_panel, text = 'Current salary:')

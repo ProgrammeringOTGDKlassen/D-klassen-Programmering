@@ -1,4 +1,6 @@
 import sqlite3, hashlib, binascii, os, datetime
+from datetime import datetime as dt
+from collections import OrderedDict
 
 class User():
     
@@ -135,13 +137,13 @@ class EconomyData():
         else:
             return False
 
-    def calc_optained(self, userID: int):
+    def calc_obtained(self, userID: int):
         userID = userID
         m = self.get_obtained(userID)
-        optained = 0
+        obtained = 0
         for date in m:
-            optained += m[date]
-        return optained
+            obtained += m[date]
+        return obtained
 
     def calc_used(self, userID: int):
         userID = userID
@@ -153,12 +155,39 @@ class EconomyData():
         return used
     
     def calc_current_balance(self, userID):
-        optained = self.calc_optained(userID)
+        obtained = self.calc_obtained(userID)
         used = self.calc_used(userID)
-        balance = optained - used
+        balance = obtained - used
 
         return balance
-        
+    
+    def calc_date_balance(self, userID, start_money = 0):
+        #Gets all obtained economy with dates as a dict
+        obtained = self.get_obtained(userID)
+        #Gets all used economy with dates as a dict
+        used = self.get_used(userID)
+        #Makes a dict with the optained dict
+        balance_dict = obtained
+        #For hver dato (key) i used
+        for use in used:
+            # hvis datoen ikke er i modtaget dict (balance_dict)
+            if not use in balance_dict:
+                # tilføj værdien (value) til den dato (key) til balance_dict, da det er den brugte mængde for den dato
+                balance_dict[use] = -used[use]
+            else:
+                # træk den brugte mængde(value) fra, hvad der ellers var tilføjet på den dato(key)
+                balance_dict[use] -= used[use]
+        # https://stackoverflow.com/questions/34129391/sort-python-dictionary-by-date-key
+        # sorter dict, så den første dato kommer først. For at kunne beregne ændringen i saldo, for dagene der går
+        balance_dict = OrderedDict(sorted(balance_dict.items(), key = lambda x:dt.strptime(x[0], "%Y-%m-%d")))
+        # løber igennem alle dagene(key), hvor der er sket ændringer
+        for balance in balance_dict:
+            # tilføjer den forrige mængde penge til dagen. Dette beregner den totale mængde penge på kontoen for datoen
+            balance_dict[balance] += start_money
+            # opdater saldoen for dagen, for at kunne regne videre for næste dato
+            start_money = balance_dict[balance]
+        return balance_dict
+
     def convert_str_to_date(self, string: str):
         return datetime.datetime.strptime(string, "%Y-%m-%d").date()
 
@@ -332,6 +361,7 @@ class EconomyData():
         c.execute("""INSERT INTO category (category) VALUES ('HEJ');""")
         c.execute("""INSERT INTO category (category) VALUES ('Salary');""")
         c.execute("""INSERT INTO job (user_id, job_name, salary, payday, next_payment) VALUES (1, 'spurgt', 200, 1, '2020-05-01');""")
+        c.execute("""INSERT INTO used_economy (user_id, category, money_spent, date) VALUES (1, 1, 1000, '2020-05-03 17:43:04');""")
         c.execute("""INSERT INTO used_economy (user_id, category, money_spent) VALUES (1, 1, 1000);""")
         self.db.commit()
 
