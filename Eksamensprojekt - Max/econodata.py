@@ -1,4 +1,4 @@
-import sqlite3, hashlib, binascii, os
+import sqlite3, hashlib, binascii, os, datetime
 
 class User():
     
@@ -96,11 +96,42 @@ class EconomyData():
         self.db.commit()
         return True
 
+    def add_job(self, userID: int, job_name: str, job_salary: float, job_payday: str):
+        userID = userID
+        job_name = job_name
+        job_salary = job_salary
+        job_payday = job_payday
+        current_date = datetime.date.today()
+        next_payment = current_date + datetime.timedelta(days = job_payday)
+        c = self.db.cursor()
+        c.execute("""INSERT INTO job (user_id, job_name, salary, payday, next_payment) VALUES (?, ?, ?, ?, ?);""", (userID, job_name, job_salary, job_payday, next_payment))
+        self.db.commit()
+        return True
+
+    def convert_str_to_date(self, string: str):
+        return datetime.datetime.strptime(string, "%Y-%m-%d").date()
+
     def get_userID(self, username: str):
         c = self.db.cursor()
         c.execute("""SELECT id FROM users WHERE username = ?; """, (username,))
         ui = c.fetchone()
         return ui[0]
+
+    def get_job(self, userID: int):
+        userID = userID
+        c = self.db.cursor()
+        c.execute("""SELECT job_name, salary, payday, next_payment FROM job WHERE user_id = ?;""", (userID,))
+        j = c.fetchone()
+        return j
+
+    def has_job(self, userID: int):
+        userID = userID
+        c = self.db.cursor()
+        c.execute("""SELECT * FROM job WHERE user_id = ?;""", (userID,))
+        if len(c.fetchall()) < 1:
+            return False
+        else: 
+            return True
 
     def user_login(self, username: str, password: str):
         c = self.db.cursor()
@@ -208,7 +239,10 @@ class EconomyData():
                 user_id INTEGER,
                 job_name TEXT,
                 salary FLOAT,
-                payday TEXT );""")
+                payday TEXT, 
+                next_payment DATETIME NOT NULL
+                );""")
+            
             
             print('All tables created successfully')
         except Exception as e:
@@ -228,6 +262,5 @@ class EconomyData():
         c.execute("""INSERT INTO catagory (catagory) VALUES ('TEST');""")
         c.execute("""INSERT INTO catagory (catagory) VALUES ('HEJ');""")
         c.execute("""INSERT INTO used_economy (user_id, catagory, money_spent) VALUES (1, 1, 1000);""")
-
         self.db.commit()
 

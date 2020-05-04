@@ -134,16 +134,44 @@ class EconomyMainGUI(ttk.Frame):
         self.userID = userID
         self.build_GUI()
     
-    def add_cat(self):
-        catagory = self.entry_add_cat.get()
-        self.data.add_cat(catagory)
-
     def is_float(self, money):
         try:
             money = float(money)
             return money
         except ValueError:
             return False
+
+    def is_int(self, money):
+        try:
+            money = int(money)
+            return money
+        except ValueError:
+            return False
+
+    def add_cat(self):
+        catagory = self.entry_add_cat.get()
+        self.data.add_cat(catagory)
+    
+    def add_job(self):
+        job_name = self.entry_job_name.get()
+        job_salary = self.entry_job_salary.get()
+        job_payday = self.entry_job_payday.get()
+        job_payday = self.is_int(job_payday)
+        job_salary = self.is_float(job_salary)
+        if job_salary == False:
+            self.label_error.config(text = 'Please make sure you only used numbers!')
+            self.label_job_salay.config(foreground = 'red')
+        elif job_payday == False:
+            self.label_error.config(text = 'Please make sure you only used numbers!')
+            self.label_job_payday.config(foreground = 'red')
+            self.label_job_salay.config(foreground = 'black')
+        else:
+            if self.data.add_job(self.userID, job_name, job_salary, job_payday):
+                self.entry_job_name.delete(0, tk.END)
+                self.entry_job_salary.delete(0, tk.END)
+                self.entry_job_payday.delete(0, tk.END)
+                self.label_job_salary.config(foreground = 'black')
+                self.update_label()
 
     def money_obtained(self):
         money_obtained = self.entry_money_obtained.get()
@@ -160,14 +188,11 @@ class EconomyMainGUI(ttk.Frame):
                 self.label_money_obtained.config(foreground = 'black')
             else:
                 catagoryID = self.data.get_cat_id(catagory)
-                if type(money_obtained) == str:
+                if self.data.add_money_obtained(self.userID, catagoryID, money_obtained):
                     self.entry_money_obtained.delete(0, tk.END)
-                else:
-                    if self.data.add_money_obtained(self.userID, catagoryID, money_obtained):
-                        self.entry_money_obtained.delete(0, tk.END)
-                        self.combo_sel_cat.set('')
-                        self.label_money_obtained.config(foreground = 'black')
-                        self.label_sel_cat.config(foreground = 'black')
+                    self.combo_sel_cat.set('')
+                    self.label_money_obtained.config(foreground = 'black')
+                    self.label_sel_cat.config(foreground = 'black')
 
     def money_used(self):
         money_used = self.entry_money_used.get()
@@ -184,15 +209,32 @@ class EconomyMainGUI(ttk.Frame):
                 self.label_money_used.config(foreground = 'black')
             else:
                 catagoryID = self.data.get_cat_id(catagory)
-                if type(money_used) == str:
+                if self.data.add_money_used(self.userID, catagoryID, money_used):
                     self.entry_money_used.delete(0, tk.END)
-                else:
-                    if self.data.add_money_used(self.userID, catagoryID, money_used):
-                        self.entry_money_used.delete(0, tk.END)
-                        self.combo_sel_cat.set('')
-                        self.label_money_used.config(foreground = 'black')
-                        self.label_sel_cat.config(foreground = 'black')
+                    self.combo_sel_cat.set('')
+                    self.label_money_used.config(foreground = 'black')
+                    self.label_sel_cat.config(foreground = 'black')
 
+    def update_label(self):
+        job = self.data.get_job(self.userID)
+        self.label_djob_name = ttk.Label(self.data_panel, text = 'Current job name:')
+        self.label_djob_name_v = ttk.Label(self.data_panel, text = f'{job[0]}') 
+        self.label_djob_salary = ttk.Label(self.data_panel, text = 'Current salary:')
+        self.label_djob_salary_v = ttk.Label(self.data_panel, text = f'{job[1]}')
+        self.label_djob_payday = ttk.Label(self.data_panel, text = 'Payment every :')
+        self.label_djob_payday_v = ttk.Label(self.data_panel, text = f'{job[2]} days')
+        self.label_djob_nextpayment = ttk.Label(self.data_panel, text = 'Next payment:')
+        self.label_djob_nextpayment_v = ttk.Label(self.data_panel, text = f'{job[3]}')
+        self.label_djob_name.grid(row = 1, column = 0)
+        self.label_djob_name_v.grid(row = 1, column = 1)
+        self.label_djob_salary.grid(row = 2, column = 0)
+        self.label_djob_salary_v.grid(row = 2, column = 1)
+        self.label_djob_payday.grid(row = 3, column = 0)
+        self.label_djob_payday_v.grid(row = 3, column = 1)
+        self.label_djob_nextpayment.grid(row = 4, column = 0)
+        self.label_djob_nextpayment_v.grid(row = 4, column = 1)
+        # self.data_panel.pack(side = tk.BOTTOM)
+        
     def build_GUI(self):
         #Different variables etc
         self.button_panel = ttk.Frame(self)
@@ -201,6 +243,7 @@ class EconomyMainGUI(ttk.Frame):
         catagories = self.data.get_cat_list()
         self.button_panel.grid_columnconfigure(0, minsize = 200)
         self.button_panel.grid_columnconfigure(1, minsize = 200)
+
         #Button_panel
         self.label_add_cat = ttk.Label(self.button_panel, text = 'Add a new catagory')
         self.entry_add_cat = ttk.Entry(self.button_panel, width = 23)
@@ -214,35 +257,59 @@ class EconomyMainGUI(ttk.Frame):
         self.entry_money_used = ttk.Entry(self.button_panel, width = 23)
         self.button_money_used = ttk.Button(self.button_panel, text = 'Add money used', command = self.money_used, width = 23)
         self.label_error = ttk.Label(self.button_panel, text = "", foreground = "red")
+        self.label_job_name = ttk.Label(self.button_panel, text = "Add job name")
+        self.entry_job_name = ttk.Entry(self.button_panel, width = 23)
+        self.label_job_salary = ttk.Label(self.button_panel, text = "Add job salary")
+        self.entry_job_salary = ttk.Entry(self.button_panel, width = 23)
+        self.label_job_payday = ttk.Label(self.button_panel, text = "Days between payments")
+        self.entry_job_payday = ttk.Entry(self.button_panel, width = 23)
+        self.button_add_job = ttk.Button(self.button_panel, text = "Add job", command = self.add_job, width = 23)
 
-        self.label_add_cat.grid(row = 1, column = 0, padx = (113,0))
-        self.entry_add_cat.grid(row = 1, column = 1)
-        self.button_add_cat.grid(row = 1, column = 2)
-        self.label_sel_cat.grid(row = 2, column = 0)
-        self.combo_sel_cat.grid(row = 2, column = 1)
-        self.label_money_obtained.grid(row = 3, column = 0, padx = (132,0))
-        self.entry_money_obtained.grid(row = 3, column = 1)
-        self.button_money_obtained.grid(row = 3, column = 2)
+        self.label_add_cat.grid(row = 1, column = 0, padx = (113,0), pady = 2)
+        self.entry_add_cat.grid(row = 1, column = 1, pady = 2)
+        self.button_add_cat.grid(row = 1, column = 2, pady = 2)
+        self.label_sel_cat.grid(row = 2, column = 0, pady = 2)
+        self.combo_sel_cat.grid(row = 2, column = 1, pady = 2)
+        self.label_money_obtained.grid(row = 3, column = 0, padx = (132,0), pady = 2)
+        self.entry_money_obtained.grid(row = 3, column = 1, pady = 2)
+        self.button_money_obtained.grid(row = 3, column = 2, pady = 2)
         self.label_money_used.grid(row = 4, column = 0, padx = (154,0))
         self.entry_money_used.grid(row = 4, column = 1)
         self.button_money_used.grid(row = 4, column = 2)
         self.label_error.grid(row = 0, column = 1)
+        self.label_job_name.grid(row = 5, column = 0, padx = (144,0), pady = (10,2))
+        self.entry_job_name.grid(row = 5, column = 1, pady = (10,2))
+        self.label_job_salary.grid(row = 6, column = 0, padx = (143,0), pady = 2)
+        self.entry_job_salary.grid(row = 6, column = 1, pady = 2)
+        self.label_job_payday.grid(row = 7, column = 0, padx = (91,0), pady = 2)
+        self.entry_job_payday.grid(row = 7, column = 1, pady = 2)
+        self.button_add_job.grid(row = 9, column = 1, pady = 2)
 
         #Data_panel
-        self.data_panel.grid_columnconfigure(3, minsize = 200)
-        self.obtained_v = self.data.get_obtained(self.userID)
-        self.label_obtained = ttk.Label(self.data_panel, text = f'test {self.obtained_v}')
-        self.used_v = self.data.get_obtained(self.userID)
-        self.label_used = ttk.Label(self.data_panel, text = f'Used economy: {self.used_v}')
-        self.label_test = ttk.Label(self.statistics_panel, text = "æprt")
-        self.label_obtained.grid(row = 1, column = 0)
-        self.label_test.grid(row = 1, column = 0)
-        self.label_used.grid(row = 2, column = 0)
+        if self.data.has_job(self.userID):
+            job = self.data.get_job(self.userID)
+            self.label_djob_name = ttk.Label(self.data_panel, text = 'Current job name:')
+            self.label_djob_name_v = ttk.Label(self.data_panel, text = f'{job[0]}') 
+            self.label_djob_salary = ttk.Label(self.data_panel, text = 'Current salary:')
+            self.label_djob_salary_v = ttk.Label(self.data_panel, text = f'{job[1]}')
+            self.label_djob_payday = ttk.Label(self.data_panel, text = 'Payment every :')
+            self.label_djob_payday_v = ttk.Label(self.data_panel, text = f'{job[2]} days')
+            self.label_djob_nextpayment = ttk.Label(self.data_panel, text = 'Next payment:')
+            self.label_djob_nextpayment_v = ttk.Label(self.data_panel, text = f'{job[3]}')
+            self.label_djob_name.grid(row = 1, column = 0)
+            self.label_djob_name_v.grid(row = 1, column = 1)
+            self.label_djob_salary.grid(row = 2, column = 0)
+            self.label_djob_salary_v.grid(row = 2, column = 1)
+            self.label_djob_payday.grid(row = 3, column = 0)
+            self.label_djob_payday_V.grid(row = 3, column = 1)
+            self.label_djob_nextpayment.grid(row = 4, column = 0)
+            self.label_djob_nextpayment_v.grid(row = 4, column = 1)
 
         #Statisics_panel
 
         #Packing
         self.button_panel.pack(side = tk.TOP)
+        self.data_panel.pack(side = tk.BOTTOM)
         self.pack()
 
 
