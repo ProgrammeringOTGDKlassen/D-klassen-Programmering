@@ -7,6 +7,7 @@ class EconomyLoginGui(ttk.Frame):
     def __init__(self, master = None):
         ttk.Frame.__init__(self, master)
         self.data = EconomyData()
+        self.data.create_tables()
         self.build_GUI()
     
     def login(self):

@@ -25,7 +25,6 @@ class User():
 class EconomyData():
     def __init__(self):
         self.db = sqlite3.connect('economy.db')
-        self.create_tables()
     
     def check_username(self, username: str):
         c = self.db.cursor()
@@ -64,12 +63,7 @@ class EconomyData():
     def add_user(self, user: User):
         c = self.db.cursor()
         hashed_password = self.hash_password(user.password)
-        c.execute("""INSERT INTO users (
-            username, 
-            first_name, 
-            last_name, 
-            email, 
-            password) VALUES (?, ?, ?, ?, ?);""", (user.username, user.first_name, user.last_name, user.email, hashed_password))
+        c.execute("""INSERT INTO users (username, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?);""", (user.username, user.first_name, user.last_name, user.email, hashed_password))
         self.db.commit()
     
     def add_cat(self, catagory: str):
@@ -86,7 +80,6 @@ class EconomyData():
         c.execute("""INSERT INTO obtained_economy (user_id, catagory, money_obtained) VALUES (?, ?, ?);""", (userID, catagoryID, money_obtained))
         self.db.commit()
         k = self.calc_current_balance(userID)
-        print(f'Balance: {k}')
         return True
 
     def add_money_used(self, userID: str, catagoryID: int, money_used: float):
@@ -115,13 +108,27 @@ class EconomyData():
         c.execute("""SELECT last_login FROM users WHERE id = ?;""", (userID,))
         l = c.fetchone()
         ll = self.convert_str_to_date(l[0])
-        c.execute("""SELECT salary, next_payment FROM job WHERE user_id = ?;""", (userID,))
+        c.execute("""SELECT salary, next_payment, payday FROM job WHERE user_id = ?;""", (userID,))
         k = c.fetchone()
         kk = self.convert_str_to_date(k[1])
         if kk <= ll:
             self.add_money_obtained(userID, 3, k[0])
+            if self.update_nextpayment(userID) == False:
+                return
+
+    def update_nextpayment(self, userID):
+        c = self.db.cursor()
+        c.execute("""SELECT next_payment, payday FROM job WHERE user_id = ?;""", (userID,))
+        p = c.fetchone()
+        current_date = datetime.date.today()
+        oldpayment = self.convert_str_to_date(p[0])
+        next_payment = oldpayment + datetime.timedelta(days = int(p[1]))
+        c.execute("""UPDATE job SET next_payment = ? WHERE user_id = ?;""",(next_payment, userID))
+        self.db.commit()
+        if next_payment < current_date:
+            self.calc_days_for_payday(userID)
         else:
-            print('dumma mand')
+            return False
 
     def calc_optained(self, userID: int):
         userID = userID
@@ -142,11 +149,8 @@ class EconomyData():
     
     def calc_current_balance(self, userID):
         optained = self.calc_optained(userID)
-        print(optained)
         used = self.calc_used(userID)
-        print(used)
         balance = optained - used
-        print(balance)
 
         return balance
         
@@ -236,6 +240,7 @@ class EconomyData():
         p = c.fetchone()
         if self.verify_password(p[0], password):
             self.update_date(username)
+            self.calc_days_for_payday(self.get_userID(username))
             return True
         else:
             return False
