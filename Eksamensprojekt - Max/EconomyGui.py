@@ -100,7 +100,7 @@ class EconomySignupGui(ttk.Frame):
 
     def build_GUI(self):
         self.label_username = ttk.Label(self, text = 'Username:')
-        self.label_first_name = ttk.Label(self, text = 'Fist name:')
+        self.label_first_name = ttk.Label(self, text = 'First name:')
         self.label_last_name = ttk.Label(self, text = 'Last name:')
         self.label_email = ttk.Label(self, text = 'Email:')
         self.label_password = ttk.Label(self, text = 'Password:')

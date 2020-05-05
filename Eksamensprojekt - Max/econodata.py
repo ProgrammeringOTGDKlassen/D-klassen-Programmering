@@ -17,7 +17,7 @@ class User():
 
     def __str__(self):
         return f'''
-        Fist name: {self.first_name}
+        First name: {self.first_name}
         Last name: {self.last_name}
         Username: {self.username}
         Email: {self.email}
