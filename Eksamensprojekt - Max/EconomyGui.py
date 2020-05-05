@@ -350,7 +350,7 @@ class EconomyMainGUI(ttk.Frame):
         self.f = Figure(figsize=(10,5), dpi=100)
         self.f.set_facecolor('#F0F0F0')
         self.a = self.f.add_subplot(111,)
-        self.a.plot(self.x, self.y)
+        self.a.plot(self.x, self.y, marker = 'o')
         #self.a.set_facecolor('#F0F0F0')
 
         canvas = FigureCanvasTkAgg(self.f, self.statistics_panel)
