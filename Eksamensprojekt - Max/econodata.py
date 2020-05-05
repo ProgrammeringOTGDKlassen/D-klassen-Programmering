@@ -14,16 +14,7 @@ class User():
 
     def set_id(self, id):
         self.id = id
-
-    def __str__(self):
-        return f'''
-        First name: {self.first_name}
-        Last name: {self.last_name}
-        Username: {self.username}
-        Email: {self.email}
-        Password: {self.password}
-        '''
-
+        
 
 class EconomyData():
     def __init__(self):
