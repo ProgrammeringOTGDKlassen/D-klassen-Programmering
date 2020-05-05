@@ -14,7 +14,7 @@ class User():
 
     def set_id(self, id):
         self.id = id
-        
+
 
 class EconomyData():
     def __init__(self):
@@ -31,7 +31,7 @@ class EconomyData():
                 return False
         return True
 
-    def hash_password(self, password):
+    def hash_password(self, password: str):
         # https://www.vitoshacademy.com/hashing-passwords-in-python/
         # Hash a password for storing.
         salt = hashlib.sha256(os.urandom(60)).hexdigest().encode("ascii")
@@ -43,7 +43,7 @@ class EconomyData():
         pwdhash = binascii.hexlify(pwdhash)
         return (salt + pwdhash).decode("ascii")
 
-    def verify_password(self, stored_password, provided_password):
+    def verify_password(self, stored_password: str, provided_password: str):
         # Verify a stored password against one provided by user
         salt = stored_password[:64]
         stored_password = stored_password[64:]
@@ -105,7 +105,7 @@ class EconomyData():
         self.db.commit()
         return True
 
-    def calc_days_for_payday(self, userID):
+    def calc_days_for_payday(self, userID: int):
         c = self.db.cursor()
         c.execute("""SELECT last_login FROM users WHERE id = ?;""", (userID,))
         l = c.fetchone()
@@ -118,7 +118,7 @@ class EconomyData():
             if self.update_nextpayment(userID) == False:
                 return
 
-    def update_nextpayment(self, userID):
+    def update_nextpayment(self, userID: int):
         c = self.db.cursor()
         c.execute("""SELECT next_payment, payday FROM job WHERE user_id = ?;""", (userID,))
         p = c.fetchone()
@@ -149,14 +149,14 @@ class EconomyData():
         
         return used
     
-    def calc_current_balance(self, userID):
+    def calc_current_balance(self, userID: int):
         obtained = self.calc_obtained(userID)
         used = self.calc_used(userID)
         balance = obtained - used
 
         return balance
     
-    def calc_date_balance(self, userID, start_money = 0):
+    def calc_date_balance(self, userID: int, start_money: int = 0):
         #Gets all obtained economy with dates as a dict
         obtained = self.get_obtained(userID)
         #Gets all used economy with dates as a dict
@@ -201,7 +201,7 @@ class EconomyData():
     def convert_str_to_date(self, string: str):
         return datetime.datetime.strptime(string, "%Y-%m-%d").date()
 
-    def get_obtained(self, userID):
+    def get_obtained(self, userID: int):
         userID = userID
         c = self.db.cursor()
         c.execute("""SELECT money_obtained, date FROM obtained_economy WHERE user_id = ?;""", (userID,))
@@ -217,7 +217,7 @@ class EconomyData():
                 obtained_money_date_dict[date] += obtained_money
         return obtained_money_date_dict
     
-    def get_used(self, userID):
+    def get_used(self, userID: int):
         userID = userID
         c = self.db.cursor()
         c.execute("""SELECT money_spent, date FROM used_economy WHERE user_id = ?;""", (userID,))
@@ -290,12 +290,12 @@ class EconomyData():
         else:
             return False
 
-    def remove_time(self, datetime):
+    def remove_time(self, datetime: str):
         datetime = datetime
         date = datetime.split()
         return date[0]
 
-    def remove_job(self, userID):
+    def remove_job(self, userID: int):
         userID = userID
         c = self.db.cursor()
         c.execute("""DELETE FROM job WHERE user_id = ?;""",(userID,))
