@@ -182,11 +182,11 @@ class EconomyMainGUI(ttk.Frame):
                     self.entry_job_salary.delete(0, tk.END)
                     self.entry_job_payday.delete(0, tk.END)
                     self.label_job_salary.config(foreground = 'black')
-                    self.update_job_labels1()
+                    self.update_all_GUI()
 
     def remove_job(self):
         self.data.remove_job(self.userID)
-        self.update_job_labels2()
+        self.update_all_GUI()
 
     def money_obtained(self):
         money_obtained = self.entry_money_obtained.get()
@@ -208,7 +208,7 @@ class EconomyMainGUI(ttk.Frame):
                     self.combo_sel_cat.set('')
                     self.label_money_obtained.config(foreground = 'black')
                     self.label_sel_cat.config(foreground = 'black')
-                    self.update_money_labels()
+                    self.update_all_GUI()
 
     def money_used(self):
         money_used = self.entry_money_used.get()
@@ -230,7 +230,7 @@ class EconomyMainGUI(ttk.Frame):
                     self.combo_sel_cat.set('')
                     self.label_money_used.config(foreground = 'black')
                     self.label_sel_cat.config(foreground = 'black')
-                    self.update_money_labels()
+                    self.update_all_GUI()
 
     def update_job_labels1(self):
         job = self.data.get_job(self.userID)
@@ -254,18 +254,12 @@ class EconomyMainGUI(ttk.Frame):
         self.label_djob_nextpayment_v.grid(row = 4, column = 1, padx = (0,100))
         self.button_djob_remove.grid(row = 5, column = 0, columnspan = 2, pady = (0,93), padx = (0,30))
     
-    def update_job_labels2(self):
-        self.label_djob_name_v.config(text = '') 
-        self.label_djob_salary_v.config(text = '')
-        self.label_djob_payday_v.config(text = '')
-        self.label_djob_nextpayment_v.config(text = '')
-
-    def update_money_labels(self):
+    def update_all_GUI(self):
         self.statistics_panel.destroy()
         self.button_panel.destroy()
         self.data_panel.destroy()
         self.build_GUI()
-
+        
     def build_GUI(self):
         #Different variables etc
         self.button_panel = ttk.Frame(self)
