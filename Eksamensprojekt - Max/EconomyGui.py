@@ -22,7 +22,7 @@ class EconomyLoginGui(ttk.Frame):
         else:
             if self.data.user_login(username, password):
                 userID = self.data.get_userID(username)
-                self.label_error.config('')
+                self.label_error.config(text = '')
                 self.master.destroy()
                 mainGui(userID)
             else:
@@ -164,6 +164,7 @@ class EconomyMainGUI(ttk.Frame):
             self.label_error.config(text = 'This category already exists!')
         else:
             self.data.add_cat(self.category)
+            self.update_all_GUI()
     
     def add_job(self):
         if self.data.has_job(self.userID):
@@ -371,7 +372,7 @@ def loginGui():
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     width = int(screen_width/6)
-    height = int(screen_height/6)
+    height = int(screen_height/5.5)
     x = int((screen_width/2) - (width/2))
     y = int((screen_height/2) - (height/2))
     root.geometry(f'{width}x{height}+{x}+{y}')
