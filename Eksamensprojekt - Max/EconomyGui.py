@@ -154,8 +154,11 @@ class EconomyMainGUI(ttk.Frame):
             return False
 
     def add_cat(self):
-        category = self.entry_add_cat.get()
-        self.data.add_cat(category)
+        self.category = self.entry_add_cat.get()
+        if not self.data.check_category(self.category):
+            self.label_error.config(text = 'This category already exists!')
+        else:
+            self.data.add_cat(self.category)
     
     def add_job(self):
         if self.data.has_job(self.userID):
@@ -259,7 +262,7 @@ class EconomyMainGUI(ttk.Frame):
         self.button_panel.destroy()
         self.data_panel.destroy()
         self.build_GUI()
-        
+
     def build_GUI(self):
         #Different variables etc
         self.button_panel = ttk.Frame(self)

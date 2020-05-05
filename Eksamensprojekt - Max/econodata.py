@@ -33,11 +33,10 @@ class EconomyData():
         c = self.db.cursor()
         c.execute("""SELECT username FROM users;""")
         usernames = c.fetchall()
-        for u in usernames:
-            if username == u[0]:
+        for i in range(0, len(usernames)):
+            if username == usernames[i][0]:
                 return False
-            else:
-                return True
+        return True
 
     def hash_password(self, password):
         # https://www.vitoshacademy.com/hashing-passwords-in-python/
@@ -75,7 +74,7 @@ class EconomyData():
         c.execute("""INSERT INTO obtained_economy (user_id, category, money_obtained, date) VALUES (?, 1, 0, ?);""", (userID, previous_day))
         c.execute("""INSERT INTO used_economy (user_id, category, money_spent, date) VALUES (?, 1, 0, ?);""", (userID, previous_day))
         self.db.commit()
-    
+
     def add_cat(self, category: str):
         category = category
         c = self.db.cursor()
@@ -197,6 +196,15 @@ class EconomyData():
             y.append(balance_dict[bal])
         return x,y
 
+    def check_category(self, cat: str):
+        c = self.db.cursor()
+        c.execute("""SELECT category FROM category;""")
+        categories = c.fetchall()
+        for i in range(0, len(categories)):
+            if cat == categories[i][0]:
+                return False
+        return True
+
     def convert_str_to_date(self, string: str):
         return datetime.datetime.strptime(string, "%Y-%m-%d").date()
 
@@ -234,11 +242,10 @@ class EconomyData():
 
     def get_cat_list(self):
         c = self.db.cursor()
-        c.execute("""SELECT category FROM category WHERE NOT category='init';""")
+        c.execute("""SELECT category FROM category WHERE NOT category='start';""")
         cat_list = []
         for cat in c:
             cat_list.append(cat[0])
-            print(cat)
         return cat_list
 
     def get_cat_id(self, category: str):
@@ -366,7 +373,7 @@ class EconomyData():
         c.execute("""INSERT INTO obtained_economy (user_id, category, money_obtained, date) VALUES (1, 1, 3000, '2020-05-02 17:43:04');""")
         c.execute("""INSERT INTO obtained_economy (user_id, category, money_obtained, date) VALUES (1, 1, 4000, '2020-05-02 17:43:04');""")
         c.execute("""INSERT INTO obtained_economy (user_id, category, money_obtained, date) VALUES (1, 1, 500, '2020-05-01 17:43:04');""")
-        c.execute("""INSERT INTO category (category) VALUES ('init');""")
+        c.execute("""INSERT INTO category (category) VALUES ('start');""")
         c.execute("""INSERT INTO category (category) VALUES ('HEJ');""")
         c.execute("""INSERT INTO category (category) VALUES ('Salary');""")
         c.execute("""INSERT INTO job (user_id, job_name, salary, payday, next_payment) VALUES (1, 'spurgt', 200, 1, '2020-05-01');""")
