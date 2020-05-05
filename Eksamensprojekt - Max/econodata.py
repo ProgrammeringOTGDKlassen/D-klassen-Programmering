@@ -70,8 +70,10 @@ class EconomyData():
         c.execute("""INSERT INTO users (username, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?);""", (user.username, user.first_name, user.last_name, user.email, hashed_password))
         userID = c.lastrowid
         self.db.commit()
-        c.execute("""INSERT INTO obtained_economy (user_id, category, money_obtained) VALUES (?, 1, 0);""", (userID,))
-        c.execute("""INSERT INTO used_economy (user_id, category, money_spent) VALUES (?, 1, 0);""", (userID,))
+        current_date = datetime.date.today()
+        previous_day = current_date - datetime.timedelta(days = 1)
+        c.execute("""INSERT INTO obtained_economy (user_id, category, money_obtained, date) VALUES (?, 1, 0, ?);""", (userID, previous_day))
+        c.execute("""INSERT INTO used_economy (user_id, category, money_spent, date) VALUES (?, 1, 0, ?);""", (userID, previous_day))
         self.db.commit()
     
     def add_cat(self, category: str):
