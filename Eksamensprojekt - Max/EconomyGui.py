@@ -261,7 +261,6 @@ class EconomyMainGUI(ttk.Frame):
         self.label_djob_nextpayment_v.config(text = '')
 
     def update_money_labels(self):
-        #!Not correct
         self.statistics_panel.destroy()
         self.button_panel.destroy()
         self.data_panel.destroy()
