@@ -311,7 +311,7 @@ class EconomyData():
             c.execute("""DROP TABLE IF EXISTS category;""")
             c.execute("""DROP TABLE IF EXISTS job;""")
         except Exception as e:
-            print(f'Din mor fejlede i at fjerne tabellerne: {e}')
+            print(f'Error while deleting tables: {e}')
 
         try:
             c.execute("""CREATE TABLE IF NOT EXISTS users (
@@ -349,7 +349,6 @@ class EconomyData():
                 payday TEXT, 
                 next_payment DATETIME NOT NULL
                 );""")
-            
             
             print('All tables created successfully')
         except Exception as e:
