@@ -17,12 +17,16 @@ class EconomyLoginGui(ttk.Frame):
     def login(self):
         username = self.entry_username.get()
         password = self.entry_password.get()
-        if self.data.user_login(username, password):
-            userID = self.data.get_userID(username)
-            self.master.destroy()
-            mainGui(userID)
+        if self.data.check_username(username):
+            self.label_error.config(text = 'Wrong username')
         else:
-            print("Du fik sgu corona")
+            if self.data.user_login(username, password):
+                userID = self.data.get_userID(username)
+                self.label_error.config('')
+                self.master.destroy()
+                mainGui(userID)
+            else:
+                self.label_error.config(text = 'Wrong password')
         
     def sign_up(self):
         self.master.destroy()
@@ -35,13 +39,14 @@ class EconomyLoginGui(ttk.Frame):
         self.entry_password = ttk.Entry(self, show = "*")
         self.button_login = ttk.Button(self, text = 'Login', command = self.login)
         self.button_create = ttk.Button(self, text = '''Don't have an account?\nSign up here''', command = self.sign_up)
+        self.label_error = ttk.Label(self, text = '', foreground = 'red')
 
         self.label_username.grid(row = 1, column = 0)
         self.entry_username.grid(row = 2, column = 0)
         self.label_password.grid(row = 3, column = 0)
         self.entry_password.grid(row = 4, column = 0)
         self.button_login.grid(row = 6, column = 0, pady = 10)
-        
+        self.label_error.grid(row = 0, column = 0)
         self.button_create.grid(row = 10, column = 0)
 
         self.pack()
