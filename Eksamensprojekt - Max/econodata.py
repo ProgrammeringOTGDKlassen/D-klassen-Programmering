@@ -336,7 +336,7 @@ class EconomyData():
                 id INTEGER PRIMARY KEY,
                 user_id INTEGER,
                 category INTEGER,
-                money_spent INTEGER,
+                money_spent FLOAT,
                 date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);""")
             
             c.execute("""CREATE TABLE IF NOT EXISTS obtained_economy (
