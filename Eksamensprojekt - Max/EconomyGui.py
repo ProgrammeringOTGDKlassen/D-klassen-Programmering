@@ -241,28 +241,6 @@ class EconomyMainGUI(ttk.Frame):
                     self.label_sel_cat.config(foreground = 'black')
                     self.update_all_GUI()
 
-    def update_job_labels1(self):
-        job = self.data.get_job(self.userID)
-        self.data.calc_days_for_payday(self.userID)
-        self.label_djob_name = ttk.Label(self.data_panel, text = 'Current job name:')
-        self.label_djob_name_v = ttk.Label(self.data_panel, text = f'{job[0]}') 
-        self.label_djob_salary = ttk.Label(self.data_panel, text = 'Current salary:')
-        self.label_djob_salary_v = ttk.Label(self.data_panel, text = f'{job[1]}')
-        self.label_djob_payday = ttk.Label(self.data_panel, text = 'Payment every :')
-        self.label_djob_payday_v = ttk.Label(self.data_panel, text = f'{job[2]} days')
-        self.label_djob_nextpayment = ttk.Label(self.data_panel, text = 'Next payment:')
-        self.label_djob_nextpayment_v = ttk.Label(self.data_panel, text = f'{job[3]}')
-        self.button_djob_remove = ttk.Button(self.data_panel, text = 'Remove job', command = self.remove_job, width = 35)
-        self.label_djob_name.grid(row = 1, column = 0, padx = (0,0))
-        self.label_djob_name_v.grid(row = 1, column = 1, padx = (0,100))
-        self.label_djob_salary.grid(row = 2, column = 0, padx = (0,0))
-        self.label_djob_salary_v.grid(row = 2, column = 1, padx = (0,100))
-        self.label_djob_payday.grid(row = 3, column = 0, padx = (0,0))
-        self.label_djob_payday_v.grid(row = 3, column = 1, padx = (0,100))
-        self.label_djob_nextpayment.grid(row = 4, column = 0, padx = (0,0))
-        self.label_djob_nextpayment_v.grid(row = 4, column = 1, padx = (0,100))
-        self.button_djob_remove.grid(row = 5, column = 0, columnspan = 2, pady = (0,93), padx = (0,30))
-    
     def update_all_GUI(self):
         self.statistics_panel.destroy()
         self.button_panel.destroy()
