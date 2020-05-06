@@ -1,5 +1,4 @@
 from econodata import EconomyData, User
-import econo_func as ef
 import matplotlib
 matplotlib.use("TkAgg")
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg

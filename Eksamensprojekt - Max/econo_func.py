@@ -1,3 +1,0 @@
-from econodata import EconomyData
-    
-    
