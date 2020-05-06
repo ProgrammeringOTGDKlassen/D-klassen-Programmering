@@ -1,5 +1,4 @@
 import sqlite3, hashlib, binascii, os, datetime
-import numpy as np
 from datetime import datetime as dt
 from collections import OrderedDict
 
@@ -149,31 +148,35 @@ class EconomyData():
         return balance
     
     def calc_date_balance(self, userID: int, start_money: int = 0):
-        #Gets all obtained economy with dates as a dict
+        #Får alt indtjent økonomi med datoer som et dict
         obtained = self.get_obtained(userID)
-        #Gets all used economy with dates as a dict
+        #Får alt brugt økonomi med datoer som et dict
         used = self.get_used(userID)
-        #Makes a dict with the optained dict
+        #Laver et dict med obtained dict
         balance_dict = obtained
         #For hver dato (key) i used
         for use in used:
-            # hvis datoen ikke er i modtaget dict (balance_dict)
+            # Hvis datoen ikke er i modtaget dict (balance_dict)
             if not use in balance_dict:
-                # tilføj værdien (value) til den dato (key) til balance_dict, da det er den brugte mængde for den dato
+                # Tilføj værdien (value) til den dato (key) til balance_dict, da det er den 
+                # brugte mængde for den dato
                 balance_dict[use] = -used[use]
             else:
-                # træk den brugte mængde(value) fra, hvad der ellers var tilføjet på den dato(key)
+                # Træk den brugte mængde(value) fra, hvad der ellers var tilføjet på den 
+                # dato(key)
                 balance_dict[use] -= used[use]
         # https://stackoverflow.com/questions/34129391/sort-python-dictionary-by-date-key
-        # sorter dict, så den første dato kommer først. For at kunne beregne ændringen i saldo, for dagene der går
-        balance_dict = OrderedDict(sorted(balance_dict.items(), key = lambda x:dt.strptime(x[0], "%Y-%m-%d")))
-        # løber igennem alle dagene(key), hvor der er sket ændringer
+        # Sorter dict, så den første dato kommer først. For at kunne beregne ændringen i 
+        # saldo, for dagene der går
+        balance_dict = OrderedDict(sorted(balance_dict.items(), 
+        key = lambda x:dt.strptime(x[0], "%Y-%m-%d")))
+        # Løber igennem alle dagene(key), hvor der er sket ændringer
         for balance in balance_dict:
-            # tilføjer den forrige mængde penge til dagen. Dette beregner den totale mængde penge på kontoen for datoen
+            # Tilføjer den forrige mængde penge til dagen. Dette beregner den totale mængde 
+            # penge på kontoen for datoen
             balance_dict[balance] += start_money
-            # opdater saldoen for dagen, for at kunne regne videre for næste dato
+            # Opdater saldoen for dagen, for at kunne regne videre for næste dato
             start_money = balance_dict[balance]
-            # OrderedDict([('2020-05-01', 500.0), ('2020-05-02', 7500.0), ('2020-05-03', 6500.0), ('2020-05-04', 11300.0)])
         x = []
         y = []
         for bal in balance_dict:
