@@ -53,7 +53,6 @@ class EconomyData():
 
     def add_user(self, user: User):
         c = self.db.cursor()
-        print(user.username)
         hashed_password = self.hash_password(user.password)
         c.execute("""INSERT INTO users (username, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?);""", (user.username, user.first_name, user.last_name, user.email, hashed_password))
         userID = c.lastrowid
