@@ -187,10 +187,6 @@ class EconomyMainGUI(ttk.Frame):
                 self.label_job_salary.config(foreground = 'black')
             else:
                 if self.data.add_job(self.userID, job_name, job_salary, job_payday):
-                    self.entry_job_name.delete(0, tk.END)
-                    self.entry_job_salary.delete(0, tk.END)
-                    self.entry_job_payday.delete(0, tk.END)
-                    self.label_job_salary.config(foreground = 'black')
                     self.update_all_GUI()
 
     def remove_job(self):
