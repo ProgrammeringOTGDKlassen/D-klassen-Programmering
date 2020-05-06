@@ -76,7 +76,6 @@ class EconomyData():
         c = self.db.cursor()
         c.execute("""INSERT INTO obtained_economy (user_id, category, money_obtained) VALUES (?, ?, ?);""", (userID, categoryID, money_obtained))
         self.db.commit()
-        k = self.calc_current_balance(userID)
         return True
 
     def add_money_used(self, userID: str, categoryID: int, money_used: float):
