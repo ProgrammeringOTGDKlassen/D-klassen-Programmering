@@ -21,9 +21,7 @@ class EconomyData():
         c.execute("""SELECT username FROM users;""")
         usernames = c.fetchall()
         for i in range(0, len(usernames)):
-            print(f'test2 usernames {usernames}')
             if username == usernames[i][0]:
-                print('test3')
                 return False
         return True
 
