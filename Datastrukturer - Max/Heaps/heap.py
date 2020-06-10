@@ -95,12 +95,12 @@ class Heap():
 
 if __name__ == "__main__":
     heap = Heap([random.randint(1, 900) for i in range(0, 10)])
-
+    print(f'Heap: {heap.A}')
     heap.build_max_heap()
-
-    print(f"List: {heap.A=}")
+    print(f'Heap buileded: {heap.A}')
+    print(f"List: {heap.A}")
     heap.max_heap_insert(600)
-    print(f"List: {heap.A=}")
+    print(f"List: {heap.A}")
     print(f"is max heap: {heap.is_max_heap()=}")
 
 # if __name__ == "__main__":

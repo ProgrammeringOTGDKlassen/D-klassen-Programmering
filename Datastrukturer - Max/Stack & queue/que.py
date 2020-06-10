@@ -24,11 +24,11 @@ class Queue():
             self.head = self.head + 1
         return x
     
-    def queue_full():
+    def queue_full(self):
         if self.tail > self.head:
             return self.tail - self.head + 1 == self.len(self.l)
         else:
             return self.tail - self.head + 1 == 0
         
-    def queue_empty():
+    def queue_empty(self):
         pass
