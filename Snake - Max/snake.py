@@ -74,13 +74,13 @@ class snake(object):
                 pygame.quit()
  
             keys = pygame.key.get_pressed()
- 
+            #https://stackoverflow.com/questions/14433759/python-why-would-you-use-over
             for key in keys:
                 if keys[pygame.K_LEFT]:
                     self.dirnx = -1
                     self.dirny = 0
                     self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
- 
+                    
                 elif keys[pygame.K_RIGHT]:
                     self.dirnx = 1
                     self.dirny = 0
